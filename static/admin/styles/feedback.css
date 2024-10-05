@@ -1,0 +1,72 @@
+*{
+    font-family: 'Poppins', system-ui;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-size: 14px;
+}
+
+body, html{
+    height: 100%;
+    width: 115%;
+}
+
+.container2{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.container .container-glass{
+    margin-top: 1rem;
+    margin-left: 1rem;
+    display: flex;
+    background: #f0f0f0;
+    justify-content: center;
+    align-items: start;
+    width: 235px;
+    height: 350px;
+    box-shadow: 5px 10px 15px 1px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.container .container-glass .content-glass{
+    margin-top: 1.8rem;
+    background: #f0f0f0;
+    width: 200px;
+    height: 85%;
+    overflow-y: auto;
+}
+
+.container .container-glass .content-glass h1{
+    text-align: center;
+    color: #000;
+}
+
+.container .container-glass .content-glass p{
+    text-align:justify;
+    padding-right: 10px;
+    margin-left: 10px;
+    color: #000;
+}
+
+.container .container-glass .content-glass::-webkit-scrollbar {
+    width: 8px;
+}
+
+.container .container-glass .content-glass::-webkit-scrollbar-track {
+    background: #fff;
+}
+
+.container .container-glass .content-glass::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px; 
+}
+
+.container .container-glass .content-glass::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

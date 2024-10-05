@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Navigation.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='footer.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    
+    <title>Homepage</title>
+
+    <script>
+        window.BASE_URL = "{{ url_for('static', filename='/static/prev.png') }}";
+      </script>
+
+</head>
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    {% if logo %}
+                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%;">
+                    {% endif %}
+                </span>
+                <div class="text header-text"> 
+                    <span class="name">{{home.firstName}} {{home.lastName}}</span>
+                    <span class="profession">{{home.department}}</span>
+                </div>
+            </div>
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+        <div class="menu-bar">
+            <li class="search-box">
+                <i class='bx bx-search icon'></i>
+                    <input type="text" placeholder="Search" id="search">
+            </li>
+            <div class="menu">
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="/home">
+                            <i class='bx bx-home-smile icon'></i>
+                            <span class="text nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/profile">
+                            <i class='bx bx-user icon'></i>
+                            <span class="text nav-text">Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/journals">
+                            <i class='bx bx-note icon'></i>
+                            <span class="text nav-text">Journal</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/calendar">
+                            <i class='bx bx-calendar icon'></i>
+                            <span class="text nav-text">Calendar</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/smartchat">
+                            <i class='bx bx-edit icon'></i>
+                            <span class="text nav-text">SmartChat</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/clearance">
+                            <i class='bx bx-food-menu icon'></i>
+                            <span class="text nav-text">Clearance</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/ScheduleViewer">
+                            <i class='bx bx-calendar-event icon' ></i>
+                            <span class="text nav-text">Schedule Viewer</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/meditation">
+                            <i class='bx bx-leaf icon' ></i>
+                            <span class="text nav-text">Meditation</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="bottom-content">
+                <li class="">
+                    <a href="#" id="logoutbtn">
+                        <i class='bx bx-log-out icon' ></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+
+                <li class="mode">
+                    <div class="moon-sun">
+                        <i class='bx bx-moon icon moon' ></i>
+                        <i class='bx bx-sun icon sun' ></i>
+                    </div>
+                    <span class="mode-text text">Dark Mode</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+
+            </div>
+        </div>
+
+    </nav>
+
+    <div class="container">
+        <nav class="navigation" style="position: fixed;
+        width: 100%;
+        padding: 2em;
+        display: flex;
+        align-items: center;
+        z-index: 2;
+        justify-content: center;">
+        </nav>
+
+        <div class="items">
+            <div class="item"><p>Happiness</p></div>
+            <div class="item"><p>Sadness</p></div>
+            <div class="item"><p>Anger</p></div>
+            <div class="item"><p>Fear</p></div>
+            <div class="item"><p>Disgust</p></div>
+        </div>
+        <div class="preview-bg">
+            <img src="{{ url_for('static', filename='assets/prev.png') }}" alt="">
+    </div>
+
+    </div>
+
+
+    </div>
+    <div class="date">
+        <div class="date-body">
+            <span class="month-name">Month</span>
+            <span class="day-name">Day</span>
+            <span class="date-number">00</span>
+            <span class="year">0000</span>
+        </div>
+    </div>
+
+    <div class="event" onClick="gotoEvents()" style="width: 60%;">
+        <div class="event-body">
+            <span class="event-name">Events for this month</span>
+            {% for events in events %}
+            <div class="event-container" style="margin-top: 10px; height: 35px;">
+                <div class="event-content">
+                    <h4>{{events.title}} |</h4>
+                    <p style="margin-left: 20px;">{{events.time}}</p>
+                    <p style="margin-left: 20px;">{{events.date}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="semester">
+        <p>Third Semester, 2023-2024</p>
+    </div>
+
+    <div class="appoint" style="width: 83%">
+        <div class="appoint-body">
+
+            
+            <span class="appoint-name">Schedules for this month</span>
+            {% if response|length > 0 %}
+                {% for appointment in response %}
+                    {{appointment.name}}<br>
+                    {{appointment.date}}<br>
+                    {{appointment.modality}}<br>
+                    {{appointment.room}}<br><br>
+                {% endfor%}
+            {% else %}
+                <img class="file" src="{{ url_for('static', filename='assets/file.png') }}" alt="">
+                <p class="no">No schedules for today</p>
+                <span class="appoint-name">Schedules for this month</span>
+            {% endif %}
+        </div>
+    </div>
+    
+  
+    <div class="section1" id="section1">
+        <h3>NUGITS Overview</h3>
+            <p class="text-nugits">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+    </div>
+    <div class="scroller"></div>
+ 
+    <section>
+        <div class="line"></div>
+        <div class="text-content">
+            <div class="txt-content text-1">
+                <h1>HIGHLIGHTED</h1>
+            </div>
+            <div class="txt-content text-2">
+                <h1>SERVICES</h1>
+            </div>
+        </div>
+    
+
+        <div class="cards">
+        <div class="card" style="margin-left:15.5%">
+          <div class="card-bg">
+          </div>
+          <a href="/smart/overview"><div class="card-cta">
+            <p style="color:#1E0272">Tap to read</p>
+          </div>
+            </a>
+          <div class="card-fg">
+            <p class="enyu">NU MOA</p>
+            <p class="review">
+              SmartChat Overview
+            </p>
+            <div class="logo">
+                <img src="{{ url_for('static', filename='assets/logo-1.png') }}" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-left:1%">
+          <div class="card-bg">
+          </div>
+          <a href="/NUMOA_GSO/overview">
+          <div class="card-cta">
+            <p style="color:#1E0272">Tap to read</p>
+          </div>
+            </a>
+          <div class="card-fg">
+            <p class="enyu">NU MOA</p>
+            <p class="review">
+              National University MOA Guidance Services Office Overview
+            </p>
+            <div class="logo">
+                <img src="{{ url_for('static', filename='assets/logo-1.png') }}" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-left:1%">
+            <div class="card-bg">
+            </div>
+            <a href="/NUMOA_Peers/overview">
+            <div class="card-cta">
+              <p style="color:#1E0272">Tap to read</p>
+            </div>
+            </a>
+            <div class="card-fg">
+              <p class="enyu">NU MOA</p>
+              <p class="review">
+                NU MOA Peers
+              </p>
+              <div class="logo">
+                  <img src="{{ url_for('static', filename='assets/logo-2.png') }}" alt="">
+              </div>
+            </div>
+          </div>
+      </div>
+      <section id="article">
+        <div class="article-heading">
+            <h3>INFORMATIVE ARTICLES</h3>
+        </div>
+        
+        <div class="article-container">
+            <div class="article-box">
+                <div class="article-img">
+                    <img src="{{ url_for('static', filename='assets/articles/suicide.png') }}" alt="">
+                </div>
+
+                <div class="article-text">
+                    <span>2009</span>
+                    <a href ="http://guidance.ust.edu.ph/Resources/PDF%20Files/suicide%20first%20aid.pdf" class="article-title">Suicide First Aid Guidelines for the Philippines</a>
+                    <p>It is important that you are able to recognise the warning signs of suicide.</p>
+                    <a href ="http://guidance.ust.edu.ph/Resources/PDF%20Files/suicide%20first%20aid.pdf" class="read-more">Read More</a>
+                </div>
+            </div>
+            <div class="article-box">
+                <div class="article-img">
+                    <img src="{{ url_for('static', filename='assets/articles/breathing.png') }}" alt="">
+                </div>
+
+                <div class="article-text">
+                    <span>2018</span>
+                    <a href ="https://www.healthline.com/health/4-7-8-breathing#How-does-the-4-7-8-breathing-technique-work?" class="article-title">What is the 4-7-8 Breathing Technique? How does it work?</a>
+                    <p>People experiencing mild sleep disturbances, anxiety, and stress may...</p>
+                    <a href="https://www.healthline.com/health/4-7-8-breathing#How-does-the-4-7-8-breathing-technique-work?" class="read-more">Read More</a>
+                </div>
+            </div>
+
+            <div class="article-box">
+                <div class="article-img">
+                    <img src="{{ url_for('static', filename='assets/articles/rain.png') }}" alt="">
+                </div>
+
+                <div class="article-text">
+                    <span style="margin-top: 15px;">2023</span>
+                    <a href ="https://www.mindful.org/tara-brach-rain-mindfulness-practice/" class="article-title" style="font-size:0.9rem">Feeling Overwhelmed? Try the RAIN Meditation</a>
+                    <p>You can take your time and explore the RAIN meditation as a stand-alone practice or move through the steps in a more abbreviated way whenever challenging emotions arise.</p>
+                    <a href="https://www.mindful.org/tara-brach-rain-mindfulness-practice/" class="read-more">Read More</a>
+                </div>
+            </div>
+            <div class="article-box">
+                <div class="article-img">
+                    <img src="{{ url_for('static', filename='assets/articles/choice.png') }}" alt="">
+                </div>
+
+                <div class="article-text">
+                    <span>2024</span>
+                    <a href ="https://www.educationcorner.com/multiple-choice-tests/" class="article-title">Multiple Choice Test Taking Tips and Strategies</a>
+                    <p>Since you will no doubt encounter these types of questions on tests if you are preparing to enter college, learning some test taking strategies will be very beneficial.</p>
+                    <a href="https://www.educationcorner.com/multiple-choice-tests/" class="read-more">Read More</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-heading">
+            <h3>GALLERY</h3>
+        </div>
+        
+        <div class="gallery-container">
+        
+        <div class="gallery-box">
+        <a href="/NUMOA_halloween2022/galleryOne" class="galleryNum">
+            <img src="{{ url_for('static', filename='assets/galleryOne/1.jpg') }}" alt="">
+        </a>
+        <div class="gallery-text">
+            <p class="gallery-title">2022 HALLOWEEN</p>
+        
+        </div>
+        </div>
+
+        <div class="gallery-box">
+            <a href="/NUMOA_partnerships/galleryTwo" class="galleryNum">
+                <img src="{{ url_for('static', filename='assets/galleryTwo/1.jpg') }}" alt="">
+            </a>
+            <div class="gallery-text">
+                <p class="gallery-title">PARTNERSHIPS</p>
+            
+            </div>
+        </div>
+
+        <div class="gallery-box">
+            <a href="/NUMOA_summer2024/galleryThree" class="galleryNum">
+                <img src="{{ url_for('static', filename='assets/galleryThree/2.jpg') }}" alt="">
+            </a>
+            <div class="gallery-text">
+                <p class="gallery-title" style="margin-left:0%; ">Summer Sizzle,</p>
+                <p class="gallery-title" style="margin-left:0%; ">Cool Control</p>
+            
+            </div>
+        </div>
+    </div>
+
+
+    </section>
+    </div>
+
+</section>
+
+
+<div class="containerr">
+    <div class="form">
+        <div class="contact-info">
+            <h3 class="title">Let's get in touch</h3>
+            <p class="text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+
+            <div class="info">
+                <div class="information">
+                    <img src="{{ url_for('static', filename='assets/Location.png') }}" class="icon"alt="">
+                    <p>10th Floor, Room 1001, NU MOA Building</p>
+                </div>
+                <div class="information">
+                    <img src="{{ url_for('static', filename='assets/Email.png') }}" class="icon"alt="">
+                    <p>gso@nu-moa.edu.ph</p>
+                </div>
+                <div class="information">
+                    <img src="{{ url_for('static', filename='assets/phone.png') }}" class="icon"alt="">
+                    <p>283-551-206</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <form id="feedbackForm">
+                <h3 class="titleF">Feedback Form</h3>
+                <div class="input-container">
+                    <input type="text" name="name" class="input" id="fullname"/>
+                    <label for="">Name (Optional)</label>
+                    <span>Name (Optional)</span>
+                </div>
+                <div class="input-container">
+                    <input type="text" name="concern" class="input" id="concern"/>
+                    <label for="">Concern</label>
+                    <span>Concern</span>
+                </div>
+                <div class="input-container textarea">
+                    <textarea name="message" class="input" id="message"></textarea>
+                    <label for="">Message</label>
+                    <span>Message</span>
+                </div>
+                <input type="submit" id="submit" value="Send" class="btn"/>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-left">
+        <img src="{{ url_for('static', filename='assets/flogo.png') }}" class="flogo"alt="">
+        <p class="footerr">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <div class="socials">
+            <a href="#"><i class='bx bxl-facebook-square'></i></a>
+            <a href="#"><i class='bx bxs-envelope'></i></i></a>
+            <a href="#"><i class='bx bxl-twitter'></i></i></a>
+        </div>
+    </div>
+    <ul class="footer-right">
+        <li>
+            <h2 class="footerrr">Highlighted Services</h2>
+            <ul class="box">
+                <li><a href="#">SmartChat</a></li>
+                <li><a href="#">NU MOA-GSO</a></li>
+                <li><a href="#">NU MOA Peers</a></li>
+            </ul>
+        </li>
+        <li>
+            <h2 class="footerrr">Crisis Hotlines</h2>
+            <ul class="box">
+                <li><a href="#">◉National Mental Health Crisis Hotline<br>1553 Luzon-wide landline (toll free)</a></li>
+                <li><a href="#">◉Crisis Line by In Touch Community Services<br>8893-7603</a></li>
+                <li><a href="#">◉Hopeline PH by the Natasha Goulbourn Foundation<br>02 8804 4673<br>HOPE</a></li>
+            </ul>
+        </li>
+        <li>
+            <h2 class="footerrr">Contact Us</h2>
+            <ul class="box">
+                <li><a href="#">10th Floor, Room 1001, NU MOA Building</a></li>
+                <li><a href="#">283551206</a></li>
+                <li><a href="#">gso@nu-moa.edu.ph</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="footer-bottom">
+        <p>All Rights reserved by &copy;NU-GITS 2024<p>
+    </div>
+</footer>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            document.getElementById('submit').addEventListener('click', function(event){
+                event.preventDefault();
+
+                const fullname = document.getElementById('fullname');
+
+                const concern = document.getElementById('concern');
+
+                const message = document.getElementById('message');
+
+                const formData = {
+                    form: collectFormData('feedbackForm')
+                };
+
+                fetch('/feedback_form', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':
+                        'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success){
+                        alert('Form submitted successfully')
+                    } else {
+                        alert('There was a problem with the submission');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('There was an error submitting the form.');
+                })
+            })
+
+            function collectFormData(formId){
+                const form = document.getElementById(formId);
+                const formData = new FormData(form);
+                const data = {};
+                
+                formData.forEach((value, key)=>{
+                    if(data[key]){
+                        data[key] = [].concat(data[key], value);
+                    } else {
+                        data[key] = value;
+                    }
+                })
+                return data;
+            }
+        })
+        
+    </script>
+
+    <script src="{{ url_for('static', filename='scripts/script.js') }}"> </script>
+    <script src="{{ url_for('static', filename='scripts/data.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/scroll.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        const inputs = document.querySelectorAll(".input");
+
+        function focusFunc(){
+            let parent = this.parentNode;
+            parent.classList.add("focus");
+        }
+
+        function blurFunc(){
+            let parent = this.parentNode;
+            if (this.value == ""){
+                parent.classList.remove("focus");
+
+            }
+            
+        }
+
+        inputs.forEach((input)=>{
+            input.addEventListener("focus",focusFunc);
+            input.addEventListener("blur",focusFunc);
+        });
+    
+    </script>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            var scrollPosition = window.scrollY;
+            var preview = document.querySelector('.preview-bg');
+            var items = document.querySelector('.items');
+    
+            var blurValue = scrollPosition / 50; 
+    
+            preview.style.filter = "blur(" + blurValue + "px)";
+            items.style.filter = "blur(" + blurValue + "px)";
+            
+        });
+    </script>
+    
+    <script>
+        window.onload = function () {
+            const section1 = document.querySelector('.section1');
+            const scrollerOffset = document.querySelector('.scroller').offsetHeight;
+            const scrollerOffsetTop = scrollerOffset - window.innerHeight;
+            
+            document.addEventListener('scroll', () => {
+                const scrollPosition = window.scrollY/1.5;
+                const count = (scrollPosition / scrollerOffsetTop) * 42;
+                const unit = Math.min(count, 100); 
+                section1.style.clipPath = 'circle(' + unit + '%)';
+            });
+        };
+    </script>
+
+
+
+    <script type="text/javascript">
+        const dayNumber = new Date().getDate();
+        const year = new Date().getFullYear();
+        const dayName = new Date().toLocaleString("default",{weekday:"long"});
+        const monthName = new Date().toLocaleString("default",{month: "long"});
+
+        document.querySelector(".month-name").innerHTML = monthName;
+        document.querySelector(".day-name").innerHTML = dayName;
+        document.querySelector(".date-number").innerHTML = dayNumber;
+        document.querySelector(".year").innerHTML = year;
+    </script>
+
+    <script>
+        function gotoEvents(){
+            window.location.href = '/calendar';
+        }
+    </script>
+
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = "/";
+            } else {
+   
+            }
+        }
+   
+        document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+      </script>
+
+      
+</body>
+</html>

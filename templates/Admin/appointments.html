@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='admin/styles/dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <style>
+        
+        .table_header{
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            height: 10%;
+            background-color: var(--color-primary);
+            padding: .8rem 1rem;
+        }
+        .table_header h1{
+            position: absolute;
+            color: var(--color-white);
+            margin-top: 0.5%;
+        }
+        .table_header input[type=search]{
+            margin-top: 0.8%;
+            margin-left: 70%;
+            width: 300px;
+            height: 30px;
+            border-radius: 4px;
+            outline: none;
+            border: 2px solid #fff;
+            box-sizing: border-box;
+            transition: .3s;
+            padding: 8px;
+        }
+        .table_body{
+            width: 95%;
+            max-height: calc(89% - 1.6rem);
+            background-color: var(--color-background);
+            margin: .8rem auto;
+            border-radius: .6rem;
+            overflow: auto;
+        }
+        .table_body::-webkit-scrollbar{
+            width: 0.5rem;
+            height: 0.5rem;
+        }
+        .table_body::-webkit-scrollbar-thumb{
+            border-radius: .5rem;
+            background-color: #0004;
+            visibility: hidden;
+        }
+        .table_body:hover::-webkit-scrollbar-thumb{
+            visibility: visible;
+        }
+        table{
+            width: 100%;
+        }
+        td img{
+            width: 36px;
+            height: 36px;
+            margin-right: 0.6rem;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+        table,th,td {
+            border-collapse: collapse;
+            padding: 1rem;
+            text-align: left;
+        }
+        main.table{
+            width: 82vw;
+            height: 90vh;
+            background-color: var(--color-white);
+            backdrop-filter: blur(7px);
+            box-shadow: var(--box-shadow);
+            border-radius: .8rem;
+            overflow: hidden;
+        }
+        thead th{
+            position: sticky;
+            left: 0;
+            background-color: var(--color-light);
+            color: var(--color-dark);
+        }
+        tbody tr:nth-child(even){
+            color: var(--color-dark);
+        }
+        tbody tr:hover{
+            background-color: var(--color-white);
+            color: var(--color-white);
+            
+        }
+
+
+
+        @media(max-width: 1000px){
+            td:not(:first-of-type){
+                min0width: 12.1rem;
+            }
+        }
+
+        aside .sidebar .dark-mode{
+            background-color: var(--color-light);
+            display: flex;
+            margin-left: 55px;
+            margin-top: 150%;
+            justify-content: space-between;
+            align-items: center;
+            height: 1.6rem;
+            width: 4.2rem;
+            cursor: pointer;
+            border-radius: var(--border-radius-1);
+        }
+
+        aside .sidebar .dark-mode span{
+            font-size: 1.2rem;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        aside .sidebar .dark-mode span.active{
+            background-color: var(--color-primary);
+            color: white;
+            border-radius: var(--border-radius-1);
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+    <aside>
+        <div class="toggle">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='admin/logo.png') }}" />
+                <h2>NU<span class="danger">GITS</span></h2>
+            </div>
+            <div class="close" id="close-btn">
+                <span class="material-icons-sharp">
+                    close
+                </span>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <a href="/dashboard" >
+                <span class="material-icons-sharp">
+                    dashboard
+                </span>
+                <h3>Dashboard</h3>
+            </a>
+            <a href="/dashboard/profile">
+                <span class="material-icons-sharp">
+                    person_outline
+                </span>
+                <h3>Student Profile</h3>
+            </a>
+            <a href="/dashboard/faculty/profile">
+                <span class="material-icons-sharp"> person_outline </span>
+                <h3>Faculty Profile</h3>
+            </a>
+            <a href="/admin/appointments" class="active">
+                <span class="material-icons-sharp">
+                    assignment
+                </span>
+                <h3>Appointments</h3>
+            </a>
+            <a href="/admin/clearance">
+                <span class="material-icons-sharp">
+                    article
+                </span>
+                <h3>Clearance</h3>
+            </a>
+            <a href="/admin/schedule">
+                <span class="material-icons-sharp">
+                    calendar_month
+                </span>
+                <h3>Calendar</h3>
+            </a>
+            <a href="/admin/feedback">
+                <span class="material-icons-sharp">
+                    question_answer
+                </span>
+                <h3>Feedback</h3>
+            </a>
+            <a href="/schedule/setter">
+                <span class="material-icons-sharp">
+                    schedule
+                </span>
+                <h3>Schedule</h3>
+            </a>
+            <a href="/dashboard/referral">
+                <span class="material-icons-sharp"> psychology </span>
+                <h3>Referral</h3>
+              </a>
+            <a href="#" id="logoutbtn">
+                <span class="material-icons-sharp">
+                    logout
+                </span>
+                <h3>Logout</h3>
+            </a>
+        </div>
+
+    </aside>
+    
+    <main class="table">
+        <section class="table_header">
+            <h1>Appointments</h1>
+            <input type="search" id="facultySearch" name="facultySearch" placeholder='Search'>
+        </section>
+        <section class="table_body">
+            <table id="student-table">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Email</th>
+                        <th>Student Name</th>
+                        <th>Department</th>
+                        <th>Section</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="smartchat-body"> 
+                    <tr>
+                        
+                    </tr>
+                </tbody> 
+                
+            </table>
+        </section>
+    </main>
+
+    </div>
+    <div class="dark-mode" style="display: none;">
+        <span class="material-icons-sharp"> light_mode </span>
+        <span class="material-icons-sharp"> dark_mode </span>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const darkModeToggle = document.querySelector('.dark-mode');
+
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                const isDarkMode = currentTheme === 'dark';
+                document.body.classList.toggle('dark-mode-variable', isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+            }
+
+            darkModeToggle.addEventListener('click', () => {
+                const isDarkMode = document.body.classList.toggle('dark-mode-variable');
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+            });
+        });
+    </script>
+    <script>
+        async function fetchFacultyData(query = '') {
+            try {
+                const response = await fetch(`/appointment_table?query=${encodeURIComponent(query)}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const facultyData = await response.json();
+        
+                const tableBody = document.getElementById('smartchat-body');
+                tableBody.innerHTML = '';
+        
+                facultyData.forEach(faculty => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="clickable">${faculty.form3.studentnumber}</td>
+                        <td>${faculty.form5.email}</td>
+                        <td>${faculty.form1.fullname}</td>
+                        <td>${faculty.form3.department}</td>
+                        <td>${faculty.form3.section}</td>
+                        <td class="primary" style="cursor: pointer;">Details</td>
+                    `;
+                    tableBody.appendChild(row);
+        
+                    row.querySelector('.clickable').addEventListener('click', function() {
+                        window.location.href = `/appointment_response/${faculty._id}`;
+                    });
+
+                    row.querySelector('.primary').addEventListener('click', function() {
+                        window.location.href = `/appointment_response/${faculty._id}`;
+                    });
+                });
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+        
+        document.getElementById('facultySearch').addEventListener('input', function() {
+            const query = this.value;
+            fetchFacultyData(query);
+        });
+        
+        window.onload = function() {
+            fetchFacultyData();
+        };
+    </script>
+
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = "/";
+            } else {
+   
+            }
+        }
+   
+        document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+      </script>
+</body>
+</html>
+
+

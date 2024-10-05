@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Navigation.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='footer.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='UserProfile.css') }}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <title>Profile</title>
+</head>
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    {% if logo %}
+                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%;">
+                    {% endif %}
+                </span>
+                <div class="text header-text"> 
+                    <span class="name">{{profile.firstName}} {{profile.lastName}}</span>
+                    <span class="profession">{{profile.department}}</span>
+                </div>
+            </div>
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+        <div class="menu-bar">
+            <li class="search-box">
+                <i class='bx bx-search icon'></i>
+                    <input disabled type="text" placeholder="Search" id="search">
+            </li>
+            <div class="menu">
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="/home">
+                            <i class='bx bx-home-smile icon'></i>
+                            <span class="text nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/profile">
+                            <i class='bx bx-user icon'></i>
+                            <span class="text nav-text">Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/journals">
+                            <i class='bx bx-note icon'></i>
+                            <span class="text nav-text">Journal</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/calendar">
+                            <i class='bx bx-calendar icon'></i>
+                            <span class="text nav-text">Calendar</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/smartchat">
+                            <i class='bx bx-edit icon'></i>
+                            <span class="text nav-text">SmartChat</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/clearance">
+                            <i class='bx bx-food-menu icon'></i>
+                            <span class="text nav-text">Clearance</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/ScheduleViewer">
+                            <i class='bx bx-calendar-event icon' ></i>
+                            <span class="text nav-text">Schedule Viewer</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/meditation">
+                            <i class='bx bx-leaf icon' ></i>
+                            <span class="text nav-text">Meditation</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="bottom-content">
+                <li class="">
+                    <a href="#" id="logoutbtn">
+                        <i class='bx bx-log-out icon' ></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+
+                <li class="mode">
+                    <div class="moon-sun">
+                        <i class='bx bx-moon icon moon' ></i>
+                        <i class='bx bx-sun icon sun' ></i>
+                    </div>
+                    <span class="mode-text text">Dark Mode</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+
+            </div>
+        </div>
+
+    </nav>
+
+    <div class="profile-container">
+        <h1>My Profile</h1>
+        <div class="profile-first-content">
+
+            {% if logo %}
+            <img id="logoImage" src="data:image/png;base64,{{ logo }}" class="icon" alt="" onclick="triggerUpload()" style="cursor: pointer;">
+
+            <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
+
+            {% else %}
+
+            <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="" onclick="triggerUpload()" style="cursor: pointer;">
+
+            <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
+
+            {% endif %}
+
+            <div class="profile-texts">
+                <h2>{{profile.lastName}}, {{profile.firstName}}, {{profile.middleName}}</h2>
+                <p>Course: <span style="font-weight: 600; font-size: 14px;">{{profile.department}}</span></p>
+
+                <p class="baba" style="color: green;">ID Number <span style="margin-left: 113px; color: black;">{{profile.studentID}}</span></p>
+                <p style="color: green;">Department <span style="margin-left: 106px; color: black;">SCHOOL OF {{profile.department}}</span></p>
+                <p style="color: green;">Office Email Address <span style="margin-left: 50px; color: black;">{{email}}</span></p>
+                
+            </div>
+
+            
+            <input type="submit" value="Edit" id="editBtn" style="
+            margin-left: 85%;
+            margin-top: 13%;
+            width: 100px;
+            height: 50px;
+            border-radius: 10px;
+            font-family: 'Poppins', system-ui;
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            background: #3C3D37;
+            ">
+
+            <input type="submit" value="Save" id="saveBtn" disabled style="
+            margin-left: 85%;
+            margin-top: 2%;
+            width: 100px;
+            height: 50px;
+            border-radius: 10px;
+            font-family: 'Poppins', system-ui;
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            background: #3C3D37;
+            ">
+
+        </div>
+
+        <div class="profile-second-content">
+            <h4>Basic Information</h4>
+
+            <div class="profile-text2">
+                <form style="position: absolute; width: 1200px; margin-top: -30px; margin-left: -30px;" id="basicInfo">
+                    <label for="profileLastName" >Last Name:<span style="color:red;">*</span></label>
+                    <input disabled type="text" name="lastName" id="profileLastName" placeholder="{{profile.lastName}}"
+                    value="{{profile.lastName}}"
+                    style="margin-top: 80px; margin-left: 62px;"/>
+                    
+                    <label for="profileNationality" 
+                    style="margin-left: 100px;">Nationality:<span style="color:red;">*</span></label>
+                    <input disabled type="text" name="nationality" id="profileNationality" placeholder="{{ saved.form1.nationality if saved and saved.form1 else 'Enter Nationality' }}"
+                    style="margin-top: 50px;margin-left: 49px;"
+                    /><br>
+
+                    <label for="profileFirstName" >First Name:<span style="color:red;">*</span></label>
+                    <input disabled type="text" name="firstName" id="profileFirstName"
+                    value="{{profile.firstName}}" placeholder="{{profile.firstName}}"
+                    style="margin-left: 60px;"/>
+
+                    <label for="profileCivilStatus" style="margin-left: 100px;">Civil Status:<span style="color:red;">*</span></label>
+                    <select disabled id="profileCivilStatus" name="civilStatus" required style="margin-left: 44px;">
+                        <option value="" disabled selected >{{ saved.form1.civilStatus if saved and saved.form1 else 'Select Civil Status' }}</option>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                    </select>
+                    <br>
+                    
+                    <label for="profileMiddleName">Middle Name:</label>
+                    <input disabled type="text" name="middleName" id="profileMiddleName" 
+                    value="{{profile.middleName}}"
+                    placeholder="{{profile.middleName}}"
+                    style="margin-left: 51px;"/>
+                    
+                    <label for="profileGender" style="margin-left: 99px;">Gender:<span style="color:red;">*</span></label>
+                    <select disabled id="profileGender" name="gender" required style="margin-left: 75px;">
+                        <option value="" disabled selected>{{ saved.form1.gender if saved and saved.form1 else 'Select Civil gender' }}</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Rather not say">Rather not say</option>
+                    </select><br>
+
+                    <label for="profileMiddleI">Middle Initial:</label>
+                    <input disabled type="text" name="credentials" id="profileMiddleI" placeholder="{{ saved.form1.credentials if saved and saved.form1 else 'Enter Middle Initial' }}"
+                    style="margin-left: 52px;"/>
+                    
+                    <label for="profileReligion" style="margin-left: 100px;">Religion:</label>
+                    <input disabled type="text" name="religion" id="profileReligion" placeholder="{{ saved.form1.religion if saved and saved.form1 else 'Please Enter Religion' }}"
+                    style="margin-left: 74px;"/><br>
+
+                    <label for="profileSuffix">Suffix:</label>
+                    <input disabled type="text" name="suffix" id="profileSuffix" placeholder="{{ saved.form1.suffix if saved and saved.form1 else 'Please Enter Suffix' }}"
+                    style="margin-left: 105px;"/>
+
+                    <label for="profileMobile" style="margin-left: 99px;">Mobile No.:<span style="color:red;">*</span></label>
+                    <input disabled type="number" oninput="validateMobile()" name="mobile" id="profileMobile" placeholder="{{ saved.form1.mobile if saved and saved.form1 else 'Please Enter Mobile | eg. 09123456789' }}"
+                    style="margin-left: 50px;"/><br>
+                    
+
+                    <label for="profileBdate">Birthdate:<span style="color:red;">*</span></label>
+                    <input disabled type="date" name="birthdate" id="profileBdate" value="{{ saved.form1.birthdate if saved and saved.form1 else 'Please Set Birth Date' }}"
+                    style="margin-left: 73px;"/>
+
+                    <label for="profileTele" style="margin-left: 99px;">Telephone No.:</label>
+                    <input disabled type="number" name="telephone" id="profileTele" placeholder="{{ saved.form1.telephone if saved and saved.form1 else 'Please Enter Telephone' }}"
+                    style="margin-left: 29px;"/><br>
+
+                    <label for="profileCountry">Country of Birth:<span style="color:red;">*</span></label>
+                    <input disabled type="text" name="countryBirth" id="profileCountry" placeholder="{{ saved.form1.countryBirth if saved and saved.form1 else 'Please Enter Country of Birth' }}"/>
+
+                    <label for="profileEmail" style="margin-left: 100px;">Email Address:<span style="color:red;">*</span></label>
+                    <input disabled type="text" name="email" id="profileEmail" placeholder="{{profile.email}}" value="{{profile.email}}"/><br>
+
+                    <label for="profileBPlace">Birth Place:<span style="color:red;">*</span></label>
+                    <input disabled type="text" name="birthplace" id="profileBPlace" placeholder="{{ saved.form1.birthplace if saved and saved.form1 else 'Please Enter Birth Place' }}"
+                    style="margin-left: 59px;"/>
+                </form>
+            </div>
+        </div>
+
+        <div class="profile-third-content">
+            <h4>Address</h4>
+            <div class="profile-text3">
+                <form id="address" style="position:absolute; margin-top: -20px;">
+
+                <h2 style="margin-top: 120;">Present Address <span>Permanent Address</span></h2>
+
+                <label for="presentProvince"  >Province:<span style="color:red;">*</span></label>
+                <input disabled type="text" name="presentProvince" id="presentProvince" placeholder="{{ saved.form2.presentProvince if saved and saved.form2 else 'Please Enter Present Province' }}"
+                style="margin-top: 150px; margin-left: 79px;"
+                />
+                
+                <label for="permanentCountry" 
+                style="margin-left: 100px;">Country:<span style="color:red;">*</span></label>
+                <input disabled type="text" name="permanentCountry" id="permanentCountry" placeholder="{{ saved.form2.permanentCountry if saved and saved.form2 else 'Please Enter Permanent Country' }}"
+                style="margin-top: 50px; margin-left: 86px;"
+                /><br>
+
+                <label for="presentCity">City/Municipality:<span style="color:red;">*</span></label>
+                <input disabled type="text" name="presentCity" id="presentCity" placeholder="{{ saved.form2.presentCity if saved and saved.form2 else 'Please Enter Present City' }}"/>
+
+                <label for="permanentProvince" 
+                style="margin-left: 100px;">Province:<span style="color:red;">*</span></label>
+                <input disabled type="text" name="permanentProvince" id="permanentProvince" placeholder="{{ saved.form2.permanentProvince if saved and saved.form2 else 'Please Enter Permanent Province' }}"
+                style="margin-left: 80px;"
+                /><br>
+                
+                <label for="presentHouse">House No./ St.:<span style="color:red;">*</span></label></label>
+                <input disabled type="text" name="presentHouse" id="presentHouse" placeholder="{{ saved.form2.presentHouse if saved and saved.form2 else 'Please Enter House No./ St.' }}"
+                style="margin-left: 39px;"/>
+                
+                <label for="permanentCity" style="margin-left: 100px;">City/Municipality:<span style="color:red;">*</span></label>
+                <input disabled type="text" name="permanentCity" id="permanentCity" placeholder="{{ saved.form2.permanentCity if saved and saved.form2 else 'Please Enter a City' }}"/><br>
+
+                <label for="presentBrgy">Barangay:<span style="color:red;">*</span></label>
+                <input disabled type="text" name="presentBrgy" id="presentBrgy" placeholder="{{ saved.form2.presentBrgy if saved and saved.form2 else 'Please Enter a Barangay' }}"
+                style="margin-left: 74px;"/>
+                
+                <label for="permanentHouse" style="margin-left: 100px;">House No./ St.:<span style="color:red;">*</span></label></label>
+                <input disabled type="text" name="permanentHouse" id="permanentHouse" placeholder="{{ saved.form2.permanentHouse if saved and saved.form2 else 'Please Enter House No./ St.' }}"
+                style="margin-left: 39px;"/><br>
+
+                <label for="presentPostal">Postal Code:</label>
+                <input disabled type="text" name="presentPostal" id="presentPostal" placeholder="{{ saved.form2.presentPostal if saved and saved.form2 else 'Please Enter Postal Code' }}"
+                style="margin-left: 61px;"/>
+
+                <label for="permanentBrgy" style="margin-left: 100px;">Barangay:<span style="color:red;">*</span></label>
+                <input disabled type="text" name="permanentBrgy" id="permanentBrgy" placeholder="{{ saved.form2.permanentBrgy if saved and saved.form2 else 'Please Enter a Barangay' }}"
+                style="margin-left: 74px;"/><br>
+
+                <label for="permanentPostal" style="margin-left: 586px;">Postal Code:</label>
+                <input disabled type="text" name="permanentPostal" id="permanentPostal" placeholder="{{ saved.form2.permanentPostal if saved and saved.form2 else 'Please Enter Postal Code' }}"
+                style="margin-left: 62px;"
+                />
+
+                </form>
+            </div>
+        </div>
+
+        <div class="profile-third-content">
+            <h4>Contact Information</h4>
+            <div class="profile-text3">
+                <form id="contactInfo" style="position:absolute; margin-top: -80px;">
+
+                <label for="contactFirstName"  >First Name:<span style="color:red;">*</span></label>
+                <input disabled type="text" name="contactFirstName" id="contactFirstName" placeholder="{{ saved.form3.contactFirstName if saved and saved.form3 else 'Please Enter First Name' }}"
+                style="margin-top: 150px; margin-left: 80px;"
+                /><br>
+                
+                <label for="contactLastName">Last Name:<span style="color:red;">*</span></label>
+                <input disabled type="text" name="contactLastName" id="contactLastName" placeholder="{{ saved.form3.contactLastName if saved and saved.form3 else 'Please Enter Last Name' }}"
+                style="margin-top: 20px; margin-left: 82px;"
+                /><br>
+
+                <label for="relationship">Relationship:<span style="color:red;">*</span></label>
+                <input disabled type="text" name="relationship" id="relationship" placeholder="{{ saved.form3.relationship if saved and saved.form3 else 'Please Enter Relationship' }}" style="margin-left: 67px;"/><br>
+
+                <label for="emergencyContact">Contact Number:<span style="color:red;">*</span></label>
+                <input disabled type="text" name="emergencyContact" id="emergencyContact" placeholder="{{ saved.form3.emergencyContact if saved and saved.form3 else 'Please Enter Contact Emergency' }}"
+                style="margin-left: 38px;"
+                /><br>
+                
+
+                </form>
+            </div>
+        </div>
+
+        <div id="myModal" style="display:none; position:fixed; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
+            <div style="background:white; margin:15% auto; padding:20px; border-radius:5px; width:300px;">
+                <p>Are you sure you want to edit the last name?</p>
+                <button id="confirmEdit">Yes</button>
+                <button id="cancelEdit">No</button>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="{{ url_for('static', filename='scripts/script.js') }}"> </script>
+    <script src="{{ url_for('static', filename='scripts/data.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/scroll.js') }}"></script>
+
+    <script>
+        function triggerUpload() {
+            document.getElementById('fileInput').click();
+        }
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const imgElement = document.getElementById('logoImage');
+    
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imgElement.src = e.target.result;
+                }
+                reader.readAsDataURL(file); 
+                const formData = new FormData();
+                formData.append('logo', file);
+    
+                fetch('/upload_logo', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        alert('Logo uploaded successfully!');
+                        window.location.href = '/profile'
+                    } else {
+                        alert('Failed to upload logo: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('There was an error uploading the logo.');
+                });
+            }
+        }
+    </script>
+
+    <script>
+        document.getElementById('saveBtn').style.display = 'none';
+
+        document.getElementById('editBtn').onclick = function() {
+            document.getElementById('myModal').style.display = 'block';
+        };
+        
+        document.getElementById('confirmEdit').onclick = function() {
+
+            //first form
+
+            
+            document.getElementById('profileNationality').disabled = false;
+            document.getElementById('profileCivilStatus').disabled = false;
+            document.getElementById('profileGender').disabled = false;
+            document.getElementById('profileMiddleI').disabled = false;
+            document.getElementById('profileReligion').disabled = false;
+            document.getElementById('profileSuffix').disabled = false;
+            document.getElementById('profileMobile').disabled = false;
+            document.getElementById('profileBdate').disabled = false;
+            document.getElementById('profileTele').disabled = false;
+            document.getElementById('profileCountry').disabled = false;
+            document.getElementById('profileBPlace').disabled = false;
+
+            //second form
+
+            document.getElementById('presentProvince').disabled = false;
+            document.getElementById('permanentCountry').disabled = false;
+            document.getElementById('permanentProvince').disabled = false;
+            document.getElementById('presentHouse').disabled = false;
+            document.getElementById('permanentCity').disabled = false;
+            document.getElementById('presentBrgy').disabled = false;
+            document.getElementById('permanentHouse').disabled = false;
+            document.getElementById('presentPostal').disabled = false;
+            document.getElementById('permanentBrgy').disabled = false;
+            document.getElementById('permanentPostal').disabled = false;
+            document.getElementById('presentCity').disabled = false;
+
+            // third form
+
+            document.getElementById('contactFirstName').disabled = false;
+            document.getElementById('contactLastName').disabled = false;
+            document.getElementById('relationship').disabled = false;
+            document.getElementById('emergencyContact').disabled = false;
+            
+            document.getElementById('myModal').style.display = 'none';
+
+            document.getElementById('saveBtn').disabled = false;
+            document.getElementById('saveBtn').style.display = 'block';
+            document.getElementById('editBtn').disabled = true;
+        };
+        
+        document.getElementById('cancelEdit').onclick = function() {
+            document.getElementById('myModal').style.display = 'none';
+        };
+    </script>
+
+    <script>
+        
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const userHasData = {{ has_saved_data | tojson}}
+
+
+            if (userHasData) {
+                disableButtonsAndFields();
+            }
+    
+            document.getElementById('saveBtn').addEventListener('click', function(event) {
+                event.preventDefault();
+
+                var nationality = document.getElementById('profileNationality').value;
+                var profileCivilStatus = document.getElementById('profileCivilStatus').value;
+                var profileGender = document.getElementById('profileGender').value;
+                var profileMobile = document.getElementById('profileMobile').value;
+                var profileBdate = document.getElementById('profileBdate').value;
+                var profileCountry = document.getElementById('profileCountry').value;
+                var profileBPlace = document.getElementById('profileBPlace').value;
+
+                const mobileInput = document.getElementById('profileMobile');
+                const mobilePattern = /^09\d{9}$/;
+
+                if(mobilePattern.test(mobileInput.value)){
+                    
+                } else {
+                    alert('Please enter valid mobile number');
+                }
+
+
+                // first form
+                
+                if (!nationality){
+                    alert('Please enter nationality');
+                    return;
+                }
+                if (!profileCivilStatus){
+                    alert('Please select civil status');
+                    return;
+                }
+                if (!profileGender){
+                    alert('Please select gender');
+                    return;
+                }
+                if (!profileMobile){
+                    alert('Please select gender');
+                    return;
+                }
+                if (!profileBdate){
+                    alert('Please select a birth date');
+                    return;
+                }
+                if (!profileCountry){
+                    alert('Please enter a country');
+                    return;
+                }
+                if (!profileBPlace){
+                    alert('Please enter birth place');
+                    return;
+                }
+
+
+                // second form
+
+                var presentProvince = document.getElementById('presentProvince').value;
+                var permanentCountry = document.getElementById('permanentCountry').value;
+                var presentCity = document.getElementById('presentCity').value;
+                var permanentProvince = document.getElementById('permanentProvince').value;
+                var presentHouse = document.getElementById('presentHouse').value;
+                var permanentCity = document.getElementById('permanentCity').value;
+                var presentBrgy = document.getElementById('presentBrgy').value;
+                var permanentHouse = document.getElementById('permanentHouse').value;
+                var presentPostal = document.getElementById('presentPostal').value;
+                var permanentBrgy = document.getElementById('permanentBrgy').value;
+                var permanentPostal = document.getElementById('permanentPostal').value;
+                
+                if (!presentProvince && !permanentProvince){
+                    alert('Please enter Province');
+                    return;
+                }
+                if (!permanentCountry){
+                    alert('Please enter Province');
+                    return;
+                }
+                if (!presentCity && !permanentCity){
+                    alert('Please enter City');
+                    return;
+                }
+                if (!presentHouse && !permanentHouse){
+                    alert('Please enter House');
+                    return;
+                }
+                if (!presentBrgy && !permanentBrgy){
+                    alert('Please enter Barangay');
+                    return;
+                }
+                if (!presentPostal && !permanentPostal){
+                    alert('Please enter Postal');
+                    return;
+                }
+
+
+                // third form
+
+                var contactFirstName = document.getElementById('contactFirstName').value;
+                
+                var contactLastName = document.getElementById('contactLastName').value;
+                
+                var relationship = document.getElementById('relationship').value;
+                
+                var emergencyContact = document.getElementById('emergencyContact').value;
+
+                if(!contactFirstName && !contactLastName){
+                    alert("Please enter emergency contact's first name and last name.");
+                    return;
+                }
+
+                if(!relationship){
+                    alert('Please fill out all the fields.');
+                    return;
+                }
+
+                if(!emergencyContact){
+                    alert('Please provide emergency contact number.');
+                    return;
+                }
+
+                
+                if (confirm("Do you want to confirm? This cannot be undo.")) {
+                    enableFields();
+    
+                    const formData = {
+                        form1: collectFormData('basicInfo'),
+                        form2: collectFormData('address'),
+                        form3: collectFormData('contactInfo')
+                    };
+    
+                    fetch('/profile_user_db', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Successfully profile edited!');
+                            disableButtonsAndFields();
+                            window.location.href = "/profile";
+
+                        } else {
+                            alert('There was a problem with the submission.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('There was an error submitting the form.');
+                    });
+                }
+            });
+    
+            function enableFields() {
+                const fieldsToEnable = [
+                    'profileLastName', 'profileFirstName', 'profileMiddleName',
+                    'profileNationality', 'profileCivilStatus', 'profileGender',
+                    'profileMiddleI', 'profileReligion', 'profileSuffix',
+                    'profileMobile', 'profileBdate', 'profileTele',
+                    'profileCountry', 'profileEmail', 'profileBPlace', 'contactFirstName', 'contactLastName', 'relationship', 'emergencyContact'
+                ];
+                
+                fieldsToEnable.forEach(id => {
+                    document.getElementById(id).disabled = false;
+                });
+            }
+    
+            function disableButtonsAndFields() {
+                document.getElementById('editBtn').disabled = true;
+                document.getElementById('saveBtn').disabled = true;
+
+                document.getElementById('editBtn').style.display = 'none';
+                document.getElementById('saveBtn').style.display = 'none';
+    
+                const fieldsToDisable = [
+                    'profileLastName', 'profileFirstName', 'profileMiddleName',
+                    'profileNationality', 'profileCivilStatus', 'profileGender',
+                    'profileMiddleI', 'profileReligion', 'profileSuffix',
+                    'profileMobile', 'profileBdate', 'profileTele',
+                    'profileCountry', 'profileEmail', 'profileBPlace',
+                    'presentProvince', 'permanentCountry', 'permanentProvince',
+                    'presentHouse', 'permanentCity', 'presentBrgy',
+                    'permanentHouse', 'presentPostal', 'permanentBrgy',
+                    'permanentPostal', 'presentCity', 'contactFirstName', 'contactLastName', 'relationship', 'emergencyContact'
+                ];
+                
+                fieldsToDisable.forEach(id => {
+                    document.getElementById(id).disabled = true;
+                });
+            }
+    
+            function collectFormData(formId) {
+                const form = document.getElementById(formId);
+                const formData = new FormData(form);
+                const data = {};
+                
+                formData.forEach((value, key) => {
+                    if (data[key]) {
+                        data[key] = [].concat(data[key], value);
+                    } else {
+                        data[key] = value;
+                    }
+                });
+        
+                return data;
+            }
+        });
+    </script>
+
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = "/";
+            } else {
+   
+            }
+        }
+   
+        document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+      </script>
+      <script>
+        let timeout;
+    
+        function setTimeout() {
+            timeout = setTimeout(() => {
+                alert('You have been inactive for too long. You will be logged out.');
+                window.location.href = '/logout';
+            }, 30 * 60 * 1000);
+        }
+    
+        function resetTimeout() {
+            clearTimeout(timeout);
+            setTimeout();
+        }
+    
+        window.onload = setTimeout;
+        window.onmousemove = resetTimeout;
+        window.onkeypress = resetTimeout;
+        window.onclick = resetTimeout;
+        window.onscroll = resetTimeout;
+    
+        setInterval(() => {
+            fetch('/keep-alive', { method: 'POST' });
+        }, 60 * 1000);
+    </script>
+</body>
+</html>

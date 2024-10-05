@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='professors/styles/profDashboard.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <title>Professor Dashboard</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    
+  </head>
+  <body>
+    <div class="container">
+        <aside>
+            <div class="toggle">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='admin/logo.png') }}" />
+                    <h2>NU<span class="danger">GITS</span></h2>
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-icons-sharp"> close </span>
+                </div>
+                </div>
+
+                <div class="sidebar">
+                <a href="/professor/dashboard" >
+                    <span class="material-icons-sharp"> dashboard </span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="/professor/referral_form" class="active">
+                    <span class="material-icons-sharp"> psychology </span>
+                    <h3>Referral</h3>
+                </a>
+                <a href="#" id="logoutbtn">
+                    <span class="material-icons-sharp"> logout </span>
+                    <h3>Logout</h3>
+                </a>
+            </div>
+        </aside>
+
+        <main id="form1">
+            <div class="glass-container">
+                <div class="container-font">
+                    <h1>College Student Referral Form AY 2024-2025</h1>
+                    <p>Thank you for reaching out to the Guidance Service Office. Please fill out this form to give a more detailed narrative regarding your referral which can help us as we reach out of the students. Please note that when we reach out to the student, we will be informing them that you have referred them to the GSO.</p>
+                    <h2>For discipline-related concerns/referrals, please reach out to the Discipline Office.</h2>
+                    <p>Thank you very much!</p>
+                </div>
+            </div>
+            <div class="glass-content">
+                <form class='content-font' id="content-form" >
+                    <br>
+                    <p >Hi, Professor. When you submit this form, the owner will be able see your name and email address.</p>
+                    <p><span style="color: red;">*</span> Required</p>
+                    <h1>DATA PRIVACY NOTICE</h1>
+                    <h2>DATA PRIVACY AND CONSENT:</h2>
+                    <p>The information that you supply via this form will be entered into an electronic filling system, and will only be accessed by authorized personnel of NU-MOA Guidance Service Office. The purpose of this form is to evaluate and get information regarding the student you are referring to the GSO.</p>
+                    <p>You understand that by submitting this form, you are giving your full consent to NU-MOA Guidance Service Office to process your provided information for the purposes stated above.</p>
+                    <h2 class="content-font-h2">1. Please type your full name if you agree with the consent form.<span style="color: red;">*</span></h2>
+
+                    <input type="text" id="fullname" name="fullname" value="{{username.firstName}} {{username.middleName}} {{username.lastName}}" disabled><br>
+
+                    <h2 class="content-font-h2" style="margin-left: 50px;">Please type your email.<span style="color: red;">*</span></h2>
+
+                    <input type="text" id="email" name="email" value="{{email}}" disabled><br>
+
+                    <input type="button" class="button" id="nextButton" value="Next">
+                </form>
+            </div>
+        </main>
+        <div id="form2" class="container2">
+            <form id="nextFormPage">
+                <div class="nextFormPage-container">
+                    <h1>College Student Referral Form AY 2024-2025</h1>
+                </div>
+                <div class="nextFormPage-content">
+                    <br>
+                    <p style="color: #181a1e;"><span style="color: red;">*</span> Required</p>
+                    <h1>STUDENT DETAILS</h1>
+
+                    <h2>2. Date of Referral <span style="color: red;">*</span></h2>
+                    <input type="date" id="date" name="date" placeholder="Please input date (M/d/yyyy)">
+
+                    <h2>3. Name of Student(Last Name, Given Name, Middle Initial) <span style="color: red;">*</span></h2>
+                    <input type="text" id="studFname" name="studFname" placeholder="Enter name of student">
+
+                    <h2>4. College <span style="color: red;">*</span></h2>
+                    <input type="radio" id="dentistry" name="college" value="Dentistry">
+                    <label for="dentistry">College of Dentistry</label><br>
+                    <input type="radio" id="archi" name="college" value="Architecture">
+                    <label for="archi">College of Architecture</label><br>
+                    <input type="radio" id="artsci" name="college" value="Arts And Sciences">
+                    <label for="artsci">College of Arts and Sciences</label><br>
+                    <input type="radio" id="allhealth" name="college" value="Allied Health">
+                    <label for="allhealth">College of Allied Health</label><br>
+                    <input type="radio" id="it" name="college" value="Information Technology">
+                    <label for="it">College of Information Technology</label><br>
+                    <input type="radio" id="accountancy" name="college" value="Accountancy And Management">
+                    <label for="accountancy">College of Accountancy and Management</label><br>
+                    <input type="radio" id="opto" name="college" value="Optometry">
+                    <label for="optp">College of Optometry</label><br>
+
+                    <input type="button" id="prevBtn1" class="button" value="Previous">
+                    <input type="button" id="nextBtn1" class="button" value="Next">
+                </div>
+            </form>
+        </div>   
+        <div class="container3" id="form3">
+            <form id="nextFormPage2">
+                <div class="nextFormPage-container">
+                    <h1>College Student Referral Form AY 2024-2025</h1>
+                </div>
+                <div class="nextFormPage-content">
+                    <br>
+                    <p style="color: #181a1e;"><span style="color: red;">*</span> Required</p>
+                    <h1>STUDENT DETAILS</h1>
+
+                    <h2>5. Year Level <span style="color: red;">*</span></h2>
+                    <input type="radio" id="1st" name="level" value="1st">
+                    <label for="1st">1st</label><br>
+                    <input type="radio" id="2nd" name="level" value="2nd">
+                    <label for="2nd">2nd</label><br>
+                    <input type="radio" id="3rd" name="level" value="3rd">
+                    <label for="3rd">3rd</label><br>
+                    <input type="radio" id="4th" name="level" value="4th">
+                    <label for="4th">4th</label><br>
+                    <input type="radio" id="5th" name="level" value="5th">
+                    <label for="5th">5th</label><br>
+
+                    <h2>6. Reason for referral (please include a detailed narrative of why you are referring the student to the GSO)<span style="color: red;"> *</span></h2>
+                    <textarea placeholder="Enter your answer" id="textArea" name="reasons"></textarea><br>
+
+                    <input type="button" id="prevBtn2" class="button" value="Previous">
+
+                    <input type="button" id="submit" class="button" value="Submit">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const nextBtn = document.getElementById('nextButton');
+        const nextBtn1 = document.getElementById('nextBtn1');
+
+        const prevBtn1 = document.getElementById('prevBtn1');
+        const prevBtn2 = document.getElementById('prevBtn2');
+
+        const form1 = document.getElementById('form1');
+        const form2 = document.getElementById('form2');
+        const form3 = document.getElementById('form3');
+
+        
+        form1.style.display='block';
+        form2.style.display="none";
+        form3.style.display="none";
+
+        document.getElementById('nextButton').addEventListener('click', function() {
+            
+                document.getElementById('form1').style.display = 'none';  
+                document.getElementById('form2').style.display = 'block'; 
+                document.getElementById('form3').style.display = 'none'; 
+            
+        });
+
+
+        document.getElementById('nextBtn1').addEventListener('click', function() {
+
+            var date = document.getElementById('date').value;
+            var name = document.getElementById('studFname').value;
+            var collegeSelected = document.querySelector('input[name="college"]:checked');
+
+            if (!date) {
+                alert('Please select a date.');
+                return;
+            }
+            if (!name) {
+                alert('Please enter the name of the student.');
+                return;
+            }
+            if (!collegeSelected) {
+                alert('Please select a college.');
+                return;
+            }
+
+            form1.style.display = 'none';
+            form2.style.display = 'none';
+            form3.style.display = "block";
+
+        })
+
+        prevBtn1.addEventListener('click', () => {
+            form1.style.display = 'block';
+            form2.style.display = 'none';
+            form3.style.display = "none";
+        });
+
+        prevBtn2.addEventListener('click', () => {
+            form1.style.display = 'none';
+            form2.style.display = 'block';
+            form3.style.display = 'none';
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function(){
+            document.getElementById('submit').addEventListener('click', function(event){
+                event.preventDefault();
+
+            var reason = document.getElementById('textArea').value;
+            var levelSelected = document.querySelector('input[name="level"]:checked');
+
+            if (!levelSelected) {
+                alert('Please select a level.');
+                return;
+            }
+            if (!reason) {
+                alert('Please provide a reason.');
+                return;
+            }
+            
+                if (confirm("Do you want to confirm?")){
+
+                    enableFields();
+                    const formData = {
+                        form1: collectFormData('content-form'),
+                        form2: collectFormData('nextFormPage'),
+                        form3: collectFormData('nextFormPage2')
+                    };
+
+                    fetch('/referral_form_db', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success){
+                            alert('Form submitted successfully!');
+                            window.location.href = '/professor/dashboard';
+                        } else {
+                            alert('There was a problem with the submission.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('There was an error submitting the form.');
+                    });
+                }
+            });
+
+            function enableFields() {
+                const fieldsToEnable = [
+                    'fullname',
+                    'email'
+                ];
+                
+                fieldsToEnable.forEach(id => {
+                    document.getElementById(id).disabled = false;
+                });
+            }
+
+            function collectFormData(formId) {
+                const form = document.getElementById(formId);
+                const formData = new FormData(form);
+                const data = {};
+                
+                formData.forEach((value, key) => {
+                    // Append values if multiple
+                    if (data[key]) {
+                        data[key] = [].concat(data[key], value);
+                    } else {
+                        data[key] = value;
+                    }
+                });
+        
+                return data;
+            }
+
+        });
+
+    </script>
+
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+    <script type="text/javascript">
+      google.charts.load("current", { packages: ["corechart"] });
+      google.charts.setOnLoadCallback(drawChart);
+    </script>
+
+    <script>
+      function confirmLogout() {
+          if (confirm("Are you sure you want to log out?")) {
+              window.location.href = "/";
+          } else {
+ 
+          }
+      }
+ 
+      document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+    </script>
+
+    <script src="{{ url_for('static', filename='admin/component/students.js') }}"></script>
+  </body>
+</html>

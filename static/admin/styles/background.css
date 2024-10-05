@@ -1,0 +1,111 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+  }
+  .container1 {
+    
+    max-width: 90%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  .container2{
+    margin: 0 auto;
+    max-width: 90%;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .container3{
+    margin: 0 auto;
+    max-width: 90%;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .profile1 {
+    display: flex;
+    align-items: center;
+  }
+  .profile1 img {
+    width: 150px;
+    height: auto;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  .info1 {
+    flex: 1;
+  }
+  .info1 h2 {
+    margin: 0;
+    font-size: 24px;
+  }
+  .info1 p {
+    margin: 5px 0;
+    font-size: 17px;
+  }
+  .buttons {
+    margin-top: 20px;
+  }
+  .button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .button:hover {
+    background-color: #0056b3;
+  }
+  .buttons button:last-child{
+    position: absolute;
+    right: 10rem;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .buttons button a{
+    color: #fff;
+    text-decoration: none;
+  }
+  .buttons button:hover{
+    background-color: #0056b3;
+  }
+  .basic-info {
+    margin-top: 20px;
+  }
+  .basic-info h3{
+    font-size: 20px;
+  }
+  .basic-info p {
+    margin: 5px 0;
+    font-size: 17px;
+  }
+  .additional-info{
+    display: flex;
+    align-items: center;
+  }
+
+  .additional-info h3{
+    font-size: 20px;
+  }
+  .additional-info p{
+    font-size: 18px;
+  }
+  .additional-info .permanent{
+    margin-left: 500px;
+    margin-top: 30px;
+  }

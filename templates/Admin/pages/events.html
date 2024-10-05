@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <title>Events</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='admin/styles/header.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='admin/styles/events.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='admin/styles/dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+    <aside>
+        <div class="toggle">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='admin/logo.png') }}" />
+                <h2>NU<span class="danger">GITS</span></h2>
+            </div>
+            <div class="close" id="close-btn">
+                <span class="material-icons-sharp">
+                    close
+                </span>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <a href="/dashboard" >
+                <span class="material-icons-sharp">
+                    dashboard
+                </span>
+                <h3>Dashboard</h3>
+            </a>
+            <a href="/dashboard/profile">
+                <span class="material-icons-sharp">
+                    person_outline
+                </span>
+                <h3>Student Profile</h3>
+            </a>
+            <a href="/dashboard/faculty/profile">
+                <span class="material-icons-sharp"> person_outline </span>
+                <h3>Faculty Profile</h3>
+            </a>
+            <a href="/admin/appointments" >
+                <span class="material-icons-sharp">
+                    assignment
+                </span>
+                <h3>Appointments</h3>
+            </a>
+            <a href="/admin/clearance">
+                <span class="material-icons-sharp">
+                    article
+                </span>
+                <h3>Clearance</h3>
+            </a>
+            <a href="/admin/schedule" class="active">
+                <span class="material-icons-sharp">
+                    calendar_month
+                </span>
+                <h3>Calendar</h3>
+            </a>
+            <a href="/admin/feedback">
+                <span class="material-icons-sharp">
+                    question_answer
+                </span>
+                <h3>Feedback</h3>
+            </a>
+            <a href="/schedule/setter">
+                <span class="material-icons-sharp">
+                    schedule
+                </span>
+                <h3>Schedule</h3>
+            </a>
+            <a href="/dashboard/referral">
+                <span class="material-icons-sharp"> psychology </span>
+                <h3>Referral</h3>
+              </a>
+            <a href="#" id="logoutbtn">
+                <span class="material-icons-sharp">
+                    logout
+                </span>
+                <h3>Logout</h3>
+            </a>
+        </div>
+
+    </aside>
+    </div>
+
+    <div class="container1">
+        
+        <div class="left">
+            <div class="calendar">
+                <div class="month">
+                    <i class="fa fa-angle-left prev"></i>
+                    <div class="date"></div>
+                    <i class="fa fa-angle-right next"></i>
+                </div>
+                <div class="weekdays">
+                    <div>sun</div>
+                    <div>mon</div>
+                    <div>tue</div>
+                    <div>wed</div>
+                    <div>thu</div>
+                    <div>fri</div>
+                    <div>sat</div>
+                </div>
+                <div class="days">
+                    
+                </div>
+                <div class="goto-today">
+                    <div class="goto">
+                        <input type="text" placeholder="mm/yyyy" class="date-input">
+                        <button class="goto-btn">go</button>
+                    </div>
+                    <button class="today-btn">today</button>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="today-date">
+                <div class="event-day">Wed</div>
+                <div class="event-date">09 May 2024</div>
+            </div>
+            <div class="events">
+                
+            </div>
+            <div class="add-event-wrapper">
+                <div class="add-event-header">
+                    <div class="title">Add Event</div>
+                    <i class="fas fa-times close"></i>
+                </div>
+                <div class="add-event-body">
+                    <div class="add-event-input">
+                        <input type="text" placeholder="Event Name" class="event-name"/>
+                    </div>
+                    <div class="add-event-input">
+                        <input type="text" placeholder="Event Time From" class="event-time-from"/>
+                    </div>
+                    <div class="add-event-input">
+                        <input type="text" placeholder="Event Time To" class="event-time-to"/>
+                    </div>
+                </div>
+                <div class="add-event-footer">
+                    <button class="add-event-btn">Add Event</button>
+                </div>
+            </div>
+        </div>
+        <button class="add-event">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+    <div class="dark-mode" style="display: none;">
+        <span class="material-icons-sharp"> light_mode </span>
+        <span class="material-icons-sharp"> dark_mode </span>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const darkModeToggle = document.querySelector('.dark-mode');
+
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                const isDarkMode = currentTheme === 'dark';
+                document.body.classList.toggle('dark-mode-variable', isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+            }
+
+            darkModeToggle.addEventListener('click', () => {
+                const isDarkMode = document.body.classList.toggle('dark-mode-variable');
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+            });
+        });
+    </script>
+    <script>
+        window.onload = function() {
+        // Example: Call updateEvents with the current date
+        const currentDate = new Date();
+        updateEvents(currentDate);
+    };
+    </script>
+
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = "/";
+            } else {
+   
+            }
+        }
+   
+        document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+      </script>
+    <script src="{{ url_for('static', filename='admin/component/script.js') }}"></script>
+
+</body>
+</html>

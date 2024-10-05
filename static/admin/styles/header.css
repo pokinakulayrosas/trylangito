@@ -1,0 +1,75 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: arial;
+}
+:root{
+    --clr: #1a252c;
+}
+body{
+    background: var(--clr);
+}
+header{
+    position: absolute; 
+    top: 0;
+    width: 100%;
+    background: #2196f3;
+    padding: 10px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100000;
+}
+header .logo{
+    position: relative;
+    color: #fff;
+    font-size: 2em;
+    font-weight: 600;
+    text-decoration: none;
+}
+header nav{
+    display: flex;
+    gap: 10px;
+}
+header nav a{
+    position: relative;
+    text-decoration: none;
+    padding: 12px 20px;
+    color: #fff;
+    letter-spacing: 0.1em;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+header nav #indicator{
+    position: absolute;
+    width: 120px;
+    height: 58px;
+    background: var(--clr);
+    border-top-left-radius: 20px;
+    border-top-right-radius:20px;
+    transition: 0.5s;
+}
+header nav #indicator::before{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -30px;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border-bottom-right-radius:30px;
+    box-shadow: 5px 5px 0 5px var(--clr);
+}
+header nav #indicator::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: -30px;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border-bottom-left-radius:30px;
+    box-shadow: -5px 5px 0 5px var(--clr);
+}

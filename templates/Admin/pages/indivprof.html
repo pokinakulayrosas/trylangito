@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details</title>
+</head>
+<body>
+    <h1>Student Details</h1>
+    <div id="student-details">
+        <!-- Student details will be displayed here -->
+    </div>
+
+
+    <script>
+        // Function to fetch and display student details
+        function fetchStudentDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const studentID = urlParams.get('_id');
+
+            // Fetch student details using studentID
+            fetch(`/api/get/student?_id=${studentID}`)
+                .then(response => response.json())
+                .then(student => {
+                    // Display student details on the page
+                    const studentDetailsDiv = document.getElementById('student-details');
+                    studentDetailsDiv.innerHTML = `
+                        <p><strong>Student ID:</strong> ${student.studentID}</p>
+                        <p><strong>Name:</strong> ${student.name}</p>
+                        <p><strong>Department:</strong> ${student.department}</p>
+                        <p><strong>Section:</strong> ${student.section}</p>
+                    `;
+                })
+                .catch(error => console.error('Error fetching student details:', error));
+        }
+
+        // Call fetchStudentDetails function when the page loads
+        document.addEventListener('DOMContentLoaded', fetchStudentDetails);
+    </script>
+</body>
+</html>

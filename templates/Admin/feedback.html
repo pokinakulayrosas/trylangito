@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='admin/styles/dashboard.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='admin/styles/feedback.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet"> 
+    <title>Feedback</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <aside>
+            <div class="toggle">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='admin/logo.png') }}" />
+                    <h2>NU<span class="danger">GITS</span></h2>
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-icons-sharp">
+                        close
+                    </span>
+                </div>
+            </div>
+    
+            <div class="sidebar">
+                <a href="/dashboard" >
+                    <span class="material-icons-sharp">
+                        dashboard
+                    </span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="/dashboard/profile">
+                    <span class="material-icons-sharp">
+                        person_outline
+                    </span>
+                    <h3>Student Profile</h3>
+                </a>
+                <a href="/dashboard/faculty/profile">
+                    <span class="material-icons-sharp"> person_outline </span>
+                    <h3>Faculty Profile</h3>
+                </a>
+                <a href="/admin/appointments" >
+                    <span class="material-icons-sharp">
+                        assignment
+                    </span>
+                    <h3>Appointments</h3>
+                </a>
+                <a href="/admin/clearance">
+                    <span class="material-icons-sharp">
+                        article
+                    </span>
+                    <h3>Clearance</h3>
+                </a>
+                <a href="/admin/schedule">
+                    <span class="material-icons-sharp">
+                        calendar_month
+                    </span>
+                    <h3>Calendar</h3>
+                </a>
+                <a href="/admin/feedback" class="active">
+                    <span class="material-icons-sharp">
+                        question_answer
+                    </span>
+                    <h3>Feedback</h3>
+                </a>
+                <a href="/schedule/setter">
+                    <span class="material-icons-sharp">
+                        schedule
+                    </span>
+                    <h3>Schedule</h3>
+                </a>
+                <a href="/dashboard/referral">
+                    <span class="material-icons-sharp"> psychology </span>
+                    <h3>Referral</h3>
+                  </a>
+                <a href="#" id="logoutbtn">
+                    <span class="material-icons-sharp">
+                        logout
+                    </span>
+                    <h3>Logout</h3>
+                </a>
+            </div>
+    
+        </aside>
+
+        <div class="container2">
+            {% for feedback in feedback %}
+            <div class="container-glass">
+                <div class="content-glass">
+                    <h1>Feedbacks</h1><br>
+                    <div class="content-text">
+                        <p>Name: {{ feedback.form.name}}</p><br>
+                        <p>Concern: {{ feedback.form.concern }} </p><br>
+                        <p>Message: {{ feedback.form.message}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="dark-mode" style="display: none;">
+        <span class="material-icons-sharp"> light_mode </span>
+        <span class="material-icons-sharp"> dark_mode </span>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const darkModeToggle = document.querySelector('.dark-mode');
+
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                const isDarkMode = currentTheme === 'dark';
+                document.body.classList.toggle('dark-mode-variable', isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+            }
+
+            darkModeToggle.addEventListener('click', () => {
+                const isDarkMode = document.body.classList.toggle('dark-mode-variable');
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+            });
+        });
+    </script>
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = "/";
+            } else {
+   
+            }
+        }
+   
+        document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+      </script>
+      
+</body>
+</html>
