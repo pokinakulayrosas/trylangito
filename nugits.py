@@ -1267,7 +1267,7 @@ def appointment_response(appointment_id):
                 })
             
             return render_template(
-                'Admin/pages/informations/appointmentResponse.html',
+                'Admin/pages/Informations/appointmentResponse.html',
                 appointment=appointment,
                 responses=response_data
             )
@@ -1487,7 +1487,7 @@ def referral_response(referral_id):
         referral = mongo.db.profReferrals.find_one({'_id': ObjectId(referral_id)})
 
         if referral:
-            return render_template('Admin/pages/informations/referralResponse.html', referral=referral)
+            return render_template('Admin/pages/Informations/referralResponse.html', referral=referral)
         else:
             return "Referral not found", 404
 
