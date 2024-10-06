@@ -1358,7 +1358,7 @@ def profile_response(profile_id):
             
             logo = saved['logo'] if saved and 'logo' in saved else None
 
-            return render_template('Admin/pages/informations/background.html', profile=profile, saved=saved, logo=logo, appointments = appointments)
+            return render_template('Admin/pages/Informations/background.html', profile=profile, saved=saved, logo=logo, appointments = appointments)
         else:
             return "Profile not found", 404
 
