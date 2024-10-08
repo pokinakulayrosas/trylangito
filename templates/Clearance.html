@@ -421,7 +421,8 @@
             <input type="text" class="inputt" value="{{clearance.lastName}}" placeholder="{{clearance.lastName}}" id="last_name" name="last_name" disabled>
             
             <label for="suffix">Suffix:</label>
-            <input type="text" class="inputt" placeholder="{{saved.form1.suffix}}" value="{{saved.form1.suffix}}"id="suffix" name="suffix" disabled>
+            <input type="text" class="inputt" placeholder="{{ saved.form1.suffix if saved.form1 and saved.form1.suffix else '' }}" 
+    value="{{ saved.form1.suffix if saved.form1 and saved.form1.suffix else '' }}" id="suffix" name="suffix" disabled>
 
             <label for="student_number">Student Number: (Ex. 2019-123456)</label>
             <input type="text" class="inputt" id="student_number" name="student_number" placeholder="{{clearance.studentID}}" value="{{clearance.studentID}}" disabled>
@@ -431,7 +432,8 @@
 
             <label for="contact_number">Contact Number:</label>
             <input type="tel" class="inputt" id="contact_number" name="contact_number"
-            placeholder="{{saved.form1.mobile}}" value="{{saved.form1.mobile}}" disabled>
+            placeholder="{{ saved.form1.mobile if saved.form1 and saved.form1.mobile else '' }}" 
+    value="{{ saved.form1.mobile if saved.form1 and saved.form1.mobile else '' }}" disabled>
 
             <label for="reason">Reason for Clearance:</label>
             <select id="reason" name="reason" required>
