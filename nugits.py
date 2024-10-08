@@ -653,7 +653,7 @@ def registration():
         <body>
             <h1>Email Verification</h1>
             <p>Please verify your email by clicking the link below:</p>
-            <a href="http://127.0.0.1:5000/email-verified?token={{verification_token}}&email={{email}}">Verify Email</a>
+            <a href="http://www.nu-gits.com/email-verified?token={{verification_token}}&email={{email}}">Verify Email</a>
         </body>
         </html>
         """, verification_token=verification_token, email=email)
