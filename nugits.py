@@ -758,7 +758,7 @@ def faculty_registration():
         <body>
             <h1>Email Verification</h1>
             <p>Please verify your email by clicking the link below:</p>
-            <a href="http://127.0.0.1:5000/faculty-verified?token={{verification_token}}&email={{email}}">Verify Email</a>
+            <a href="http://www.nu-gits.com/faculty-verified?token={{verification_token}}&email={{email}}">Verify Email</a>
         </body>
         </html>
         """, verification_token=verification_token, email=email)
@@ -839,7 +839,7 @@ def forgot_password():
             <body>
                 <h1>Password Reset Verification</h1>
                 <p>Please verify your email by clicking the link below:</p>
-                <a href="http://127.0.0.1:5000/reset-password?token={{token}}&email={{email}}">Reset Password</a>
+                <a href="http://www.nu-gits.com/reset-password?token={{token}}&email={{email}}">Reset Password</a>
             </body>
             </html>
             """, token=verification_token, email=email)
