@@ -426,12 +426,13 @@ def index():
         faculty = mongo.db.facultyRegistration.count_documents({})
         
         student = mongo.db.verifiedUsers.count_documents({})
+        clearance = mongo.db.clearance.count_documents({})
         
         total = faculty + student
         
         referralList = mongo.db.profReferrals.find()
         
-        return render_template("Admin/dashboard.html", faculty = faculty, student = student, total = total, referrals = referralList)
+        return render_template("Admin/dashboard.html", clearance = clearance, faculty = faculty, student = student, total = total, referrals = referralList)
     
     
     return redirect(url_for('logindex'))
