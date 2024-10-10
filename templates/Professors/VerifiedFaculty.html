@@ -105,31 +105,40 @@
 <body>
     <div class="login">
         <h2 id="txt">Your email has been verified</h2>
-        <form name="signup_form" method="POST">
+        <form name="signup_form" method="POST" onsubmit="return validateFacultyID()">
             <div class="inputBox">
                 <input type="email" placeholder="{{ email }}" value="{{ email }}" id="email" name="email" readonly>
             </div>
             <div class="inputBox">
-                <input type="text" placeholder="First Name" id="firstName" name="firstName">
+                <input type="text" placeholder="First Name" id="firstName" name="firstName" required>
             </div>
             <div class="inputBox">
                 <input type="text" placeholder="Middle Name" id="middleName" name="middleName">
             </div>
             <div class="inputBox">
-                <input type="text" placeholder="Last Name" id="lastName" name="lastName">
+                <input type="text" placeholder="Last Name" id="lastName" name="lastName" required>
             </div>
             
             <div class="inputBox">
-                <input type="text" placeholder="Faculty ID" id="facultyID" name="facultyID">
+                <input type="text" placeholder="Faculty ID" id="facultyID" name="facultyID" required pattern="^\d{4}-\d{6}$" 
+                title="Format: YYYY-XXXXXX (e.g., 2023-123456)">
             </div>
             <select name="department" id="department" style="width: 75%; height: 40px;" required>
                 <option value="" disabled selected>Please select your department</option>
-                <option value="Computer Science">Computer Science</option>
+                <option value="Dentistry">Dentistry</option>
                 <option value="Information Technology">Information Technology</option>
-                <option value="Software Engineering">Software Engineering</option>
+                <option value="Allied Health">Allied Health</option>
+                <option value="Accountancy and Management">Accountancy and Management</option>
+                <option value="Optometry">Optometry</option>
+                <option value="Architecture">Architecture</option>
+                <option value="Arts and Science">Arts and Science</option>
+                <option value="SHS">Senior High School</option>
             </select>
             <div class="inputBox">
-                <input type="password" placeholder="Password" id="password" name="password">
+                <input type="password" placeholder="Password" id="password" name="password" required>
+            </div>
+            <div class="inputBox">
+                <input type="password" placeholder="Confirm Password" id="conpassword" name="conpassword" required>
             </div>
             <p id="error" style="color: red;"></p>
             <div class="inputBox">
@@ -151,6 +160,33 @@
                 item.classList.remove('active');
             })
             event.target.classList.add('active');
+        }
+    </script>
+    <script>
+        function validateFacultyID() {
+            const studentIDInput = document.getElementById("studentID");
+            const studentIDPattern = /^\d{4}-\d{6}$/;
+            const pass = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("conpassword").value;
+            const errorElement = document.getElementById("error");
+            const strongPasswordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
+
+            if (!studentIDPattern.test(studentIDInput.value)) {
+                alert("Invalid Student ID format. Use YYYY-XXXXXX.");
+                return false;
+            }
+
+            if (pass !== confirmPassword) {
+                alert("Passwords do not match!");
+                return false;
+            }
+
+            if (!strongPasswordPattern.test(pass)) {
+                alert("Password must be at least 8 characters long, contain at least one uppercase letter, and one special character.");
+                return false;
+            }
+
+            return true;
         }
     </script>
 </body>
