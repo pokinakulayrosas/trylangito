@@ -642,7 +642,7 @@ def registration():
     if request.method == "POST":
         email = request.form["email"]  # email of user
 
-        if mongo.db.verifiedUsers.find_one({"email": email}) or mongo.db.forVerification.find_one({"email": email}):
+        if mongo.db.verifiedUsers.find_one({"email": email}) or mongo.db.forVerification.find_one({"email": email}) or mongo.db.facultyRegistration.find_one({"email": email}):
             return render_template('Registration.html', messages="Email already exists")
             
         verification_token = createToken()  # create token
@@ -746,7 +746,7 @@ def faculty_registration():
     if request.method == "POST":
         email = request.form["email"]  # email of user
 
-        if mongo.db.facultyRegistration.find_one({"email": email}) or mongo.db.forVerification.find_one({"email": email}):
+        if mongo.db.facultyRegistration.find_one({"email": email}) or mongo.db.forVerification.find_one({"email": email}) or mongo.db.verifiedUsers.find_one({"email": email}):
             return render_template('Professors/FacultyRegister.html', messages="Email already exists")
             
         verification_token = createToken()  # create token
