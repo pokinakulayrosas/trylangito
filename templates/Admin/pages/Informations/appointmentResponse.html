@@ -271,6 +271,32 @@
         </div>
 
     </div>
+
+    <div class="dark-mode" style="display: none;">
+        <span class="material-icons-sharp"> light_mode </span>
+        <span class="material-icons-sharp"> dark_mode </span>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const darkModeToggle = document.querySelector('.dark-mode');
+
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                const isDarkMode = currentTheme === 'dark';
+                document.body.classList.toggle('dark-mode-variable', isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+            }
+
+            darkModeToggle.addEventListener('click', () => {
+                const isDarkMode = document.body.classList.toggle('dark-mode-variable');
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+            });
+        });
+    </script>
+    
     <script>
 
       const modal = document.getElementById('modal');
