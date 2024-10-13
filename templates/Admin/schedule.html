@@ -254,6 +254,13 @@
             <span class="material-icons-sharp"> psychology </span>
             <h3>Referral</h3>
           </a>
+<<<<<<< HEAD
+=======
+          <a href="/dashboard/reports">
+            <span class="material-icons-sharp"> bar_chart </span>
+            <h3>Reports</h3>
+          </a>
+>>>>>>> ead2f4c (trylangito)
           <a href="#" id="logoutbtn">
             <span class="material-icons-sharp"> logout </span>
             <h3>Logout</h3>
@@ -286,7 +293,11 @@
                     <td>{{schedule.time}}</td>
                     <td>{{schedule.modality}}</td>
                     
+<<<<<<< HEAD
                     <td style="cursor: pointer; color: green;">Edit</td>
+=======
+                    <td style="cursor: pointer; color: green;" class="edit-button" data-id="{{ schedule._id }}">Edit</td>
+>>>>>>> ead2f4c (trylangito)
                     <td style="cursor: pointer; color: red;">Delete</td>
                   </tr>
                   {% endfor %}
@@ -357,6 +368,13 @@
       <span class="material-icons-sharp"> light_mode </span>
       <span class="material-icons-sharp"> dark_mode </span>
   </div>
+<<<<<<< HEAD
+=======
+
+  <script>
+    
+  </script>
+>>>>>>> ead2f4c (trylangito)
  
   <script>
     const modal = document.getElementById('popup-modal');
@@ -375,6 +393,63 @@
         modal.style.display = 'none';
       }
     })
+<<<<<<< HEAD
+=======
+
+    const editButtons = document.querySelectorAll('.edit-button');
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+            const scheduleId = button.getAttribute('data-id');
+            
+            const response = await fetch(`/schedule/${scheduleId}`);
+            const scheduleData = await response.json();
+
+            // Populate the modal with the existing data
+            document.getElementById('name').value = scheduleData.name;
+            document.getElementById('date').value = scheduleData.date;
+            document.getElementById('from').value = scheduleData.from;
+            document.getElementById('to').value = scheduleData.to;
+            document.getElementById('time').value = scheduleData.time;
+            document.getElementById('modality').value = scheduleData.modality;
+            document.getElementById('scheduleId').value = scheduleData._id;
+            // Show the modal
+            modal.style.display = 'block';
+        });
+    });
+
+    modalForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+  
+      const formData = new FormData(modalForm);
+      const data = Object.fromEntries(formData.entries());
+  
+      if (confirm('Do you want to confirm?')) {
+          try {
+              const response = await fetch('/schedule/update', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(data),
+              });
+  
+              if (response.ok) {
+                  const result = await response.json();
+                  alert(result.message);
+                  window.location.href = '/schedule/setter';
+                  modal.style.display = 'none';
+              } else {
+                  alert('Error submitting form');
+              }
+          } catch (error) {
+              console.error('Error', error);
+              alert('Error saving data');
+          }
+      }
+  });
+
+>>>>>>> ead2f4c (trylangito)
   </script>
    
   <script>
@@ -448,4 +523,8 @@
  
     <script src="{{ url_for('static', filename='admin/component/schedule.js')}}"></script>
   </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> ead2f4c (trylangito)

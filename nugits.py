@@ -56,7 +56,7 @@ FACULTYNAME = "faculty"
 FACULTYPASS = "login"
 
 UPLOAD_FOLDER = 'C:\\Users\\Senju\\Downloads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif','pdf'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -110,7 +110,7 @@ def upload_logo():
     return {'success': False, 'message': 'Invalid file type'}, 400
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'gif'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'gif','pdf'}
         
         
 @app.route("/testConnection")
@@ -132,7 +132,7 @@ def logindex():
 
 @app.route("/register")
 def regdex():
-    return render_template('Registration.html')
+    return render_template('registration.html')
 
 @app.route("/forgotpassword")
 def forgotpassword():
@@ -426,13 +426,15 @@ def index():
         faculty = mongo.db.facultyRegistration.count_documents({})
         
         student = mongo.db.verifiedUsers.count_documents({})
+        
+        
         clearance = mongo.db.clearance.count_documents({})
         
         total = faculty + student
         
         referralList = mongo.db.profReferrals.find()
         
-        return render_template("Admin/dashboard.html", clearance = clearance, faculty = faculty, student = student, total = total, referrals = referralList)
+        return render_template("Admin/dashboard.html", faculty = faculty, student = student, total = total, referrals = referralList, clearance=clearance)
     
     
     return redirect(url_for('logindex'))
@@ -448,6 +450,165 @@ def faculty_profile():
 @app.route("/dashboard/referral")
 def referralResponse():
     return render_template("Admin/referral.html")
+
+@app.route("/dashboard/reports")
+def reportsAdmin():
+    
+    referralsPending = mongo.db.profReferrals.count_documents({"form3.status": "Pending"})
+    
+    Done = mongo.db.profReferrals.count_documents({"form3.status": "Done"})
+    
+    Cancelled = mongo.db.profReferrals.count_documents({"form3.status": "Cancelled"})
+    
+    Appeal = mongo.db.profReferrals.count_documents({"form3.status": "Appeal"})
+    
+    follow = mongo.db.profReferrals.count_documents({"form3.status": "Follow"})
+    
+    
+    referrals_pipeline = [
+        {
+            "$group": {
+                "_id": {
+                    "year": {"$year": "$timestamp"},
+                    "month": {"$month": "$timestamp"}
+                },
+                "count": {"$sum": 1}
+            }
+        },
+        {
+            "$sort": {"_id": 1}
+        }
+    ]
+    referrals_data = list(mongo.db.profReferrals.aggregate(referrals_pipeline))
+    
+    appointments_pipeline = [
+        {
+            "$group": {
+                "_id": {
+                    "year": {"$year": "$timestamp"},
+                    "month": {"$month": "$timestamp"}
+                },
+                "count": {"$sum": 1}
+            }
+        },
+        {
+            "$sort": {"_id": 1}
+        }
+    ]
+    appointments_data = list(mongo.db.smartchat.aggregate(appointments_pipeline))
+    
+    clearance_pipeline = [
+        {
+            "$group": {
+                "_id": {
+                    "year": {"$year": "$timestamp"},
+                    "month": {"$month": "$timestamp"}
+                },
+                "count": {"$sum": 1}
+            }
+        },
+        {
+            "$sort": {"_id": 1}
+        }
+    ]
+    clearance_data = list(mongo.db.clearance.aggregate(clearance_pipeline))
+    
+
+    months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    referrals_counts = [0] * 12
+    appointments_counts = [0] * 12
+    clearance_counts = [0] * 12
+
+    for item in referrals_data:
+        month = item['_id']['month'] - 1  # 0-indexed
+        referrals_counts[month] = item['count']
+        
+    for item in appointments_data:
+        month = item['_id']['month'] - 1
+        appointments_counts[month] = item['count']
+
+    for item in clearance_data:
+        month = item['_id']['month'] - 1
+        clearance_counts[month] = item['count']
+        
+
+    relevant_concerns = [
+        "academic difficulty", "attendance", "Career/vocational", 
+        "Classroom Behavior", "conflict with prof/school personnel", 
+        "family concern", "financial difficulty", 
+        "Gender/sexuality concern", "health concern", 
+        "motivation", "peer relationship", 
+        "personal adjustment", "Romantic relationship", 
+        "time management", "work concern"
+    ]
+
+    concerns_pipeline = [
+        {
+            "$unwind": "$form4.concerns"
+        },
+        {
+            "$match": {
+                "form4.concerns": {"$in": relevant_concerns}
+            }
+        },
+        {
+            "$group": {
+                "_id": "$form4.concerns",
+                "count": {"$sum": 1}
+            }
+        },
+        {
+            "$sort": {"count": -1}
+        }
+    ]
+    
+    concerns_data = list(mongo.db.smartchat.aggregate(concerns_pipeline))
+
+    
+    concerns_counts = [0] * len(relevant_concerns)
+    concern_labels = {concern: index for index, concern in enumerate(relevant_concerns)}
+
+    for item in concerns_data:
+        if item["_id"] in concern_labels:
+            index = concern_labels[item["_id"]]
+            concerns_counts[index] = item["count"]
+            
+    
+    relevant_emotions = [
+        "Anxious", "Disappointed", "Guilty", "Hurt", "Paranoid", "Sad", "Apologetic","Arrogant", "Confident", "Curious", "Enraged", "Exhausted", "Frightened", "Frustrated", "Grieving", "Happy", "Horrified", "Jealous", "Lonely", "Pessimistic", "Relaxed", "Stressed", "Undecided", "Withdrawn"
+    ]
+    
+    emotions_pipeline = [
+        {
+            "$unwind": "$form4.emotions"
+        },
+        {
+            "$match": {
+                "form4.emotions": {"$in": relevant_emotions}
+            }
+        },
+        {
+            "$group": {
+                "_id": "$form4.emotions",
+                "count": {"$sum": 1} 
+            }
+        },
+        {
+            "$sort": {"count": -1}
+        }
+    ]
+    
+    emotions_data = list(mongo.db.smartchat.aggregate(emotions_pipeline))
+    
+    emotions_counts = [0] * len(relevant_emotions)
+    emotion_labels = {emotion: index for index, emotion in enumerate(relevant_emotions)}
+
+    for item in emotions_data:
+        if item["_id"] in emotion_labels:
+            index = emotion_labels[item["_id"]]
+            emotions_counts[index] = item["count"]
+    
+    return render_template("Admin/reports.html", referralsPending=referralsPending, Done = Done, Cancelled = Cancelled, Appeal = Appeal, follow = follow, referrals=referrals_counts, appointments=appointments_counts,clearance=clearance_counts, concerns_counts=concerns_counts, relevant_concerns=relevant_concerns, emotions_counts=emotions_counts, relevant_emotions=relevant_emotions)
     
 @app.route("/dashboard/addform")
 def addForm():
@@ -654,7 +815,7 @@ def registration():
         <body>
             <h1>Email Verification</h1>
             <p>Please verify your email by clicking the link below:</p>
-            <a href="http://www.nu-gits.com/email-verified?token={{verification_token}}&email={{email}}">Verify Email</a>
+            <a href="http://127.0.0.1:5000/email-verified?token={{verification_token}}&email={{email}}">Verify Email</a>
         </body>
         </html>
         """, verification_token=verification_token, email=email)
@@ -700,7 +861,22 @@ def email_verified():
         middleName = request.form["middleName"]
         studentID = request.form["studentID"]
         department = request.form["department"]
+        strands = request.form.get("Strands")
         password = request.form["password"]
+        
+        if 'fileUpload' in request.files:
+            file = request.files['fileUpload']
+
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)  # Save the path if needed
+            else:
+                return "Invalid file type", 400
+        else:
+            return "No file uploaded", 400
+
+        timestamp = datetime.utcnow()
 
         userInformation = {
             "email": email,
@@ -709,8 +885,11 @@ def email_verified():
             "middleName": middleName,
             "studentID": studentID,
             "department": department,
+            "Strands": strands,
             "password": password,
-            "status": "Verified"
+            "status": "Verified",
+            "file_path": file_path,
+            "timestamp": timestamp
         }
         
         insertVerifiedUser = mongo.db.verifiedUsers.insert_one(userInformation)
@@ -744,7 +923,7 @@ def faculty_auth():
 @app.route("/faculty/register", methods=['GET', 'POST'])
 def faculty_registration():
     if request.method == "POST":
-        email = request.form["email"]  # email of user
+        email = request.form["email"]
 
         if mongo.db.facultyRegistration.find_one({"email": email}) or mongo.db.forVerification.find_one({"email": email}) or mongo.db.verifiedUsers.find_one({"email": email}):
             return render_template('Professors/FacultyRegister.html', messages="Email already exists")
@@ -758,7 +937,7 @@ def faculty_registration():
         <body>
             <h1>Email Verification</h1>
             <p>Please verify your email by clicking the link below:</p>
-            <a href="http://www.nu-gits.com/faculty-verified?token={{verification_token}}&email={{email}}">Verify Email</a>
+            <a href="http://127.0.0.1:5000/faculty-verified?token={{verification_token}}&email={{email}}">Verify Email</a>
         </body>
         </html>
         """, verification_token=verification_token, email=email)
@@ -839,14 +1018,13 @@ def forgot_password():
             <body>
                 <h1>Password Reset Verification</h1>
                 <p>Please verify your email by clicking the link below:</p>
-                <a href="http://www.nu-gits.com/reset-password?token={{token}}&email={{email}}">Reset Password</a>
+                <a href="http://127.0.0.1:5000/reset-password?token={{token}}&email={{email}}">Reset Password</a>
             </body>
             </html>
             """, token=verification_token, email=email)
             msg.html = html_content
             
             mail.send(msg)
-            # Store token logic here...
             return render_template('Forgotten/checkEmail.html', email=email)
         else:
             return render_template('ForgotPassword.html', error="Email not found.")
@@ -924,8 +1102,6 @@ def clearance_form():
         
         data['timestamp'] = datetime.utcnow()
         
-        local_tz = pytz.timezone('Asia/Manila')
-        data['datetime'] = datetime.now(local_tz)
         
         result = mongo.db.clearance.insert_one(data)
         
@@ -1245,15 +1421,11 @@ def appointment_response(appointment_id):
         appointment = mongo.db.smartchat.find_one({'_id': ObjectId(appointment_id)})
 
         if appointment:
-            # Get the email using the correct field name
             email = appointment.get('form5', {}).get('email')
-            print(f"Email extracted from appointment: {email}")  # Debugging
-
-            # Find responses by the correct email field
-            responses = mongo.db.appointmentResponse.find({'studentEmail': email})
-            responses_list = list(responses)  # Convert cursor to list
             
-            print(f"Responses found: {responses_list}")  # Debugging
+            responses = mongo.db.appointmentResponse.find({'studentEmail': email})
+            responses_list = list(responses)
+            
 
             appointment['responseSubmitted'] = len(responses_list) > 0
             
@@ -1268,7 +1440,7 @@ def appointment_response(appointment_id):
                 })
             
             return render_template(
-                'Admin/pages/Informations/appointmentResponse.html',
+                'Admin/pages/informations/appointmentResponse.html',
                 appointment=appointment,
                 responses=response_data
             )
@@ -1295,7 +1467,6 @@ def clearance_table():
             ]
         }
         
-        # Fetch and sort results
         referrals = mongo.db.clearance.find(query).sort('timestamp', -1)
         
         referral_list = []
@@ -1359,7 +1530,7 @@ def profile_response(profile_id):
             
             logo = saved['logo'] if saved and 'logo' in saved else None
 
-            return render_template('Admin/pages/Informations/background.html', profile=profile, saved=saved, logo=logo, appointments = appointments)
+            return render_template('Admin/pages/informations/background.html', profile=profile, saved=saved, logo=logo, appointments = appointments)
         else:
             return "Profile not found", 404
 
@@ -1422,7 +1593,37 @@ def scheduleViewer_modal():
     mongo.db.scheduleViewer.insert_one(data)
  
     return jsonify({"message": "Data saved successfully!"}), 201
-   
+
+@app.route('/schedule/<schedule_id>', methods=['GET'])
+def edit_schedule(schedule_id):
+    schedule = mongo.db.scheduleViewer.find_one({'_id': schedule_id})
+    if schedule:
+        return jsonify(schedule)
+    return jsonify({'error': 'Schedule not found'}), 404
+    
+@app.route('/schedule/update', methods=['POST'])
+def update_schedule():
+    data = request.get_json()
+    schedule_id = data.get('scheduleId')
+
+    from bson import ObjectId
+    schedule_id = ObjectId(schedule_id)
+
+    result = mongo.db.scheduleViewer.update_one(
+        {'_id': schedule_id},
+        {'$set': {
+            'name': data['name'],
+            'date': data['date'],
+            'from': data['from'],
+            'to': data['to'],
+            'time': data['time'],
+            'modality': data['modality']
+        }}
+    )
+
+    if result.modified_count:
+        return jsonify({'message': 'Schedule updated successfully'})
+    return jsonify({'error': 'Schedule not found or no changes made'}), 404
     
 @app.route("/tangina", methods=['GET'])
 def tangina():
@@ -1488,7 +1689,7 @@ def referral_response(referral_id):
         referral = mongo.db.profReferrals.find_one({'_id': ObjectId(referral_id)})
 
         if referral:
-            return render_template('Admin/pages/Informations/referralResponse.html', referral=referral)
+            return render_template('Admin/pages/informations/referralResponse.html', referral=referral)
         else:
             return "Referral not found", 404
 

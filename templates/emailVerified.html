@@ -99,12 +99,20 @@
             position: fixed;
         }
     </style>
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> ead2f4c (trylangito)
 </head>
 <body>
     <div class="login">
         <h2 id="txt">Your email has been verified</h2>
+<<<<<<< HEAD
         <form name="signup_form" method="POST" onsubmit="return validateStudentID()">
+=======
+        <form name="signup_form" method="POST" enctype="multipart/form-data" onsubmit="return validateStudentID()">
+>>>>>>> ead2f4c (trylangito)
             <div class="inputBox">
                 <input type="email" placeholder="{{ email }}" value="{{ email }}" id="email" name="email" readonly>
             </div>
@@ -117,12 +125,21 @@
             <div class="inputBox">
                 <input type="text" placeholder="Last Name" id="lastName" name="lastName" required>
             </div>
+<<<<<<< HEAD
            
             <div class="inputBox">
                 <input type="text" placeholder="Student ID" id="studentID" name="studentID" required pattern="^\d{4}-\d{6}$"
                 title="Format: YYYY-XXXXXX (e.g., 2023-123456)">
             </div>
             <select name="department" id="department" style="width: 75%; height: 40px;" required>
+=======
+            
+            <div class="inputBox">
+                <input type="text" placeholder="Student ID" id="studentID" name="studentID" required pattern="^\d{4}-\d{6}$" 
+                title="Format: YYYY-XXXXXX (e.g., 2023-123456)">
+            </div>
+            <select name="department" id="department" style="width: 75%; height: 40px;" required onchange="showSHSOptions()">
+>>>>>>> ead2f4c (trylangito)
                 <option value="" disabled selected>Please select your department</option>
                 <option value="Dentistry">Dentistry</option>
                 <option value="Information Technology">Information Technology</option>
@@ -133,12 +150,26 @@
                 <option value="Arts and Science">Arts and Science</option>
                 <option value="SHS">Senior High School</option>
             </select>
+<<<<<<< HEAD
+=======
+
+            <div id="shs-options" style="display: none; margin-top: 10px;">
+                <select name="Strands" id="shsStrands" style="width: 75%; height: 40px;">
+                    <option value="" disabled selected>Please select your SHS option</option>
+                    <option value="STEM">STEM</option>
+                    <option value="GAS">GAS</option>
+                    <option value="ABM">ABM</option>
+                </select>
+            </div>
+
+>>>>>>> ead2f4c (trylangito)
             <div class="inputBox">
                 <input type="password" placeholder="Password" id="password" name="password" required>
             </div>
             <div class="inputBox">
                 <input type="password" placeholder="Confirm Password" id="cpassword" name="cpassword" required>
             </div>
+<<<<<<< HEAD
             <p id="error" style="color: red;"></p>
             <div class="inputBox">
                 <input type="submit" role="button" value="Register" id="emailVerificationButton">
@@ -147,6 +178,20 @@
     </div>
  
  
+=======
+            <div class="inputBox">
+                <input type="file" id="fileUpload" name="fileUpload" accept=".pdf" required>
+                <label for="fileUpload">Upload PDF File</label>
+            </div>
+            <p id="error" style="color: red;"></p>
+            <div class="inputBox">
+                <input type="submit" role="button" value="Submit" id="emailVerificationButton">
+            </div>
+        </form>
+    </div>
+
+
+>>>>>>> ead2f4c (trylangito)
     <script>
         let btn = document.getElementById('btn');
         let txt = document.getElementById('txt');
@@ -162,6 +207,20 @@
         }
     </script>
     <script>
+<<<<<<< HEAD
+=======
+        function showSHSOptions() {
+            const departmentSelect = document.getElementById('department');
+            const shsOptionsDiv = document.getElementById('shs-options');
+    
+            if (departmentSelect.value === 'SHS') {
+                shsOptionsDiv.style.display = 'block';
+            } else {
+                shsOptionsDiv.style.display = 'none';
+            }
+        }
+
+>>>>>>> ead2f4c (trylangito)
         function validateStudentID() {
             const studentIDInput = document.getElementById("studentID");
             const studentIDPattern = /^\d{4}-\d{6}$/;
@@ -169,24 +228,44 @@
             const confirmPassword = document.getElementById("cpassword").value;
             const errorElement = document.getElementById("error");
             const strongPasswordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> ead2f4c (trylangito)
             if (!studentIDPattern.test(studentIDInput.value)) {
                 alert("Invalid Student ID format. Use YYYY-XXXXXX.");
                 return false;
             }
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> ead2f4c (trylangito)
             if (!strongPasswordPattern.test(password)) {
                 alert("Password must be at least 8 characters long, contain at least one uppercase letter, and one special character.");
                 return false;
             }
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> ead2f4c (trylangito)
             if (password !== confirmPassword) {
                 alert("Passwords do not match!");
                 return false;
             }
+<<<<<<< HEAD
            
+=======
+            
+>>>>>>> ead2f4c (trylangito)
             return true;
         }
     </script>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> ead2f4c (trylangito)
