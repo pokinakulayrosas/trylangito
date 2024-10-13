@@ -132,7 +132,7 @@ def logindex():
 
 @app.route("/register")
 def regdex():
-    return render_template('registration.html')
+    return render_template('Registration.html')
 
 @app.route("/forgotpassword")
 def forgotpassword():
