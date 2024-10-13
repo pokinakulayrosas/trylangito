@@ -254,13 +254,10 @@
             <span class="material-icons-sharp"> psychology </span>
             <h3>Referral</h3>
           </a>
-<<<<<<< HEAD
-=======
           <a href="/dashboard/reports">
             <span class="material-icons-sharp"> bar_chart </span>
             <h3>Reports</h3>
           </a>
->>>>>>> ead2f4c (trylangito)
           <a href="#" id="logoutbtn">
             <span class="material-icons-sharp"> logout </span>
             <h3>Logout</h3>
@@ -293,11 +290,8 @@
                     <td>{{schedule.time}}</td>
                     <td>{{schedule.modality}}</td>
                     
-<<<<<<< HEAD
                     <td style="cursor: pointer; color: green;">Edit</td>
-=======
                     <td style="cursor: pointer; color: green;" class="edit-button" data-id="{{ schedule._id }}">Edit</td>
->>>>>>> ead2f4c (trylangito)
                     <td style="cursor: pointer; color: red;">Delete</td>
                   </tr>
                   {% endfor %}
@@ -368,13 +362,10 @@
       <span class="material-icons-sharp"> light_mode </span>
       <span class="material-icons-sharp"> dark_mode </span>
   </div>
-<<<<<<< HEAD
-=======
 
   <script>
     
   </script>
->>>>>>> ead2f4c (trylangito)
  
   <script>
     const modal = document.getElementById('popup-modal');
@@ -393,8 +384,6 @@
         modal.style.display = 'none';
       }
     })
-<<<<<<< HEAD
-=======
 
     const editButtons = document.querySelectorAll('.edit-button');
 
@@ -449,7 +438,6 @@
       }
   });
 
->>>>>>> ead2f4c (trylangito)
   </script>
    
   <script>
@@ -523,8 +511,4 @@
  
     <script src="{{ url_for('static', filename='admin/component/schedule.js')}}"></script>
   </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> ead2f4c (trylangito)
