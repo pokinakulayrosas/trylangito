@@ -653,11 +653,11 @@ def feedbackad():
 
 @app.route("/background")
 def background():
-    return render_template("Admin/pages/informations/background.html")
+    return render_template("Admin/pages/Informations/background.html")
 
 @app.route("/background/smart")
 def smart():
-    return render_template("Admin/pages/informations/journal2.html")
+    return render_template("Admin/pages/Informations/journal2.html")
 
 @app.route("/background/nojournal")
 def norespond():
@@ -751,7 +751,7 @@ def recent_referrals():
 #         faculty = mongo.db.facultyRegistration.find_one({'_id': ObjectId(faculty_id)})
 
 #         if faculty:
-#             return render_template('Admin/pages/informations/referralResponse.html', faculty=faculty)
+#             return render_template('Admin/pages/Informations/referralResponse.html', faculty=faculty)
 #         else:
 #             return "Referral not found", 404
 
@@ -1440,7 +1440,7 @@ def appointment_response(appointment_id):
                 })
             
             return render_template(
-                'Admin/pages/informations/appointmentResponse.html',
+                'Admin/pages/Informations/appointmentResponse.html',
                 appointment=appointment,
                 responses=response_data
             )
@@ -1530,7 +1530,7 @@ def profile_response(profile_id):
             
             logo = saved['logo'] if saved and 'logo' in saved else None
 
-            return render_template('Admin/pages/informations/background.html', profile=profile, saved=saved, logo=logo, appointments = appointments)
+            return render_template('Admin/pages/Informations/background.html', profile=profile, saved=saved, logo=logo, appointments = appointments)
         else:
             return "Profile not found", 404
 
@@ -1689,7 +1689,7 @@ def referral_response(referral_id):
         referral = mongo.db.profReferrals.find_one({'_id': ObjectId(referral_id)})
 
         if referral:
-            return render_template('Admin/pages/informations/referralResponse.html', referral=referral)
+            return render_template('Admin/pages/Informations/referralResponse.html', referral=referral)
         else:
             return "Referral not found", 404
 
