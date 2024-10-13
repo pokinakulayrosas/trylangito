@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Schedule</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='admin/styles/header.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='admin/styles/dashboard.css') }}"
+    />
+    
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+  <style>
+    .table_header{
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      height: 10%;
+      background-color: var(--color-primary);
+      padding: .8rem 1rem;
+  }
+  .table_header h1{
+      position: absolute;
+      color: var(--color-white);
+      margin-top: 0.5%;
+  }
+  .table_header input[type=search]{
+      margin-top: 0.8%;
+      margin-left: 70%;
+      width: 300px;
+      height: 30px;
+      border-radius: 4px;
+      outline: none;
+      border: 2px solid #fff;
+      box-sizing: border-box;
+      transition: .3s;
+      padding: 8px;
+  }
+  .table_body{
+      width: 95%;
+      max-height: calc(89% - 1.6rem);
+      background-color: var(--color-background);
+      margin: .8rem auto;
+      border-radius: .6rem;
+      overflow: auto;
+  }
+  .table_body::-webkit-scrollbar{
+      width: 0.5rem;
+      height: 0.5rem;
+  }
+  .table_body::-webkit-scrollbar-thumb{
+      border-radius: .5rem;
+      background-color: #0004;
+      visibility: hidden;
+  }
+  .table_body:hover::-webkit-scrollbar-thumb{
+      visibility: visible;
+  }
+  table{
+      width: 100%;
+  }
+  td img{
+      width: 36px;
+      height: 36px;
+      margin-right: 0.6rem;
+      border-radius: 50%;
+      vertical-align: middle;
+  }
+  table,th,td {
+      border-collapse: collapse;
+      padding: 1rem;
+      text-align: left;
+  }
+  main.table{
+      width: 82vw;
+      height: 90vh;
+      background-color: var(--color-white);
+      backdrop-filter: blur(7px);
+      box-shadow: var(--box-shadow);
+      border-radius: .8rem;
+      overflow: hidden;
+  }
+  thead th{
+      position: sticky;
+      left: 0;
+      background-color: var(--color-light);
+      color: var(--color-dark);
+  }
+  tbody tr:nth-child(even){
+      color: var(--color-dark);
+  }
+  tbody tr:hover{
+      background-color: var(--color-white);
+      color: var(--color-white);
+      
+  }
+
+
+
+  @media(max-width: 1000px){
+      td:not(:first-of-type){
+          min0width: 12.1rem;
+      }
+  }
+
+  aside .sidebar .dark-mode{
+      background-color: var(--color-light);
+      display: flex;
+      margin-left: 55px;
+      margin-top: 150%;
+      justify-content: space-between;
+      align-items: center;
+      height: 1.6rem;
+      width: 4.2rem;
+      cursor: pointer;
+      border-radius: var(--border-radius-1);
+  }
+
+  aside .sidebar .dark-mode span{
+      font-size: 1.2rem;
+      width: 50%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  aside .sidebar .dark-mode span.active{
+      background-color: var(--color-primary);
+      color: white;
+      border-radius: var(--border-radius-1);
+  }
+
+  .container .popup-modal{
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+ 
+.container .modal-content{
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+ 
+.container .modal-content label{
+    color:#333;
+}
+ 
+.container .modal-content h1{
+    color: #333;
+}
+ 
+.close-btn{
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+ 
+.close-btn:hover, .close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.text-color {
+  color: black; 
+}
+
+.dark-mode-variable .text-color {
+  color: #333;
+}
+  </style>
+
+  </head>
+  <body>
+    <div class="container">
+      <aside>
+        <div class="toggle">
+          <div class="logo">
+            <img src="{{ url_for('static', filename='admin/logo.png') }}" />
+            <h2>NU<span class="danger">GITS</span></h2>
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp"> close </span>
+          </div>
+        </div>
+ 
+        <div class="sidebar">
+          <a href="/dashboard">
+            <span class="material-icons-sharp"> dashboard </span>
+            <h3>Dashboard</h3>
+          </a>
+          <a href="/dashboard/profile">
+            <span class="material-icons-sharp"> person_outline </span>
+            <h3>Student Profile</h3>
+          </a>
+          <a href="/dashboard/faculty/profile">
+            <span class="material-icons-sharp"> person_outline </span>
+            <h3>Faculty Profile</h3>
+        </a>
+          <a href="/admin/appointments">
+            <span class="material-icons-sharp"> assignment </span>
+            <h3>Appointments</h3>
+          </a>
+          <a href="/admin/clearance">
+            <span class="material-icons-sharp"> article </span>
+            <h3>Clearance</h3>
+          </a>
+          <a href="/admin/schedule">
+            <span class="material-icons-sharp"> calendar_month </span>
+            <h3>Calendar</h3>
+          </a>
+          <a href="/admin/feedback">
+            <span class="material-icons-sharp"> question_answer </span>
+            <h3>Feedback</h3>
+          </a>
+          <a href="/schedule/setter" class="active">
+            <span class="material-icons-sharp"> schedule </span>
+            <h3>Schedule</h3>
+          </a>
+          <a href="/dashboard/referral">
+            <span class="material-icons-sharp"> psychology </span>
+            <h3>Referral</h3>
+          </a>
+          <a href="/dashboard/reports">
+            <span class="material-icons-sharp"> bar_chart </span>
+            <h3>Reports</h3>
+          </a>
+          <a href="#" id="logoutbtn">
+            <span class="material-icons-sharp"> logout </span>
+            <h3>Logout</h3>
+          </a>
+        </div>
+      </aside>
+ 
+      <main class="table">
+        <section class="table_header">
+            <h1>Schedule Maker</h1>
+            <input type="search" id="facultySearch" name="facultySearch" placeholder='Search'>
+        </section>
+        <section class="table_body">
+            <table id="student-table">
+                <thead>
+                    <tr>
+                      <th>Counselor Name</th>
+                      <th>Schedule</th>
+                      <th>Time</th>
+                      <th>Modality</th>
+                      <th style="cursor: pointer;" id="addButton12" class="text-color">Add</th>
+                      <th></th>
+                    </tr>
+                </thead>
+                <tbody id="referral-body"> 
+                  {% for schedule in schedule %}
+                  <tr>
+                    <td>{{schedule.name}}</td>
+                    <td>{{schedule.from}} - {{schedule.to}}</td>
+                    <td>{{schedule.time}}</td>
+                    <td>{{schedule.modality}}</td>
+                    
+                    <td style="cursor: pointer; color: green;" class="edit-button" data-id="{{ schedule._id }}">Edit</td>
+                    <td style="cursor: pointer; color: red;">Delete</td>
+                  </tr>
+                  {% endfor %}
+                </tbody> 
+                
+            </table>
+            
+        </section>
+    </main>
+ 
+      <div id="popup-modal" class="popup-modal">
+        <div class="modal-content">
+          <span class="close-btn">&times;</span>
+          <h1>Add a counselor's information</h1>
+          <form id="modal-form">
+            <label for="name">Counselor Name:</label>
+            <select id="name" name="name" required>
+              <option value="" disabled selected>Select your name</option>
+                <option value="Candace Chelsea de Castro, RPm, RGC">Candace Chelsea de Castro</option>
+                <option value="Sarah Bless Sanchez-Maddela, RPm, RGC">Sarah Bless Sanchez-Maddela</option>
+                <option value="Hazel Ann Morgado, MaEd, CMHFA">Hazel Ann Morgado</option>
+            </select><br>
+ 
+            <label for="date">Schedule Date:</label>
+            <input type="date" id="date" name="date" required><br>
+ 
+            <label for="from">From:</label>
+            <select id="from" name="from" required>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+            </select>
+ 
+            <label for="to">To:</label>
+            <select id="to" name="to" required>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+            </select><br>
+ 
+            <label for="time">Time: </label>
+            <input type="text" id="time" name="time" required><br>
+ 
+            <label for="modality">Modality</label>
+            <select id="modality" name="modality" required>
+              <option value="Online">Online</option>
+              <option value="Face-to-Face">Face-to-Face</option>
+            </select><br><br>
+ 
+            <input type="submit" id="submitModal" value="Submit">
+ 
+          </form>
+ 
+         
+ 
+        </div>
+      </div>
+   
+    </div>
+ 
+  <div class="dark-mode" style="display: none;">
+      <span class="material-icons-sharp"> light_mode </span>
+      <span class="material-icons-sharp"> dark_mode </span>
+  </div>
+
+  <script>
+    
+  </script>
+ 
+  <script>
+    const modal = document.getElementById('popup-modal');
+    const openModalBtn = document.getElementById('addButton12');    
+    const closeModal = document.querySelector('.close-btn');
+   
+ 
+    openModalBtn.addEventListener('click', () => {
+      modal.style.display = 'block';
+    });
+    closeModal.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+    window.addEventListener('click', (event) => {
+      if(event.target === modal){
+        modal.style.display = 'none';
+      }
+    })
+
+    const editButtons = document.querySelectorAll('.edit-button');
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+            const scheduleId = button.getAttribute('data-id');
+            
+            const response = await fetch(`/schedule/${scheduleId}`);
+            const scheduleData = await response.json();
+
+            // Populate the modal with the existing data
+            document.getElementById('name').value = scheduleData.name;
+            document.getElementById('date').value = scheduleData.date;
+            document.getElementById('from').value = scheduleData.from;
+            document.getElementById('to').value = scheduleData.to;
+            document.getElementById('time').value = scheduleData.time;
+            document.getElementById('modality').value = scheduleData.modality;
+            document.getElementById('scheduleId').value = scheduleData._id;
+            // Show the modal
+            modal.style.display = 'block';
+        });
+    });
+
+    modalForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+  
+      const formData = new FormData(modalForm);
+      const data = Object.fromEntries(formData.entries());
+  
+      if (confirm('Do you want to confirm?')) {
+          try {
+              const response = await fetch('/schedule/update', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(data),
+              });
+  
+              if (response.ok) {
+                  const result = await response.json();
+                  alert(result.message);
+                  window.location.href = '/schedule/setter';
+                  modal.style.display = 'none';
+              } else {
+                  alert('Error submitting form');
+              }
+          } catch (error) {
+              console.error('Error', error);
+              alert('Error saving data');
+          }
+      }
+  });
+
+  </script>
+   
+  <script>
+    const modalForm = document.getElementById('modal-form');
+ 
+    modalForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+ 
+      const formData = new FormData(modalForm);
+      const data = Object.fromEntries(formData.entries());
+ 
+      if(confirm('Do you want to confirm?')){
+        try{
+          const response = await fetch ('/scheduleViewer/response', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+ 
+          if(response.ok) {
+            const result = await response.json();
+            alert(result.message);
+            window.location.href = '/schedule/setter'
+            modal.style.display = 'none';
+          } else {
+            alert ('Error submitting form');
+          }
+        } catch (error){
+          console.error('Error', error);
+          alert('Error saving data');
+        }
+      }
+    });
+   
+  </script>
+ 
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const darkModeToggle = document.querySelector('.dark-mode');
+
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            const isDarkMode = currentTheme === 'dark';
+            document.body.classList.toggle('dark-mode-variable', isDarkMode);
+            darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+            darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            const isDarkMode = document.body.classList.toggle('dark-mode-variable');
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+            darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+        });
+    });
+  </script>
+    <script>
+      function confirmLogout() {
+          if (confirm("Are you sure you want to log out?")) {
+              window.location.href = "/";
+          } else {
+ 
+          }
+      }
+ 
+      document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+    </script>
+    <script src="{{ url_for('static', filename='admin/component/script.js') }}"></script>
+ 
+    <script src="{{ url_for('static', filename='admin/component/schedule.js')}}"></script>
+  </body>
+</html>

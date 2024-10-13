@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='admin/styles/background.css') }}"
+    />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='admin/styles/dashboard.css') }}">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <title>Student Background</title>
+  </head>
+  <body>
+    
+    <div class="container1">
+      <div class="profile1">
+        {% if logo %}
+            <img src="data:image/png;base64,{{ logo }}" class="icon" alt="User Logo" style="width: 220px; height: 220px; border-radius: 0px;">
+        {% else %}
+            <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 220px; height: 220px; border-radius: 0px;">
+        {% endif %}
+        <div class="info1">
+          <h2>{{ profile.firstName }} {{ profile.lastName}}</h2>
+          <p>{{ profile.department }}</p>
+          <p>Student ID: {{ profile.studentID}}</p>
+          <p>Department: {{ profile.department }}</p>
+          <p>Email: {{ profile.email }}</p>
+        </div>
+        <button class="button" onclick="gotojournal()">Remove Account</button>
+        <button class="button" onclick="gotojournal('{{ profile.email }}')">Journal</button>
+
+        {% for appointment in appointments%}
+        <button class="button" onclick="gotosmart('{{ appointment._id}}')">SmartChat Response {{loop.index}}</button>
+        {% endfor %}
+        
+      </div>
+    </div>
+    <div class="container2">
+      <div class="buttons">
+        <button class="button" onclick="showBasic()">About Me</button>
+        <button class="button" onclick="showFamily()">Emergency Contact</button>
+        <button><a href="/dashboard">Go to Dashboard</a></button>
+      </div>
+    </div>
+    {% if saved %}
+    <div class="container3" id="basic">
+      <div class="basic-info">
+        <h3>BASIC INFORMATION</h3>
+        <p><strong>Last name:</strong> {{profile.lastName}}</p>
+        <p><strong>First name:</strong> {{profile.firstName}}</p>
+        <p><strong>Middle name:</strong> {{profile.middleName if profile and profile.middleName else 'N/A'}}</p>
+        <p><strong>Middle initial:</strong> {{saved.form1.credentials if saved.form1 and saved.form1.credentials else 'N/A'}}</p>
+        <p><strong>Suffix:</strong> {{ saved.form1.suffix if saved.form1 and saved.form1.suffix else 'N/A' }}</p>
+        <p><strong>Birthdate:</strong> {{saved.form1.birthdate}}</p>
+        <p><strong>Gender:</strong> {{saved.form1.gender}}</p>
+        <p><strong>Country of birthplace:</strong> {{saved.form1.countryBirth}}</p>
+        <p><strong>Nationality:</strong> {{saved.form1.nationality}}</p>
+        <p><strong>Civil Status:</strong> {{saved.form1.civilStatus}}</p>
+        <p><strong>Religion:</strong> {{ saved.form1.religion if saved.form1 and saved.form1.religion else 'N/A' }}</p>
+        <p><strong>Mobile Number:</strong> {{saved.form1.mobile}}</p>
+        <p><strong>Telephone Number:</strong> {{saved.form1.telephone if saved.form1 and saved.form1.telephone else 'N/A' }}</p>
+        <p><strong>Email Address:</strong> {{profile.email}}</p>
+      </div>
+
+      <div class="additional-info">
+        <div class="present">
+          <h3>Present Address</h3>
+          <p><strong>Province:</strong> {{saved.form2.presentProvince}}</p>
+          <p><strong>City/Municipality:</strong> {{saved.form2.presentCity}}</p>
+          <p><strong>Houst no./Street:</strong> {{saved.form2.presentHouse}}</p>
+          <p><strong>Barangay:</strong> {{saved.form2.presentBrgy}}</p>
+          <p><strong>Postal Code:</strong> {{saved.form2.presentPostal}}</p>
+        </div>
+        <div class="permanent">
+          <h3>Permanent Address</h3>
+          <p><strong>Country:</strong> {{saved.form2.permanentCountry}}</p>
+          <p><strong>Province:</strong> {{saved.form2.permanentProvince}}</p>
+          <p><strong>City/Municipality:</strong> {{saved.form2.permanentCity}}</p>
+          <p><strong>Houst no./Street:</strong> {{saved.form2.permanentHouse}}</p>
+          <p><strong>Barangay:</strong> {{saved.form2.permanentBrgy}}</p>
+          <p><strong>Postal Code:</strong> {{saved.form2.permanentPostal}}</p>
+        </div>
+      </div>
+      <div class="additional-info">
+        <div class="present">
+          <h3>Emergency Contact</h3>
+          <p><strong>First Name:</strong> {{saved.form3.contactFirstName}}</p>
+          <p><strong>Last Name:</strong> {{saved.form3.contactLastName}}</p>
+          <p><strong>Relationship:</strong> {{saved.form3.relationship}}</p>
+          <p><strong>Contact Number:</strong> {{saved.form3.emergencyContact}}</p>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <p>Not editing the profile yet.</p>
+    {% endif %}
+
+    <script>
+        function showEducation() {
+            document.getElementById("education").style.display = "block";
+            document.getElementById("family").style.display = "none";
+            document.getElementById("basic").style.display = "none";
+        }
+
+        function showBasic() {
+            document.getElementById("basic").style.display = "block";
+            document.getElementById("education").style.display = "none";
+            document.getElementById("family").style.display = "none";
+        }
+    
+        function showFamily() {
+            document.getElementById("education").style.display = "none";
+            document.getElementById("family").style.display = "block";
+            document.getElementById("basic").style.display = "none";
+        }
+
+        function gotojournal(email){
+          window.location.href = '/admin/journal/' + email;
+        }
+
+        function gotosmart(appointment_id){
+          window.location.href = '/appointment_response/' + appointment_id;
+        }
+    </script>
+
+  </body>
+</html>

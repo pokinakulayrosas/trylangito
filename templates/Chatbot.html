@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Navigation.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Chatbot.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Chatbot</title>
+</head>
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="{{ url_for('static', filename='assets/userv.png') }}" alt="">
+                </span>
+                <div class="text header-text"> 
+                    <span class="name">Alexandra Mae</span>
+                    <span class="profession">Web developer</span>
+                </div>
+            </div>
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+        <div class="menu-bar">
+            <li class="search-box">
+                <i class='bx bx-search icon'></i>
+                    <input type="text" placeholder="Search">
+            </li>
+            <div class="menu">
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="/home">
+                            <i class='bx bx-home-smile icon'></i>
+                            <span class="text nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/journal">
+                            <i class='bx bx-note icon'></i>
+                            <span class="text nav-text">Journal</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/schedule">
+                            <i class='bx bx-calendar icon'></i>
+                            <span class="text nav-text">Schedule</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/smartchat">
+                            <i class='bx bx-edit icon'></i>
+                            <span class="text nav-text">SmartChat</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/clearance">
+                            <i class='bx bx-food-menu icon'></i>
+                            <span class="text nav-text">Clearance</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/chatbot">
+                            <i class='bx bx-bot icon'></i>
+                            <span class="text nav-text">Chatbot</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/appointment">
+                            <i class='bx bx-calendar-event icon' ></i>
+                            <span class="text nav-text">Schedule Viewer</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/meditation">
+                            <i class='bx bx-leaf icon' ></i>
+                            <span class="text nav-text">Meditation</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="bottom-content">
+                <li class="">
+                    <a href="#" id="logoutbtn">
+                        <i class='bx bx-log-out icon' ></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+
+                <li class="mode">
+                    <div class="moon-sun">
+                        <i class='bx bx-moon icon moon' ></i>
+                        <i class='bx bx-sun icon sun' ></i>
+                    </div>
+                    <span class="mode-text text">Dark Mode</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+
+            </div>
+        </div>
+
+    </nav>
+
+    <div class="chatbot-container">
+        <div class="chatbot-header">FAQ Chatbot</div>
+        <div class="chatbot-messages" id="chatbotMessages"></div>
+        <div class="chatbot-input">
+            <input type="text" id="userInput" placeholder="Ask a question...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatbotMessages = document.getElementById('chatbotMessages');
+        const userInput = document.getElementById('userInput');
+
+        const faq = {
+            "What are your operating hours?": "Our operating hours are Monday to Friday, 9 AM to 5 PM.",
+        "Where are you located?": "We are located at 10th floor",
+        "How can I book a consultation?": "Lorem Ipsum",
+        "Pogi ba ako?": "ang pogi mo na, ang sarap mo pa jusq"
+        };
+
+        function sendMessage() {
+            const userText = userInput.value.trim();
+            if (!userText) return;
+
+            addMessage(userText, 'user');
+            userInput.value = '';
+
+            const botResponse = getBotResponse(userText);
+            setTimeout(() => {
+                addMessage(botResponse, 'bot');
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }, 500);
+        }
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender);
+            messageDiv.textContent = text;
+            chatbotMessages.appendChild(messageDiv);
+        }
+
+        function getBotResponse(question) {
+            return faq[question] || "Sorry, I don't have an answer for that.";
+        }
+    </script>
+
+    <script src="{{ url_for('static', filename='scripts/script.js') }}"> </script>
+
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = "/";
+            } else {
+   
+            }
+        }
+   
+        document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+      </script>
+
+    
+</body>
+</html>

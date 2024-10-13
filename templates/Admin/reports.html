@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='admin/styles/dashboard.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ url_for('static', filename='admin/styles/reports.css') }}"
+    />
+    <title>Reports</title>
+    
+    
+  </head>
+  <body>
+    <div class="grid-container">
+
+      <aside>
+        <div class="toggle">
+          <div class="logo">
+            <img src="{{ url_for('static', filename='admin/logo.png') }}" />
+            <h2>NU<span class="danger">GITS</span></h2>
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp"> close </span>
+          </div>
+        </div>
+
+        <div class="sidebar">
+          <a href="/dashboard">
+            <span class="material-icons-sharp"> dashboard </span>
+            <h3>Dashboard</h3>
+          </a>
+          <a href="/dashboard/profile">
+            <span class="material-icons-sharp"> person_outline </span>
+            <h3>Student Profile</h3>
+          </a>
+          <a href="/dashboard/faculty/profile">
+            <span class="material-icons-sharp"> person_outline </span>
+            <h3>Faculty Profile</h3>
+          </a>
+          <a href="/admin/appointments">
+            <span class="material-icons-sharp"> assignment </span>
+            <h3>Appointments</h3>
+          </a>
+          <a href="/admin/clearance">
+            <span class="material-icons-sharp"> article </span>
+            <h3>Clearance</h3>
+          </a>
+          <a href="/admin/schedule">
+            <span class="material-icons-sharp"> calendar_month </span>
+            <h3>Calendar</h3>
+          </a>
+          <a href="/admin/feedback">
+            <span class="material-icons-sharp"> question_answer </span>
+            <h3>Feedback</h3>
+          </a>
+          <a href="/schedule/setter">
+            <span class="material-icons-sharp"> schedule </span>
+            <h3>Schedule</h3>
+          </a>
+          <a href="/dashboard/referral">
+            <span class="material-icons-sharp"> psychology </span>
+            <h3>Referral</h3>
+          </a>
+          <a href="/dashboard/reports"  class="active">
+            <span class="material-icons-sharp"> bar_chart </span>
+            <h3>Reports</h3>
+          </a>
+          <a href="#" id="logoutbtn">
+            <span class="material-icons-sharp"> logout </span>
+            <h3>Logout</h3>
+          </a>
+        </div>
+      </aside>
+
+      <main class="main-container">
+        <div class="main-title">
+          <h2>REPORTS</h2>
+          <h4>REFERRAL</h4>
+        </div>
+
+        <div class="main-cards">
+
+          <div class="card">  
+            <div class="card-inner">
+              <h3>Follow Up</h3>
+              <span class="material-icons-sharp">psychology</span>
+            </div>
+            <h1>{{follow}}</h1>
+          </div>
+
+          <div class="card">  
+            <div class="card-inner">
+              <h3>Pending</h3>
+              <span class="material-icons-sharp">psychology</span>
+            </div>
+            <h1>{{referralsPending}}</h1>
+          </div>
+          
+          <div class="card">  
+            <div class="card-inner">
+              <h3>Done</h3>
+              <span class="material-icons-sharp">psychology</span>
+            </div>
+            <h1>{{Done}}</h1>
+          </div>
+
+          <div class="card">  
+            <div class="card-inner">
+              <h3>Cancelled</h3>
+              <span class="material-icons-sharp">psychology</span>
+            </div>
+            <h1>{{Cancelled}}</h1>
+          </div>
+
+          <div class="card">  
+            <div class="card-inner">
+              <h3>Appeal</h3>
+              <span class="material-icons-sharp">psychology</span>
+            </div>
+            <h1>{{Appeal}}</h1>
+          </div>
+
+        </div>
+
+        <div class="charts">
+
+          <div class="chart-card">
+            <h2 class="chart-title">Users</h2>
+            <div id="area-chart1"></div>
+          </div>
+
+          <div class="chart-card">
+            <h2 class="chart-title">Statistics</h2>
+            <div id="area-chart"></div>
+          </div>
+
+          
+        </div>
+
+        <div class="chart-card">
+            <h2 class="chart-title">Concerns</h2>
+            <div id="bar1-chart"></div>
+        </div>
+
+        <div class="chart-card">
+          <h2 class="chart-title">Emotions</h2>
+          <div id="bar-chart"></div>
+        </div>
+
+      </main>
+      
+
+
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.54.0/apexcharts.min.js"></script>
+
+    <script>
+      function confirmLogout() {
+          if (confirm("Are you sure you want to log out?")) {
+              window.location.href = "/";
+          } else {
+ 
+          }
+      }
+ 
+      document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+    </script>
+
+    <script >
+    document.addEventListener("DOMContentLoaded", function() {
+      const darkModeToggle = document.querySelector('.dark-mode');
+      
+      const currentTheme = localStorage.getItem('theme');
+      if (currentTheme) {
+          const isDarkMode = currentTheme === 'dark';
+          document.body.classList.toggle('dark-mode-variable', isDarkMode);
+          darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+          darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+      }
+  
+      darkModeToggle.addEventListener('click', () => {
+          const isDarkMode = document.body.classList.toggle('dark-mode-variable');
+          
+          localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  
+          darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+          darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+          
+          drawChart();
+      });
+
+      const hexToColorName = (hex) => {
+        const colorMap = {
+            "#FFC94A": "Happy",
+            "#8B322C": "Angry",
+            "#912BBC": "Fear",
+            "#4F6F52": "Disgust",
+            "#161D6F": "Sad",
+        };
+    
+        return colorMap[hex.toUpperCase()] || hex;
+    };
+  
+    function drawChart() {
+        var chartContainer = document.getElementById("piechart");
+    
+        fetch('/dashboard/colors')
+            .then(response => response.json())
+            .then(data => {
+                var chartData = [["Color", "Count"]];
+                data.forEach(item => {
+                    const colorName = hexToColorName(item.color);
+                    chartData.push([colorName, item.count]);
+                });
+    
+                var dataTable = google.visualization.arrayToDataTable(chartData);
+    
+                var computedStyle = getComputedStyle(document.body);
+                var backgroundColor = computedStyle.getPropertyValue("--color-white");
+                var textColor = document.body.classList.contains('dark-mode-variable') ? '#fff' : '#000';
+                var borderColor = document.body.classList.contains('dark-mode-variable') ? '#fff' : '#a3bdcc';
+    
+                var options = {
+                    backgroundColor: backgroundColor,
+                    legendTextStyle: { color: textColor },
+                    titleTextStyle: { color: textColor },
+                    pieSliceTextStyle: { color: backgroundColor },
+                    pieSliceBorderColor: borderColor,
+                };
+    
+                var chart = new google.visualization.PieChart(chartContainer);
+                chart.draw(dataTable, options);
+            })
+            .catch(error => console.error('Error fetching color data:', error));
+  }
+    
+    drawChart();
+  });
+    </script>
+
+    <script>
+      var barChartOptions = {
+        series: [{
+          data: {{ concerns_counts | tojson }},
+          name: "Appointments",
+        }],
+        chart: {
+          type: "bar",
+          background: "transparent",
+          height: 350,
+          toolbar:{
+            show: false,
+          },
+        },
+        colors: [
+          "#2962ff",
+          "#d50000",
+          "#2e7d32",
+          "#ff6d00",
+          "#583cb3",
+        ],
+        plotOptions:{
+          bar: {
+            distributed: true,
+            borderRadius: 4,
+            horizontal: false,
+            columnWidth: "40%",
+          }
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        fill: {
+          opacity: 1,
+        },
+        grid: {
+          borderColor: "#55596e",
+          yaxis: {
+            times: {
+              show: true,
+            },
+          },
+          xaxis: {
+            lines: {
+              show: true,
+            },
+          },
+        },
+        legend: {
+          labels: {
+            colors: "#f5f7ff"
+          },
+          show: true,
+          position: "top",
+        },
+        stroke: {
+          colors: ["transparent"],
+          show: true,
+          width: 2,
+        },
+        tooltip: {
+          shared: true,
+          intersect: false,
+          theme: "dark",
+        },
+        xaxis: {
+          categories: {{ relevant_concerns | tojson}},
+          title: {
+            style: {
+              color: "#f5f7ff",
+            },
+          },
+          axisBorder: {
+            show: true,
+            color: "#55596e",
+          },
+          axisTicks: {
+            show: true,
+            color: "#55596e",
+          },
+          labels: {
+            style: {
+              colors: "#f5f7ff",
+            },
+          },
+        },
+        yaxis: {
+          title: {
+            text:"Count",
+            style: {
+              color: "#f5f7ff",
+            },
+          },
+          axisBorder: {
+            color: "#55596e",
+            show: true,
+          },
+          axisTicks: {
+            color: "#55596e",
+          },
+          labels: {
+            style: {
+              colors: "#f5f7ff",
+            },
+          },
+        }
+      };
+
+      var barChart = new ApexCharts(document.querySelector("#bar1-chart"), barChartOptions);
+      barChart.render();
+
+
+
+
+      var barChartOptions1 = {
+        series: [{
+          data: {{ emotions_counts | tojson }},
+          name: "Appointments",
+        }],
+        chart: {
+          type: "bar",
+          background: "transparent",
+          height: 350,
+          toolbar:{
+            show: false,
+          },
+        },
+        colors: [
+          "#2962ff",
+          "#d50000",
+          "#2e7d32",
+          "#ff6d00",
+          "#583cb3",
+        ],
+        plotOptions:{
+          bar: {
+            distributed: true,
+            borderRadius: 4,
+            horizontal: false,
+            columnWidth: "40%",
+          }
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        fill: {
+          opacity: 1,
+        },
+        grid: {
+          borderColor: "#55596e",
+          yaxis: {
+            times: {
+              show: true,
+            },
+          },
+          xaxis: {
+            lines: {
+              show: true,
+            },
+          },
+        },
+        legend: {
+          labels: {
+            colors: "#f5f7ff"
+          },
+          show: true,
+          position: "top",
+        },
+        stroke: {
+          colors: ["transparent"],
+          show: true,
+          width: 2,
+        },
+        tooltip: {
+          shared: true,
+          intersect: false,
+          theme: "dark",
+        },
+        xaxis: {
+          categories: {{ relevant_emotions | tojson}},
+          title: {
+            style: {
+              color: "#f5f7ff",
+            },
+          },
+          axisBorder: {
+            show: true,
+            color: "#55596e",
+          },
+          axisTicks: {
+            show: true,
+            color: "#55596e",
+          },
+          labels: {
+            style: {
+              colors: "#f5f7ff",
+            },
+          },
+        },
+        yaxis: {
+          title: {
+            text:"Count",
+            style: {
+              color: "#f5f7ff",
+            },
+          },
+          axisBorder: {
+            color: "#55596e",
+            show: true,
+          },
+          axisTicks: {
+            color: "#55596e",
+          },
+          labels: {
+            style: {
+              colors: "#f5f7ff",
+            },
+          },
+        }
+      };
+
+      var barChart1 = new ApexCharts(document.querySelector("#bar-chart"), barChartOptions1);
+      barChart1.render();
+
+
+
+
+    var varChartOptions = {
+        series: [{
+        name: 'Referrals',
+        data: {{ referrals | tojson }}
+      }, {
+        name: 'Appointments',
+        data: {{ appointments | tojson}}
+      }, {
+        name: 'Clearance',
+        data: {{ clearance | tojson}}
+      }],
+      chart: {
+        height: 350,
+        type: 'area',
+        background: 'transparent',
+        stacked: false,
+        toolbar: {
+          show: false,
+        },
+      },
+      colors: ["#00ab57", "#d50000", "#ff6d00"],
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      dataLabels: {
+        enabled: false,
+      },
+      fill: {
+        gradient:{
+          opacityForm: 0.4,
+          opacity: 0.1,
+          shadeIntensity: 1,
+          stops: [0, 100],
+          type: "vertical",
+        },
+        type:'gradient',
+      },
+      grid: {
+        borderColor: "#55596e",
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+
+      legend:{
+        labels:{
+          colors: "#f5f2ff",
+        },
+        show: true,
+        position: "top",
+      },
+
+      markers: {
+        size: 6,
+        strokeColors: "#1b2635",
+        strokeWidth: 3,
+      },
+
+      stroke: {
+        curve: "smooth",
+      },
+
+      xaxis: {
+        axisBorder:{
+          color: "#55596e",
+          show: true,
+        },
+        axisTicks:{
+          color: "#55596e",
+          show: true,
+        },
+        labels: {
+          offsetY: 5,
+          style: {
+            colors: '#f5f7ff',
+          },
+        },
+      },
+
+      yaxis: 
+      [
+        {
+          title: {
+            text: 'Count',
+            style: {
+              color: "#f5f7ff",
+            },
+          },
+          labels: {
+            style: {
+              colors: ["#f5f7ff"],
+            },
+          },
+        }
+      ],
+      tooltip: {
+        shared: true,
+        intersect: false,
+        theme: "dark",
+      }
+    };
+
+      var areaChart = new ApexCharts(document.querySelector("#area-chart"), varChartOptions);
+      areaChart.render();
+
+
+      var varChartOptions1 = {
+        series: [{
+        name: 'Students',
+        data: {{ referrals | tojson }}
+      }, {
+        name: 'Professors',
+        data: {{ appointments | tojson}}
+      }],
+      chart: {
+        height: 350,
+        type: 'area',
+        background: 'transparent',
+        stacked: false,
+        toolbar: {
+          show: false,
+        },
+      },
+      colors: ["#00ab57", "#2962ff", "#ff6d00"],
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      dataLabels: {
+        enabled: false,
+      },
+      fill: {
+        gradient:{
+          opacityForm: 0.4,
+          opacity: 0.1,
+          shadeIntensity: 1,
+          stops: [0, 100],
+          type: "vertical",
+        },
+        type:'gradient',
+      },
+      grid: {
+        borderColor: "#55596e",
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+
+      legend:{
+        labels:{
+          colors: "#f5f2ff",
+        },
+        show: true,
+        position: "top",
+      },
+
+      markers: {
+        size: 6,
+        strokeColors: "#1b2635",
+        strokeWidth: 3,
+      },
+
+      stroke: {
+        curve: "smooth",
+      },
+
+      xaxis: {
+        axisBorder:{
+          color: "#55596e",
+          show: true,
+        },
+        axisTicks:{
+          color: "#55596e",
+          show: true,
+        },
+        labels: {
+          offsetY: 5,
+          style: {
+            colors: '#f5f7ff',
+          },
+        },
+      },
+
+      yaxis: 
+      [
+        {
+          title: {
+            text: 'Count',
+            style: {
+              color: "#f5f7ff",
+            },
+          },
+          labels: {
+            style: {
+              colors: ["#f5f7ff"],
+            },
+          },
+        }
+      ],
+      tooltip: {
+        shared: true,
+        intersect: false,
+        theme: "dark",
+      }
+    };
+
+      var areaChart1 = new ApexCharts(document.querySelector("#area-chart1"), varChartOptions1);
+      areaChart1.render();
+    </script>
+  </body>
+</html>

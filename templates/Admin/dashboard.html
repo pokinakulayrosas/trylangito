@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='admin/styles/dashboard.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+
+    <title>Dashboard</title>
+
+    
+  </head>
+  <body>
+    <div class="container">
+      <aside>
+        <div class="toggle">
+          <div class="logo">
+            <img src="{{ url_for('static', filename='admin/logo.png') }}" />
+            <h2>NU<span class="danger">GITS</span></h2>
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp"> close </span>
+          </div>
+        </div>
+
+        <div class="sidebar">
+          <a href="/dashboard" class="active">
+            <span class="material-icons-sharp"> dashboard </span>
+            <h3>Dashboard</h3>
+          </a>
+          <a href="/dashboard/profile">
+            <span class="material-icons-sharp"> person_outline </span>
+            <h3>Student Profile</h3>
+          </a>
+          <a href="/dashboard/faculty/profile">
+            <span class="material-icons-sharp"> person_outline </span>
+            <h3>Faculty Profile</h3>
+          </a>
+          <a href="/admin/appointments">
+            <span class="material-icons-sharp"> assignment </span>
+            <h3>Appointments</h3>
+          </a>
+          <a href="/admin/clearance">
+            <span class="material-icons-sharp"> article </span>
+            <h3>Clearance</h3>
+          </a>
+          <a href="/admin/schedule">
+            <span class="material-icons-sharp"> calendar_month </span>
+            <h3>Calendar</h3>
+          </a>
+          <a href="/admin/feedback">
+            <span class="material-icons-sharp"> question_answer </span>
+            <h3>Feedback</h3>
+          </a>
+          <a href="/schedule/setter">
+            <span class="material-icons-sharp"> schedule </span>
+            <h3>Schedule</h3>
+          </a>
+          <a href="/dashboard/referral">
+            <span class="material-icons-sharp"> psychology </span>
+            <h3>Referral</h3>
+          </a>
+          <a href="/dashboard/reports">
+            <span class="material-icons-sharp"> bar_chart </span>
+            <h3>Reports</h3>
+          </a>
+          <a href="#" id="logoutbtn">
+            <span class="material-icons-sharp"> logout </span>
+            <h3>Logout</h3>
+          </a>
+        </div>
+      </aside>
+
+      <main>
+        <h1>Dashboard</h1>
+
+        <div class="analyse">
+          <div class="sales">
+            <div class="status">
+              <div class="info">
+                <h3 style="margin-left: 5px; margin-top: 20px;">Total College Students</h3>
+                <h1>{{student}}</h1>
+              </div>
+            </div>
+          </div>
+          
+          <div class="visits">
+            <div class="status">
+              <div class="info">
+                <h3 style="margin-left: 5px; margin-top: 20px;">Total Faculty Register</h3>
+                <h1>{{faculty}}</h1>
+              </div>
+            </div>
+          </div>
+          <div class="searches">
+            <div class="status">
+              <div class="info">
+                <h3 style="margin-left: 5px; margin-top: 20px;">Total Senior High School</h3>
+                <h1>{{clearance}}</h1>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="recent-orders">
+          <h2>Recent Appointments</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Student ID</th>
+                <th>Email</th>
+                <th>Student Name</th>
+                <th>Department</th>
+                <th>Section</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id='smartchat-body'>
+
+            </tbody>
+          </table>
+          <a href="/admin/appointments">Show All</a>
+        </div>
+
+        <div class="recent-orders">
+          <h2>Recent Referrals</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Professor Name</th>
+                <th>Referred Student Name</th>
+                <th>Date of Referral</th>
+                <th>Course</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id='referral-body'>
+              
+            </tbody>
+          </table>
+          <a href="/dashboard/referral">Show All</a>
+        </div>
+      </main>
+ 
+      <div class="right-section">
+        <div class="nav">
+          <button id="menu-btn">
+            <span class="material-icons-sharp"> menu </span>
+          </button>
+          <div class="dark-mode">
+            <span class="material-icons-sharp active"> light_mode </span>
+            <span class="material-icons-sharp"> dark_mode </span>
+          </div>
+
+          <div class="profile">
+            <div class="info">
+              <p>Hey, <b>Admin</b></p>
+              <small class="text-muted">Administrator</small>
+            </div>
+            <div class="profile-photo">
+              <img src="{{ url_for('static', filename='assets/default_logo.png') }}"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-profile">
+          <div class="logo">
+            <div id="piechart"></div>
+            <h2>Emotions Login</h2>
+            <p>Tracker</p>
+          </div>
+        </div>
+
+        <div class="user-profile">
+          <div class="logo">
+            <div id="piechart1"></div>
+            <h2>Journal Mood</h2>
+            <p>Tracker</p>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+    <script type="text/javascript">
+      google.charts.load("current", { packages: ["corechart"] });
+      google.charts.setOnLoadCallback(drawChart);
+
+      
+    </script>
+    <script>
+      function gotoReferrals(referralId){
+        window.location.href = window.location.href = `/referral_response/${referralId}`;
+      }
+    </script>
+
+    <script>
+      async function fetchFacultyData() {
+        try {
+            const response = await fetch('/appointment_table');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const facultyData = await response.json();
+            
+            
+            const tableBody = document.getElementById('smartchat-body');
+            tableBody.innerHTML = '';  // Clear existing data
+
+            const limitedData = facultyData.slice(0, 3);
+
+            limitedData.forEach(faculty => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="clickable">${faculty.form3.studentnumber}</td>
+                    <td>${faculty.form5.email}</td>
+                    <td>${faculty.form1.fullname}</td>
+                    <td>${faculty.form3.department}</td>
+                    <td>${faculty.form3.section}</td>
+                    <td class="primary" style="cursor: pointer;">Details</td>
+                `;
+                tableBody.appendChild(row);
+
+                row.querySelector('.primary').addEventListener('click', function() {
+                    window.location.href = `/appointment_response/${faculty._id}`;
+                });
+            });
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
+    }
+
+    window.onload = fetchFacultyData;
+    </script>
+  
+    <script>
+      function confirmLogout() {
+          if (confirm("Are you sure you want to log out?")) {
+              window.location.href = "/";
+          } else {
+ 
+          }
+      }
+ 
+      document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+    </script>
+
+    <script >
+      document.addEventListener('DOMContentLoaded', function() {
+        fetch('/referral_table')
+            .then(response => response.json())
+            .then(referrals => {
+                const tbody = document.getElementById('referral-body');
+                tbody.innerHTML = '';
+
+                const limitedData = referrals.slice(0, 3);
+    
+                limitedData.forEach(referral => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${referral.form1.fullname}</td>
+                        <td class="clickable">${referral.form2.studFname}</td>
+                        
+                        <td>${referral.form2.date}</td>
+                        <td>${referral.form2.college}</td>
+                        <td class="primary" style="cursor: pointer;">Details</td>`;
+                    tbody.appendChild(tr);
+    
+                    tr.querySelector('.clickable').addEventListener('click', function() {
+                        window.location.href = `/referral_response/${referral._id}`;
+                    });
+                    tr.querySelector('.primary').addEventListener('click', function() {
+                        window.location.href = `/referral_response/${referral._id}`;
+                    });
+                });
+            })
+            .catch(error => console.error('Error fetching referrals:', error));
+    });
+    
+    document.addEventListener("DOMContentLoaded", function() {
+      const darkModeToggle = document.querySelector('.dark-mode');
+      
+      const currentTheme = localStorage.getItem('theme');
+      if (currentTheme) {
+          const isDarkMode = currentTheme === 'dark';
+          document.body.classList.toggle('dark-mode-variable', isDarkMode);
+          darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+          darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+      }
+  
+      darkModeToggle.addEventListener('click', () => {
+          const isDarkMode = document.body.classList.toggle('dark-mode-variable');
+          
+          localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  
+          darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+          darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+          
+          drawChart();
+      });
+
+      const hexToColorName = (hex) => {
+        const colorMap = {
+            "#FFC94A": "Happy",
+            "#8B322C": "Angry",
+            "#912BBC": "Fear",
+            "#4F6F52": "Disgust",
+            "#161D6F": "Sad",
+        };
+    
+        return colorMap[hex.toUpperCase()] || hex;
+    };
+  
+    function drawChart() {
+        var chartContainer = document.getElementById("piechart");
+    
+        fetch('/dashboard/colors')
+            .then(response => response.json())
+            .then(data => {
+                var chartData = [["Color", "Count"]];
+                data.forEach(item => {
+                    const colorName = hexToColorName(item.color);
+                    chartData.push([colorName, item.count]);
+                });
+    
+                var dataTable = google.visualization.arrayToDataTable(chartData);
+    
+                var computedStyle = getComputedStyle(document.body);
+                var backgroundColor = computedStyle.getPropertyValue("--color-white");
+                var textColor = document.body.classList.contains('dark-mode-variable') ? '#fff' : '#000';
+                var borderColor = document.body.classList.contains('dark-mode-variable') ? '#fff' : '#a3bdcc';
+    
+                var options = {
+                    backgroundColor: backgroundColor,
+                    legendTextStyle: { color: textColor },
+                    titleTextStyle: { color: textColor },
+                    pieSliceTextStyle: { color: backgroundColor },
+                    pieSliceBorderColor: borderColor,
+                };
+    
+                var chart = new google.visualization.PieChart(chartContainer);
+                chart.draw(dataTable, options);
+            })
+            .catch(error => console.error('Error fetching color data:', error));
+  }
+    
+    drawChart();
+  });
+
+  
+
+    
+  
+    </script>
+  </body>
+</html>

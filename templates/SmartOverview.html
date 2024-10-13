@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Navigation.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='SmartOverview.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <title>SmartChat Overview</title>
+</head>
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="{{ url_for('static', filename='assets/userv.png') }}" alt="">
+                </span>
+                <div class="text header-text"> 
+                    <span class="name">Alexandra Mae</span>
+                    <span class="profession">Web developer</span>
+                </div>
+            </div>
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+        <div class="menu-bar">
+            <li class="search-box">
+                <i class='bx bx-search icon'></i>
+                    <input type="text" placeholder="Search">
+            </li>
+            <div class="menu">
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="/home">
+                            <i class='bx bx-home-smile icon'></i>
+                            <span class="text nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/journal">
+                            <i class='bx bx-note icon'></i>
+                            <span class="text nav-text">Journal</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/schedule">
+                            <i class='bx bx-calendar icon'></i>
+                            <span class="text nav-text">Schedule</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/smartchat">
+                            <i class='bx bx-edit icon'></i>
+                            <span class="text nav-text">SmartChat</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/clearance">
+                            <i class='bx bx-food-menu icon'></i>
+                            <span class="text nav-text">Clearance</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/appointment">
+                            <i class='bx bx-calendar-event icon' ></i>
+                            <span class="text nav-text">Schedule Viewer</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="meditation">
+                            <i class='bx bx-leaf icon' ></i>
+                            <span class="text nav-text">Meditation</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="bottom-content">
+                <li class="">
+                    <a href="#" id="logoutbtn">
+                        <i class='bx bx-log-out icon' ></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+
+                <li class="mode">
+                    <div class="moon-sun">
+                        <i class='bx bx-moon icon moon' ></i>
+                        <i class='bx bx-sun icon sun' ></i>
+                    </div>
+                    <span class="mode-text text">Dark Mode</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+
+            </div>
+        </div>
+
+    </nav>
+
+    <div class="wrap">
+
+        <main class="main">
+            
+            <section class="section">
+                <div class="section_wrap">
+
+                    <div class="section_item">
+
+                        <div class="section_img">
+                            <img src="{{ url_for('static', filename='assets/smart-1.png') }}" alt="1">
+                        </div>
+                        <div class="section_txt">
+                            <span class="section_span">01</span>
+                            <h2 class="section_title">Dear<span class="stroke">Nationalians,</span></h2>
+                            <img src="{{ url_for('static', filename='assets/sparkle.svg') }}" class="star" alt="star">
+                        </div>
+                    </div>
+                    <div class="section_item">
+                        <div class="section_txt">
+                            <span class="section_span">02</span>
+                            <h2 class="section_title">Here's a little reminder to continue building</h2>
+                            <img src="{{ url_for('static', filename='assets/sparkle.svg') }}" class="star" alt="star">
+                        </div>
+                        <div class="section_img">
+                            <img src="{{ url_for('static', filename='assets/smart-2.png') }}" alt="2">
+                        </div>
+                    </div>
+                    <div class="section_item">
+
+                        <div class="section_img">
+                            <img src="{{ url_for('static', filename='assets/smart-3.png') }}" alt="3">
+                        </div>
+                        <div class="section_txt">
+                            <span class="section_span">03</span>
+                            <h2 class="section_title">habits that will help you thrive throughout</h2>
+                            <img src="{{ url_for('static', filename='assets/sparkle.svg') }}" class="star" alt="star">
+                        </div>
+                    </div>
+                    <div class="section_item">
+                        <div class="section_txt">
+                            <span class="section_span">04</span>
+                            <h2 class="section_title">the rest of the school year.</h2>
+                            <img src="{{ url_for('static', filename='assets/sparkle.svg') }}" class="star" alt="star">
+                        </div>
+                        <div class="section_img">
+                            <img src="{{ url_for('static', filename='assets/bg-4.jpg') }}" alt="4">
+                        </div>
+                    </div>
+                    <section class="section-text">
+                        <div class="content">
+                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                        </div>
+                    </section>
+                    <section class="section-text">
+                        <div class="content">
+                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                        </div>
+                    </section>
+                    <a href="/home">Back</a>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+   
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = "/";
+            } else {
+   
+            }
+        }
+   
+        document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+      </script>
+    <script src="{{ url_for('static', filename='scripts/script.js') }}"> </script>
+    <script>
+        let timeout;
+    
+        function setTimeout() {
+            timeout = setTimeout(() => {
+                alert('You have been inactive for too long. You will be logged out.');
+                window.location.href = '/logout';
+            }, 30 * 60 * 1000);
+        }
+    
+        function resetTimeout() {
+            clearTimeout(timeout);
+            setTimeout();
+        }
+    
+        window.onload = setTimeout;
+        window.onmousemove = resetTimeout;
+        window.onkeypress = resetTimeout;
+        window.onclick = resetTimeout;
+        window.onscroll = resetTimeout;
+    
+        setInterval(() => {
+            fetch('/keep-alive', { method: 'POST' });
+        }, 60 * 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Login</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        *{
+            margin: 0;
+            font-family: Arial;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #161D6F;
+            transition: 0.5s;
+        }
+        .login{
+            position: relative;
+            padding: 50px;
+            background: #fff;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+        }
+        .login form{
+            position: relative;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .login h2{
+            font-weight: 500;
+            border-left: 15px solid #161D6F;
+            line-height: 1em;
+            padding-left: 10px;
+            transition: 0.5s;
+            color: #333;
+        }
+        .login .inputBox{
+            position: relative;
+        }
+        .login .inputBox input{
+            position: relative;
+            width: 75%;
+            padding: 10px 15px;
+            outline: none;
+            border: 2px solid #555;
+            font-size: 1em;
+            color: #333;
+        }
+        .login .inputBox input#btn{
+            border: none;
+            background: #161D6F;
+            color: #fff;
+            transition: 0.5s;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .colors{
+            position: absolute;
+            right: 0;
+            padding: 10px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .colors span{
+            position: relative;
+            width: 20px;
+            height: 20px;
+            background: var(--clr);
+            margin: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .colors span.active{
+            border: 2px solid #333;
+            scale: 1.5;
+            transition: 0.5s;
+        }
+        .image .img{
+            margin-left: -600px;
+            margin-top: -280px;
+            width: 800px;
+            height: 600px;
+            position: fixed;
+        }
+
+    </style>
+ 
+</head>
+<body>
+    <button type="button" id="backBtn" style="position: absolute; margin-top: -550px; margin-left: -1200px; border: none; background: #161D6F; color: #fff; transition: 0.5s; font-size: 2.1em; font-weight: 500; cursor: pointer; padding: 10px 20px; display: flex; align-items: center;">
+        <i class="fa-solid fa-circle-chevron-left" style="margin-right: 8px;"></i>
+    </button>
+    
+    <div class="login">
+        <h2 id="txt">Faculty Login</h2>
+        <form action="/faculty_auth" method="POST">
+            <div class="inputBox">
+                <input type="text" placeholder="Email" id="email" name="email">
+            </div>
+            <div class="inputBox">
+                <input type="password"
+                placeholder="Password" id="password" name="password">
+            </div>
+            <p>Not registered yet? <a href="/faculty/register" style="text-decoration: none;">Sign up</a></p>
+            <div class="inputBox">
+            
+            <input type="submit" value="Login" id="btn">
+            </div>
+ 
+        </form>
+        
+    </div>
+    
+    <script>
+        const back = document.getElementById('backBtn');
+
+        back.addEventListener('click', () =>{
+            window.location.href = '/'
+        });
+    </script>
+    
+</body>
+</html>
