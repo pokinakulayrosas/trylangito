@@ -388,7 +388,22 @@ def audio():
 
 @app.route("/smart/overview")
 def smartoverview():
-    return render_template('SmartOverview.html')
+    
+    current_user = session.get('username')
+    
+    if current_user:
+        smart = mongo.db.verifiedUsers.find_one({'email': current_user})
+        
+        saved = mongo.db.savedProfile.find_one({'form1.email': current_user})
+        
+        logo = saved['logo'] if saved and 'logo' in saved else None
+        
+        if smart:
+            return render_template('SmartOverview.html', smart=smart, email = session['username'], saved = saved, logo = logo)
+        else:
+            return render_template('NotFound.html')
+    else:
+        return redirect(url_for('logindex'))
 
 @app.route("/NUMOA_GSO/overview")
 def gsooverview():

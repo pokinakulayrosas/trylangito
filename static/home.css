@@ -278,7 +278,6 @@
 
 .event {
   position: absolute;
-  width: 890px;
   left: 35%;
   top: 120%;
   bottom: 20px;
@@ -930,6 +929,8 @@ textarea.input {
   color:#1E0272;
   transition: all ease 0.3s;
 }
+
+
 .article-text p{
   color:#9b9b9b;
   font-size: 0.7rem;

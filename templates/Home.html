@@ -24,9 +24,9 @@
             <div class="image-text">
                 <span class="image">
                     {% if logo %}
-                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
                     {% else %}
-                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
                     {% endif %}
                 </span>
                 <div class="text header-text"> 
@@ -152,11 +152,11 @@
         </div>
     </div>
 
-    <div class="event" onClick="gotoEvents()" style="width: 60%;">
-        <div class="event-body" style="height: 20%">
+    <div class="event" onClick="gotoEvents()" style="width: 60%; height: 100%;">
+        <div class="event-body" style="height: 30%">
             <span class="event-name">Events for this month</span>
             {% for events in events %}
-            <div class="event-container" style="margin-top: 10px; height: 35px;">
+            <div class="event-container" style="margin-top: 10px; height: 300px;">
                 <div class="event-content">
                     <h4>{{events.title}} |</h4>
                     <p style="margin-left: 20px;">{{events.time}}</p>
@@ -171,11 +171,11 @@
         <p>Third Semester, 2023-2024</p>
     </div>
 
-    <div class="appoint" style="width: 83%">
+    <div class="appoint" style="width: 83%" onClick="gotoSchedule()">
         <div class="appoint-body">
 
             
-            <span class="appoint-name">Schedules for this month</span>
+            <span class="appoint-name">Appointments</span>
             {% if response|length > 0 %}
                 {% for appointment in response %}
                     {{appointment.name}}<br>
@@ -183,11 +183,13 @@
                     {{appointment.modality}}<br>
                     {{appointment.room}}<br><br>
                 {% endfor%}
+            
             {% else %}
                 <img class="file" src="{{ url_for('static', filename='assets/file.png') }}" alt="">
                 <p class="no">No schedules for today</p>
                 <span class="appoint-name">Schedules for this month</span>
             {% endif %}
+            
         </div>
     </div>
     
@@ -461,11 +463,21 @@
             document.getElementById('submit').addEventListener('click', function(event){
                 event.preventDefault();
 
-                const fullname = document.getElementById('fullname');
+                var fullname = document.getElementById('fullname');
 
-                const concern = document.getElementById('concern');
+                var concern = document.getElementById('concern').value;
 
-                const message = document.getElementById('message');
+                var message = document.getElementById('message').value;
+
+                if(!concern){
+                    alert('Please state your concerns');
+                    return;
+                }
+
+                if(!message){
+                    alert('Please enter your messages');
+                    return;
+                }
 
                 const formData = {
                     form: collectFormData('feedbackForm')
@@ -482,7 +494,8 @@
                 .then(response => response.json())
                 .then(data => {
                     if(data.success){
-                        alert('Form submitted successfully')
+                        alert('Form submitted successfully');
+                        window.location.href = '/home'
                     } else {
                         alert('There was a problem with the submission');
                     }
@@ -587,6 +600,14 @@
     <script>
         function gotoEvents(){
             window.location.href = '/calendar';
+        }
+
+        function gotoSchedule(){
+            window.location.href = '/ScheduleViewer'
+        }
+
+        function gotoProfile(){
+            window.location.href = '/profile'
         }
     </script>
 
