@@ -254,6 +254,7 @@
                 <label class="moody" for="moody">Mood: </label>
                 <label class="moood" for="moood"><img src="{{ url_for('static', filename='assets/Anger.png') }}" alt="" style="width:30px;height:auto;opacity:3; filter:none; margin-top:-2rem;margin-left:90%;position:absolute"></label>
             
+                <input type="hidden" id="moodImage" name="moodImage" required>
                 
                 <textarea id="note" name="note" rows="20" placeholder="Note" required></textarea>
                     
@@ -321,29 +322,37 @@
             }
 
             var moodValue = mood.value;
-
             var moodImage = document.querySelector('.moood img');
+            var moodImageInput = document.getElementById('moodImage'); // Select the hidden input
+
             switch (moodValue) {
                 case 'Happy':
                     moodImage.src = "{{ url_for('static', filename='assets/Happy.png') }}";
+                    moodImageInput.value = 'Happy.png'; // Set the hidden input value
                     break;
                 case 'Sad':
                     moodImage.src = "{{ url_for('static', filename='assets/Sad.png') }}";
+                    moodImageInput.value = 'Sad.png';
                     break;
                 case 'Shy':
                     moodImage.src = "{{ url_for('static', filename='assets/Shy.png') }}";
+                    moodImageInput.value = 'Shy.png';
                     break;
                 case 'empty':
                     moodImage.src = "{{ url_for('static', filename='assets/empty.png') }}";
+                    moodImageInput.value = 'empty.png';
                     break;
                 case 'scarxious':
                     moodImage.src = "{{ url_for('static', filename='assets/scarxious.png') }}";
+                    moodImageInput.value = 'scarxious.png';
                     break;
                 case 'Anger':
                     moodImage.src = "{{ url_for('static', filename='assets/Anger.png') }}";
+                    moodImageInput.value = 'Anger.png';
                     break;
                 default:
                     moodImage.src = ""; // Default case
+                    moodImageInput.value = ""; // Reset value
             }
 
             var dateHeader = document.querySelector('#form4 h1');

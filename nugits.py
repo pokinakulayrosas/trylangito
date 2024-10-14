@@ -1136,6 +1136,7 @@ def journal_db():
     mood = request.form['mood']
     title = request.form['title']
     notes = request.form['note']
+    mood_image = request.form['moodImage']
     
     username = session.get('username')
 
@@ -1144,6 +1145,7 @@ def journal_db():
         'mood': mood,
         'title': title,
         'notes': notes,
+        'mood_image': mood_image,
         'username': username
     })
 

@@ -426,7 +426,7 @@
                 <input type="text" id="title" name="title" value="{{ entry.title }}" required>
             
                 <label class="moody" for="moody">Mood: </label>
-                <label class="moood" for="moood"><img src="{{ url_for('static', filename='assets/Anger.png') }}" alt="" style="width:30px;height:auto;opacity:3; filter:none; margin-top:-2rem;margin-left:90%;position:absolute"></label>
+                <label class="moood" for="moood"><img src="{{ url_for('static', filename='assets/' + entry.mood + '.png') }}" alt="" style="width:30px;height:auto;opacity:3; filter:none; margin-top:-2rem;margin-left:90%;position:absolute"></label>
             
                 <textarea id="note" name="note" rows="20" placeholder="Note" required>{{ entry.notes }}</textarea>
             
