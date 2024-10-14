@@ -407,11 +407,39 @@ def smartoverview():
 
 @app.route("/NUMOA_GSO/overview")
 def gsooverview():
-    return render_template('GSOOverview.html')
+    current_user = session.get('username')
+    
+    if current_user:
+        gso = mongo.db.verifiedUsers.find_one({'email': current_user})
+        
+        saved = mongo.db.savedProfile.find_one({'form1.email': current_user})
+        
+        logo = saved['logo'] if saved and 'logo' in saved else None
+        
+        if gso:
+            return render_template('GSOOverview.html', gso=gso, email = session['username'], saved = saved, logo = logo)
+        else:
+            return render_template('NotFound.html')
+    else:
+        return redirect(url_for('logindex'))
 
 @app.route("/NUMOA_Peers/overview")
 def peersoverview():
-    return render_template('PeersOverview.html')
+    current_user = session.get('username')
+    
+    if current_user:
+        peers = mongo.db.verifiedUsers.find_one({'email': current_user})
+        
+        saved = mongo.db.savedProfile.find_one({'form1.email': current_user})
+        
+        logo = saved['logo'] if saved and 'logo' in saved else None
+        
+        if peers:
+            return render_template('PeersOverview.html', peers=peers, email = session['username'], saved = saved, logo = logo)
+        else:
+            return render_template('NotFound.html')
+    else:
+        return redirect(url_for('logindex'))
 
 #GALLERY
 
