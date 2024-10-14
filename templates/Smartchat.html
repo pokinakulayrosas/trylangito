@@ -876,14 +876,14 @@
 
                     <div class="input-container textarea">
                         <textarea name="consultation_relationship" class="consultation_relationship" id="consultation_relationship"
-                            placeholder="Enter your answer"></textarea>
+                        placeholder="{{saved.form3.contactFirstName}} {{saved.form3.contactLastName}}" value=""></textarea>
                     </div>
 
                     <div class="second-input">
                         <label for="second-input">18. Contact number/s of the identified contact person/s</label><br>
                         <div class="input-container textarea">
                             <textarea name="contact_numbers" class="contact_numbers" id="contact_numbers"
-                                placeholder="Enter your answer"></textarea>
+                                placeholder="{{saved.form3.emergencyContact}}" disabled value="{{saved.form3.emergencyContact}}" style="cursor: not-allowed;"></textarea>
                         </div>
                     </div>
 
@@ -891,7 +891,8 @@
                         <label for="second-input">19. E-mail address of the identified contact person/s</label><br>
                         <div class="input-container textarea">
                             <textarea name="email_person" class="email_person" id="email_person"
-                                placeholder="Enter your answer"></textarea>
+                            placeholder="{{saved.form3.emergencyEmail}}"
+                            value="{{saved.form3.emergencyEmail}}"></textarea>
                         </div>
                     </div>
 

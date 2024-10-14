@@ -870,7 +870,7 @@ def email_verified():
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)  # Save the path if needed
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             else:
                 return "Invalid file type", 400
         else:
@@ -895,7 +895,6 @@ def email_verified():
         insertVerifiedUser = mongo.db.verifiedUsers.insert_one(userInformation)
 
         if insertVerifiedUser.inserted_id:
-            # Check if the token is valid
             verification_collection = mongo.db.forVerification
             verification_data = verification_collection.delete_many({"email": email})
 
