@@ -328,6 +328,9 @@
                 style="margin-top: 20px; margin-left: 82px;"
                 /><br>
 
+                <label>Email:<span style="color:red;">*</span></label>
+                <input disabled type="email" name="emergencyEmail" id="emergencyEmail" placeholder="{{saved.form3.emergencyEmail if saved and saved.form3 else 'Please Enter Email'}}" style="margin-left: 120px;"><br>
+
                 <label for="relationship">Relationship:<span style="color:red;">*</span></label>
                 <input disabled type="text" name="relationship" id="relationship" placeholder="{{ saved.form3.relationship if saved and saved.form3 else 'Please Enter Relationship' }}" style="margin-left: 67px;"/><br>
 
@@ -439,6 +442,7 @@
             document.getElementById('contactFirstName').disabled = false;
             document.getElementById('contactLastName').disabled = false;
             document.getElementById('relationship').disabled = false;
+            document.getElementById('emergencyEmail').disabled = false;
             document.getElementById('emergencyContact').disabled = false;
             
             document.getElementById('myModal').style.display = 'none';
@@ -564,6 +568,9 @@
                 var contactLastName = document.getElementById('contactLastName').value;
                 
                 var relationship = document.getElementById('relationship').value;
+
+                var emergencyEmail = document.getElementById('emergencyEmail').value;
+                
                 
                 var emergencyContact = document.getElementById('emergencyContact').value;
 
@@ -623,7 +630,8 @@
                     'profileNationality', 'profileCivilStatus', 'profileGender',
                     'profileMiddleI', 'profileReligion', 'profileSuffix',
                     'profileMobile', 'profileBdate', 'profileTele',
-                    'profileCountry', 'profileEmail', 'profileBPlace', 'contactFirstName', 'contactLastName', 'relationship', 'emergencyContact'
+                    'profileCountry', 'profileEmail', 'profileBPlace', 'contactFirstName', 'contactLastName', 'relationship','emergencyContact',
+                    'emergencyEmail'
                 ];
                 
                 fieldsToEnable.forEach(id => {
@@ -647,7 +655,8 @@
                     'presentProvince', 'permanentCountry', 'permanentProvince',
                     'presentHouse', 'permanentCity', 'presentBrgy',
                     'permanentHouse', 'presentPostal', 'permanentBrgy',
-                    'permanentPostal', 'presentCity', 'contactFirstName', 'contactLastName', 'relationship', 'emergencyContact'
+                    'permanentPostal', 'presentCity', 'contactFirstName', 'contactLastName', 'relationship', 'emergencyContact',
+                    'emergencyEmail'
                 ];
                 
                 fieldsToDisable.forEach(id => {

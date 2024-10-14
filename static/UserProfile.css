@@ -308,6 +308,31 @@ body{
     cursor: not-allowed;
 }
 
+.profile-container .profile-third-content .profile-text3 input[type=email]{
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+.profile-container .profile-third-content .profile-text3 input[type=email]:disabled{
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+    cursor: not-allowed;
+}
+
 .profile-container .profile-third-content .profile-text3 h2{
     margin-top: 80px;
     position: absolute;
