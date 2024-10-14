@@ -864,22 +864,7 @@ def email_verified():
         strands = request.form.get("Strands")
         password = request.form["password"]
         
-        file_path = None
-
-        if 'fileUpload' in request.files:
-            file = request.files['fileUpload']
-
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                if not os.path.exists(app.config['UPLOAD_FOLDER']):
-                    os.makedirs(app.config['UPLOAD_FOLDER'])
-                    
-                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                file.save(file_path)
-            else:
-                return "Invalid file type", 400
-        else:
-            return "No file uploaded", 400
+        
 
         timestamp = datetime.utcnow()
 
@@ -893,7 +878,6 @@ def email_verified():
             "Strands": strands,
             "password": password,
             "status": "Verified",
-            "file_path": file_path,
             "timestamp": timestamp
         }
         
