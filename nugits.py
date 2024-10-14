@@ -864,13 +864,18 @@ def email_verified():
         strands = request.form.get("Strands")
         password = request.form["password"]
         
+        file_path = None
+
         if 'fileUpload' in request.files:
             file = request.files['fileUpload']
 
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                if not os.path.exists(app.config['UPLOAD_FOLDER']):
+                    os.makedirs(app.config['UPLOAD_FOLDER'])
+                    
                 file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file.save(file_path)
             else:
                 return "Invalid file type", 400
         else:
