@@ -368,22 +368,21 @@
     <main class="container">
         <section class="main-video">
             <button class="back-button" onClick="onBack()">Back</button>
-            <video src="{{ url_for('static', filename='videos/5-Minute Meditation You Can Do Anywhere.mp4') }}"  controls autoplay muted alt=""></video>
+            <iframe id="main-video" src="https://www.youtube.com/embed/inpok4MKVLM" 
+                controls autoplay muted width="100%" height="auto"></iframe>
             <h3 class="title">5-Minute Meditation You Can Do Anywhere</h3>
             <h3 class="credit">- YouTube. (2024). Youtu.be. https://youtu.be/inpok4MKVLM?si=T0wJ7TmpbzwBorYL</h3>
         </section>
-
+    
         <section class="video-playlist">
             <h3 class="title">Videos</h3>
-            <p>7 lessions &nbsp; . &nbsp; 44m 35s</p>
-            <div class="videos">
-
-            </div>
+            <p>7 lessons &nbsp; . &nbsp; 44m 35s</p>
+            <div class="videos"></div>
         </section>
     </main>
-
+    
     <script>
-        function onBack(){
+        function onBack() {
             window.location.href = '/meditation';
         }
     </script>
@@ -391,102 +390,94 @@
 
 
     <script>
-        const main_video=document.querySelector('.main-video video')
-        const main_video_title=document.querySelector('.main-video .title')
-        const main_video_credit=document.querySelector('.main-video .credit')
-        const video_playlist = document.querySelector('.video-playlist .videos')
-
+        const main_video = document.querySelector('#main-video');
+        const main_video_title = document.querySelector('.main-video .title');
+        const main_video_credit = document.querySelector('.main-video .credit');
+        const video_playlist = document.querySelector('.video-playlist .videos');
+    
         let data = [
-        {
-            'id':'a1',
-            'title':'5-Minute Meditation You Can Do Anywhere',
-            'name':'5-Minute Meditation You Can Do Anywhere.mp4',
-            'credit':'- YouTube. (2024). Youtu.be. https://youtu.be/inpok4MKVLM?si=T0wJ7TmpbzwBorYL',
-            'duration':'5:17',
-        },
-        {
-            'id':'a2',
-            'title':'A Japanese Method to Relax in 5 Minutes',
-            'name':'A JAPANESE METHOD TO RELAX IN 5 MINUTES.mp4',
-            'credit':'- YouTube. (2024). Youtu.be. https://youtu.be/m3-O7gPsQK0?si=5qiTWaaM0LtVZ4-v',
-            'duration':'3:02',
-        },
-        {
-            'id':'a3',
-            'title':'The 5-4-3-2-1 Method - A Grounding Exercise to Manage Anxiety',
-            'name':'The 5-4-3-2-1 Method_ A Grounding Exercise to Manage Anxiety.mp4',
-            'credit':'- YouTube. (2024). Youtu.be. https://youtu.be/30VMIEmA114?si=U6KtjUedyduz9LFt',
-            'duration':'4:28',
-        },
-        {
-            'id':'a4',
-            'title':'Quick Meditation: Changing Perspective',
-            'name':'Quick Meditation_ Changing Perspective.mp4',
-            'credit':'- YouTube. (2024). Youtu.be. https://youtu.be/iN6g2mr0p3Q?si=l4PJ8ZBMKuVNbJ5W',
-            'duration':'1:16',
-        },
-        {
-            'id':'a5',
-            'title':'A Ten Minute Guided Meditation to Clear Your Mind',
-            'name':'A Ten Minute Guided Meditation to Clear Your Mind.mp4',
-            'credit':'- YouTube. (2024). Youtu.be. https://youtu.be/ez3GgRqhNvA?si=3I2x1OI6Gv-_ff3g',
-            'duration':'10:09',
-        },
-        {
-            'id':'a6',
-            'title':'10-Minute Meditation For Anxiety',
-            'name':'10-Minute Meditation For Anxiety.mp4',
-            'credit':'- YouTube. (2024). Youtu.be. https://youtu.be/O-6f5wQXSu8?si=IjOQnnLZR_Wz92pz',
-            'duration':'10:21',
-        },
-        {
-            'id':'a7',
-            'title':'10-Minute Meditation For Sleep',
-            'name':'10-Minute Meditation For Sleep.mp4',
-            'credit':'- YouTube. (2024). Youtu.be. https://youtu.be/aEqlQvczMJQ?si=RrdmoGkEEnT2jpJi',
-            'duration':'10:02',
-        },
+            {
+                'id': 'a1',
+                'title': '5-Minute Meditation You Can Do Anywhere',
+                'url': 'https://www.youtube.com/embed/inpok4MKVLM',
+                'credit': '- YouTube. (2024). Youtu.be. https://youtu.be/inpok4MKVLM?si=T0wJ7TmpbzwBorYL',
+                'duration': '5:17',
+            },
+            {
+                'id': 'a2',
+                'title': 'A Japanese Method to Relax in 5 Minutes',
+                'url': 'https://www.youtube.com/embed/m3-O7gPsQK0',
+                'credit': '- YouTube. (2024). Youtu.be. https://youtu.be/m3-O7gPsQK0?si=5qiTWaaM0LtVZ4-v',
+                'duration': '3:02',
+            },
+            {
+                'id': 'a3',
+                'title': 'The 5-4-3-2-1 Method - A Grounding Exercise to Manage Anxiety',
+                'url': 'https://www.youtube.com/embed/30VMIEmA114',
+                'credit': '- YouTube. (2024). Youtu.be. https://youtu.be/30VMIEmA114?si=U6KtjUedyduz9LFt',
+                'duration': '4:28',
+            },
+            {
+                'id': 'a4',
+                'title': 'Quick Meditation: Changing Perspective',
+                'url': 'https://www.youtube.com/embed/iN6g2mr0p3Q',
+                'credit': '- YouTube. (2024). Youtu.be. https://youtu.be/iN6g2mr0p3Q?si=l4PJ8ZBMKuVNbJ5W',
+                'duration': '1:16',
+            },
+            {
+                'id': 'a5',
+                'title': 'A Ten Minute Guided Meditation to Clear Your Mind',
+                'url': 'https://www.youtube.com/embed/ez3GgRqhNvA',
+                'credit': '- YouTube. (2024). Youtu.be. https://youtu.be/ez3GgRqhNvA?si=3I2x1OI6Gv-_ff3g',
+                'duration': '10:09',
+            },
+            {
+                'id': 'a6',
+                'title': '10-Minute Meditation For Anxiety',
+                'url': 'https://www.youtube.com/embed/O-6f5wQXSu8',
+                'credit': '- YouTube. (2024). Youtu.be. https://youtu.be/O-6f5wQXSu8?si=IjOQnnLZR_Wz92pz',
+                'duration': '10:21',
+            },
+            {
+                'id': 'a7',
+                'title': '10-Minute Meditation For Sleep',
+                'url': 'https://www.youtube.com/embed/aEqlQvczMJQ',
+                'credit': '- YouTube. (2024). Youtu.be. https://youtu.be/aEqlQvczMJQ?si=RrdmoGkEEnT2jpJi',
+                'duration': '10:02',
+            },
         ];
-
-        data.forEach((video,i)=>{
-            let video_element=`
+    
+        data.forEach((video, i) => {
+            let video_element = `
                 <div class="video" data-id="${video.id}">
-                    <img class="image"src="{{ url_for('static', filename='assets/play-circle-regular-24.png') }}" alt="">
-                    <p>0${i+1}. </p>
+                    <img class="image" src="{{ url_for('static', filename='assets/play-circle-regular-24.png') }}" alt="">
+                    <p>0${i + 1}. </p>
                     <h3 class="title">${video.title}</h3>
                     <p class="time">${video.duration}</p>
                 </div>
             `;
-
             video_playlist.innerHTML += video_element;
-
-        })
-        
-
+        });
+    
         let videos = document.querySelectorAll('.video');
         videos[0].classList.add('active');
         videos[0].querySelector('.image').src = "{{ url_for('static', filename='assets/pause-circle-regular-24.png') }}";
-
-        videos.forEach(selected_video=>{
+    
+        videos.forEach(selected_video => {
             selected_video.onclick = () => {
-
-                for(all_videos of videos){
+                for (all_videos of videos) {
                     all_videos.classList.remove('active');
                     all_videos.querySelector('.image').src = "{{ url_for('static', filename='assets/play-circle-regular-24.png') }}";
                 }
                 selected_video.classList.add('active');
                 selected_video.querySelector('.image').src = "{{ url_for('static', filename='assets/pause-circle-regular-24.png') }}";
-
+    
                 let match_video = data.find(video => video.id == selected_video.dataset.id);
-                main_video.src = "{{ url_for('static', filename='videos/') }}" + match_video.name;
-                main_video.load();
-                main_video.play(); 
-                main_video_title.innerHTML =  match_video.title;
-                main_video_credit.innerHTML =  match_video.credit;
-
-
+                main_video.src = match_video.url; // Update to use the URL
+                main_video_title.innerHTML = match_video.title;
+                main_video_credit.innerHTML = match_video.credit;
             }
-        })
+        });
     </script>
 
 
