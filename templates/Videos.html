@@ -496,30 +496,6 @@
       </script>
 
     <script src="{{ url_for('static', filename='scripts/script.js') }}"> </script>
-    <script>
-        let timeout;
     
-        function setTimeout() {
-            timeout = setTimeout(() => {
-                alert('You have been inactive for too long. You will be logged out.');
-                window.location.href = '/logout';
-            }, 30 * 60 * 1000);
-        }
-    
-        function resetTimeout() {
-            clearTimeout(timeout);
-            setTimeout();
-        }
-    
-        window.onload = setTimeout;
-        window.onmousemove = resetTimeout;
-        window.onkeypress = resetTimeout;
-        window.onclick = resetTimeout;
-        window.onscroll = resetTimeout;
-    
-        setInterval(() => {
-            fetch('/keep-alive', { method: 'POST' });
-        }, 60 * 1000);
-    </script>
 </body>
 </html>
