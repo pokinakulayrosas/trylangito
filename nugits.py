@@ -445,15 +445,57 @@ def peersoverview():
 
 @app.route("/NUMOA_halloween2022/galleryOne")
 def galleryOne():
-    return render_template('galleryOne.html')
+    current_user = session.get('username')
+    
+    if current_user:
+        one = mongo.db.verifiedUsers.find_one({'email': current_user})
+        
+        saved = mongo.db.savedProfile.find_one({'form1.email': current_user})
+        
+        logo = saved['logo'] if saved and 'logo' in saved else None
+        
+        if one:
+            return render_template('galleryOne.html', one=one, email = session['username'], saved = saved, logo = logo)
+        else:
+            return render_template('NotFound.html')
+    else:
+        return redirect(url_for('logindex'))
 
 @app.route("/NUMOA_partnerships/galleryTwo")
 def galleryTwo():
-    return render_template('galleryTwo.html')
+    current_user = session.get('username')
+    
+    if current_user:
+        two = mongo.db.verifiedUsers.find_one({'email': current_user})
+        
+        saved = mongo.db.savedProfile.find_one({'form1.email': current_user})
+        
+        logo = saved['logo'] if saved and 'logo' in saved else None
+        
+        if two:
+            return render_template('galleryTwo.html', two=two, email = session['username'], saved = saved, logo = logo)
+        else:
+            return render_template('NotFound.html')
+    else:
+        return redirect(url_for('logindex'))
 
 @app.route("/NUMOA_summer2024/galleryThree")
 def galleryThree():
-    return render_template('galleryThree.html')
+    current_user = session.get('username')
+    
+    if current_user:
+        three = mongo.db.verifiedUsers.find_one({'email': current_user})
+        
+        saved = mongo.db.savedProfile.find_one({'form1.email': current_user})
+        
+        logo = saved['logo'] if saved and 'logo' in saved else None
+        
+        if three:
+            return render_template('galleryThree.html', three=three, email = session['username'], saved = saved, logo = logo)
+        else:
+            return render_template('NotFound.html')
+    else:
+        return redirect(url_for('logindex'))
 
 
 

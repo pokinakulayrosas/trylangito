@@ -23,9 +23,9 @@
             <div class="image-text">
                 <span class="image">
                     {% if logo %}
-                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
                     {% else %}
-                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
                     {% endif %}
                 </span>
                 <div class="text header-text"> 
@@ -187,6 +187,8 @@
                     style="margin-left: 100px;">Nationality:<span style="color:red;">*</span></label>
                     <input disabled type="text" name="nationality" id="profileNationality" placeholder="{{ saved.form1.nationality if saved and saved.form1 else 'Enter Nationality' }}"
                     style="margin-top: 50px;margin-left: 49px;"
+                    required
+                    oninput="capitalizeFirstLetter(this)" 
                     /><br>
 
                     <label for="profileFirstName" >First Name:<span style="color:red;">*</span></label>
@@ -216,40 +218,40 @@
                         <option value="Rather not say">Rather not say</option>
                     </select><br>
 
-                    <label for="profileMiddleI">Middle Initial:</label>
-                    <input disabled type="text" name="credentials" id="profileMiddleI" placeholder="{{ saved.form1.credentials if saved and saved.form1 else 'Enter Middle Initial' }}"
-                    style="margin-left: 52px;"/>
+                    <label for="profileBPlace">Birth Place:<span style="color:red;">*</span></label>
+                    <input disabled type="text" name="birthplace" id="profileBPlace" placeholder="{{ saved.form1.birthplace if saved and saved.form1 else 'Please Enter Birth Place' }}"
+                    style="margin-left: 59px;" required oninput="capitalizeFirstLetter(this)"/>
                     
                     <label for="profileReligion" style="margin-left: 100px;">Religion:</label>
                     <input disabled type="text" name="religion" id="profileReligion" placeholder="{{ saved.form1.religion if saved and saved.form1 else 'Please Enter Religion' }}"
-                    style="margin-left: 74px;"/><br>
+                    style="margin-left: 74px;" oninput="capitalizeFirstLetter(this)"/><br>
 
                     <label for="profileSuffix">Suffix:</label>
                     <input disabled type="text" name="suffix" id="profileSuffix" placeholder="{{ saved.form1.suffix if saved and saved.form1 else 'Please Enter Suffix' }}"
-                    style="margin-left: 105px;"/>
+                    style="margin-left: 105px;" oninput="capitalizeFirstLetter(this)"/>
 
                     <label for="profileMobile" style="margin-left: 99px;">Mobile No.:<span style="color:red;">*</span></label>
                     <input disabled type="number" oninput="validateMobile()" name="mobile" id="profileMobile" placeholder="{{ saved.form1.mobile if saved and saved.form1 else 'Please Enter Mobile | eg. 09123456789' }}"
-                    style="margin-left: 50px;"/><br>
+                    style="margin-left: 50px;" required /><br>
                     
 
                     <label for="profileBdate">Birthdate:<span style="color:red;">*</span></label>
-                    <input disabled type="date" name="birthdate" id="profileBdate" value="{{ saved.form1.birthdate if saved and saved.form1 else 'Please Set Birth Date' }}"
-                    style="margin-left: 73px;"/>
+                    <input disable type="date" name="birthdate" id="profileBdate" value="{{ saved.form1.birthdate if saved and saved.form1 else 'Please Set Birth Date' }}"
+                    style="margin-left: 73px;" required
+                    min="1960-01-01"
+                    max="2009-12-31"/>
 
                     <label for="profileTele" style="margin-left: 99px;">Telephone No.:</label>
                     <input disabled type="number" name="telephone" id="profileTele" placeholder="{{ saved.form1.telephone if saved and saved.form1 else 'Please Enter Telephone' }}"
                     style="margin-left: 29px;"/><br>
 
                     <label for="profileCountry">Country of Birth:<span style="color:red;">*</span></label>
-                    <input disabled type="text" name="countryBirth" id="profileCountry" placeholder="{{ saved.form1.countryBirth if saved and saved.form1 else 'Please Enter Country of Birth' }}"/>
+                    <input disabled type="text" name="countryBirth" id="profileCountry" placeholder="{{ saved.form1.countryBirth if saved and saved.form1 else 'Please Enter Country of Birth' }}" required oninput="capitalizeFirstLetter(this)"/>
 
                     <label for="profileEmail" style="margin-left: 100px;">Email Address:<span style="color:red;">*</span></label>
                     <input disabled type="text" name="email" id="profileEmail" placeholder="{{profile.email}}" value="{{profile.email}}"/><br>
 
-                    <label for="profileBPlace">Birth Place:<span style="color:red;">*</span></label>
-                    <input disabled type="text" name="birthplace" id="profileBPlace" placeholder="{{ saved.form1.birthplace if saved and saved.form1 else 'Please Enter Birth Place' }}"
-                    style="margin-left: 59px;"/>
+                    
                 </form>
             </div>
         </div>
@@ -264,80 +266,80 @@
                 <label for="presentProvince"  >Province:<span style="color:red;">*</span></label>
                 <input disabled type="text" name="presentProvince" id="presentProvince" placeholder="{{ saved.form2.presentProvince if saved and saved.form2 else 'Please Enter Present Province' }}"
                 style="margin-top: 150px; margin-left: 79px;"
-                />
+                required oninput="capitalizeFirstLetter(this)"/>
                 
                 <label for="permanentCountry" 
                 style="margin-left: 100px;">Country:<span style="color:red;">*</span></label>
                 <input disabled type="text" name="permanentCountry" id="permanentCountry" placeholder="{{ saved.form2.permanentCountry if saved and saved.form2 else 'Please Enter Permanent Country' }}"
                 style="margin-top: 50px; margin-left: 86px;"
-                /><br>
+                required oninput="capitalizeFirstLetter(this)"/><br>
 
                 <label for="presentCity">City/Municipality:<span style="color:red;">*</span></label>
-                <input disabled type="text" name="presentCity" id="presentCity" placeholder="{{ saved.form2.presentCity if saved and saved.form2 else 'Please Enter Present City' }}"/>
+                <input disabled type="text" name="presentCity" id="presentCity" placeholder="{{ saved.form2.presentCity if saved and saved.form2 else 'Please Enter Present City' }}" required oninput="capitalizeFirstLetter(this)"/>
 
                 <label for="permanentProvince" 
                 style="margin-left: 100px;">Province:<span style="color:red;">*</span></label>
                 <input disabled type="text" name="permanentProvince" id="permanentProvince" placeholder="{{ saved.form2.permanentProvince if saved and saved.form2 else 'Please Enter Permanent Province' }}"
                 style="margin-left: 80px;"
-                /><br>
+                required oninput="capitalizeFirstLetter(this)"/><br>
                 
                 <label for="presentHouse">House No./ St.:<span style="color:red;">*</span></label></label>
                 <input disabled type="text" name="presentHouse" id="presentHouse" placeholder="{{ saved.form2.presentHouse if saved and saved.form2 else 'Please Enter House No./ St.' }}"
-                style="margin-left: 39px;"/>
+                style="margin-left: 39px;" required oninput="capitalizeFirstLetter(this)"/>
                 
                 <label for="permanentCity" style="margin-left: 100px;">City/Municipality:<span style="color:red;">*</span></label>
-                <input disabled type="text" name="permanentCity" id="permanentCity" placeholder="{{ saved.form2.permanentCity if saved and saved.form2 else 'Please Enter a City' }}"/><br>
+                <input disabled type="text" name="permanentCity" id="permanentCity" placeholder="{{ saved.form2.permanentCity if saved and saved.form2 else 'Please Enter a City' }}" required oninput="capitalizeFirstLetter(this)"/><br>
 
                 <label for="presentBrgy">Barangay:<span style="color:red;">*</span></label>
                 <input disabled type="text" name="presentBrgy" id="presentBrgy" placeholder="{{ saved.form2.presentBrgy if saved and saved.form2 else 'Please Enter a Barangay' }}"
-                style="margin-left: 74px;"/>
+                style="margin-left: 74px;" required oninput="capitalizeFirstLetter(this)"/>
                 
                 <label for="permanentHouse" style="margin-left: 100px;">House No./ St.:<span style="color:red;">*</span></label></label>
                 <input disabled type="text" name="permanentHouse" id="permanentHouse" placeholder="{{ saved.form2.permanentHouse if saved and saved.form2 else 'Please Enter House No./ St.' }}"
-                style="margin-left: 39px;"/><br>
+                style="margin-left: 39px;" required oninput="capitalizeFirstLetter(this)"/><br>
 
-                <label for="presentPostal">Postal Code:</label>
+                <label for="presentPostal">Postal Code:<span style="color:red;">*</span></label>
                 <input disabled type="text" name="presentPostal" id="presentPostal" placeholder="{{ saved.form2.presentPostal if saved and saved.form2 else 'Please Enter Postal Code' }}"
-                style="margin-left: 61px;"/>
+                style="margin-left: 54px;" required oninput="capitalizeFirstLetter(this)"/>
 
                 <label for="permanentBrgy" style="margin-left: 100px;">Barangay:<span style="color:red;">*</span></label>
                 <input disabled type="text" name="permanentBrgy" id="permanentBrgy" placeholder="{{ saved.form2.permanentBrgy if saved and saved.form2 else 'Please Enter a Barangay' }}"
-                style="margin-left: 74px;"/><br>
+                style="margin-left: 74px;" required oninput="capitalizeFirstLetter(this)"/><br>
 
-                <label for="permanentPostal" style="margin-left: 586px;">Postal Code:</label>
+                <label for="permanentPostal" style="margin-left: 586px;">Postal Code:<span style="color:red;">*</span></label>
                 <input disabled type="text" name="permanentPostal" id="permanentPostal" placeholder="{{ saved.form2.permanentPostal if saved and saved.form2 else 'Please Enter Postal Code' }}"
-                style="margin-left: 62px;"
-                />
+                style="margin-left: 54px;"
+                required oninput="capitalizeFirstLetter(this)"/>
 
                 </form>
             </div>
         </div>
 
-        <div class="profile-third-content">
+        <div class="profile-third-content" style="height: 450px;">
             <h4>Contact Information</h4>
             <div class="profile-text3">
                 <form id="contactInfo" style="position:absolute; margin-top: -80px;">
 
                 <label for="contactFirstName"  >First Name:<span style="color:red;">*</span></label>
                 <input disabled type="text" name="contactFirstName" id="contactFirstName" placeholder="{{ saved.form3.contactFirstName if saved and saved.form3 else 'Please Enter First Name' }}"
-                style="margin-top: 150px; margin-left: 80px;"
-                /><br>
+                style="margin-top: 150px; margin-left: 80px;" required
+                oninput="capitalizeFirstLetter(this)"/><br>
                 
                 <label for="contactLastName">Last Name:<span style="color:red;">*</span></label>
                 <input disabled type="text" name="contactLastName" id="contactLastName" placeholder="{{ saved.form3.contactLastName if saved and saved.form3 else 'Please Enter Last Name' }}"
-                style="margin-top: 20px; margin-left: 82px;"
-                /><br>
+                style="margin-top: 20px; margin-left: 82px;" required oninput="capitalizeFirstLetter(this)"/><br>
 
                 <label>Email:<span style="color:red;">*</span></label>
-                <input disabled type="email" name="emergencyEmail" id="emergencyEmail" placeholder="{{saved.form3.emergencyEmail if saved and saved.form3 else 'Please Enter Email'}}" style="margin-left: 120px;"><br>
+                <input disabled type="email" name="emergencyEmail" id="emergencyEmail" placeholder="{{saved.form3.emergencyEmail if saved and saved.form3 else 'Please Enter Email'}}" style="margin-left: 120px;" required="@" oninput="capitalizeFirstLetter(this)"><br>
 
                 <label for="relationship">Relationship:<span style="color:red;">*</span></label>
-                <input disabled type="text" name="relationship" id="relationship" placeholder="{{ saved.form3.relationship if saved and saved.form3 else 'Please Enter Relationship' }}" style="margin-left: 67px;"/><br>
+                <input disabled type="text" name="relationship" id="relationship" placeholder="{{ saved.form3.relationship if saved and saved.form3 else 'Please Enter Relationship' }}" style="margin-left: 67px;" required oninput="capitalizeFirstLetter(this)"/><br>
 
                 <label for="emergencyContact">Contact Number:<span style="color:red;">*</span></label>
-                <input disabled type="text" name="emergencyContact" id="emergencyContact" placeholder="{{ saved.form3.emergencyContact if saved and saved.form3 else 'Please Enter Contact Emergency' }}"
-                style="margin-left: 38px;"
-                /><br>
+                <input disabled type="number" name="emergencyContact" 
+                id="emergencyContact" placeholder="{{ saved.form3.emergencyContact if saved and saved.form3 else 'Please Enter Contact Emergency' }}"
+                oninput="validateMobile()" 
+                style="margin-left: 38px;" required/><br>
                 
 
                 </form>
@@ -414,7 +416,6 @@
             document.getElementById('profileNationality').disabled = false;
             document.getElementById('profileCivilStatus').disabled = false;
             document.getElementById('profileGender').disabled = false;
-            document.getElementById('profileMiddleI').disabled = false;
             document.getElementById('profileReligion').disabled = false;
             document.getElementById('profileSuffix').disabled = false;
             document.getElementById('profileMobile').disabled = false;
@@ -627,8 +628,7 @@
             function enableFields() {
                 const fieldsToEnable = [
                     'profileLastName', 'profileFirstName', 'profileMiddleName',
-                    'profileNationality', 'profileCivilStatus', 'profileGender',
-                    'profileMiddleI', 'profileReligion', 'profileSuffix',
+                    'profileNationality', 'profileCivilStatus', 'profileGender','profileReligion', 'profileSuffix',
                     'profileMobile', 'profileBdate', 'profileTele',
                     'profileCountry', 'profileEmail', 'profileBPlace', 'contactFirstName', 'contactLastName', 'relationship','emergencyContact',
                     'emergencyEmail'
@@ -648,8 +648,7 @@
     
                 const fieldsToDisable = [
                     'profileLastName', 'profileFirstName', 'profileMiddleName',
-                    'profileNationality', 'profileCivilStatus', 'profileGender',
-                    'profileMiddleI', 'profileReligion', 'profileSuffix',
+                    'profileNationality', 'profileCivilStatus', 'profileGender', 'profileReligion', 'profileSuffix',
                     'profileMobile', 'profileBdate', 'profileTele',
                     'profileCountry', 'profileEmail', 'profileBPlace',
                     'presentProvince', 'permanentCountry', 'permanentProvince',
@@ -717,6 +716,17 @@
         setInterval(() => {
             fetch('/keep-alive', { method: 'POST' });
         }, 60 * 1000);
+
+        function gotoProfile(){
+            window.location.href = '/profile'
+        }
+
+        function capitalizeFirstLetter(input) {
+            const value = input.value;
+            if (value) {
+                input.value = value.charAt(0).toUpperCase() + value.slice(1);
+            }
+        }
     </script>
 </body>
 </html>
