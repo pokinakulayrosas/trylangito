@@ -295,9 +295,9 @@
             <div class="image-text">
                 <span class="image-profile">
                     {% if logo %}
-                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
                     {% else %}
-                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
                     {% endif %}
                 </span>
                 <div class="text header-text" style="margin-top: 20px;">
@@ -445,28 +445,26 @@
                         </thead>
            
                         <tbody>
-                            {% for response in response %}
-                            <tr>
-                                <td>{{response.date}}</td>
-                                <td>{{response.modality}}</td>
-                                <td class="truncate" onclick="copyToClipboard('{{response.room}}')">{{response.room}}</td>
-                                <td><p class="status pending">{{response.status}}</p></td>
-                            </tr>
-                            {% endfor %}
-                            <tr  class="active-row">
-                                <td>July 02, 2024</td>
-                                <td>Online</td>
-                                <td>Link Address</td>
-                                <td><p class="status cancelled">Cancelled</p></td>
-                            </tr>
-                            <tr>
-                                <td>November 06, 2024</td>
-                                <td>Face-to-face</td>
-                                <td>2030</td>
-                                <td><p class="status done">Done</p></td>
-                            </tr>
+                            {% if response|length == 0 %}
+                                <tr>
+                                    <td colspan="4" style="text-align: center;">No appointments available.</td>
+                                </tr>
+                            {% else %}
+                                {% for res in response %}
+                                <tr>
+                                    <td>{{ res.date }}</td>
+                                    <td>{{ res.modality }}</td>
+                                    <td class="truncate" onclick="copyToClipboard('{{ res.room }}')">{{ res.room }}</td>
+                                    <td><p class="status pending">{{ res.status }}</p></td>
+                                </tr>
+                                {% endfor %}
+                            {% endif %}
                         </tbody>
                     </table>
+
+                    <!-- class="status cancelled" for red -->
+
+                    <!-- class="status done" for green -->
                
             </section>
         </div>
@@ -484,6 +482,11 @@
     </script>
 
     <script>
+
+        function gotoProfile(){
+            window.location.href = '/profile'
+        }
+
         function confirmLogout() {
             if (confirm("Are you sure you want to log out?")) {
                 window.location.href = "/";
@@ -496,32 +499,6 @@
       </script>
  
     <script src="{{ url_for('static', filename='scripts/script.js') }}"> </script>
-   
-    <script>
-        let timeout;
-   
-        function setTimeout() {
-            timeout = setTimeout(() => {
-                alert('You have been inactive for too long. You will be logged out.');
-                window.location.href = '/logout';
-            }, 30 * 60 * 1000);
-        }
-   
-        function resetTimeout() {
-            clearTimeout(timeout);
-            setTimeout();
-        }
-   
-        window.onload = setTimeout;
-        window.onmousemove = resetTimeout;
-        window.onkeypress = resetTimeout;
-        window.onclick = resetTimeout;
-        window.onscroll = resetTimeout;
-   
-        setInterval(() => {
-            fetch('/keep-alive', { method: 'POST' });
-        }, 60 * 1000);
-    </script>
  
 </body>
 </html>

@@ -56,7 +56,7 @@ FACULTYNAME = "faculty"
 FACULTYPASS = "login"
 
 UPLOAD_FOLDER = 'C:\\Users\\Senju\\Downloads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif','pdf'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif','pdf', 'jfif'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -110,7 +110,7 @@ def upload_logo():
     return {'success': False, 'message': 'Invalid file type'}, 400
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'gif','pdf'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'gif','pdf', 'jfif'}
         
         
 @app.route("/testConnection")
@@ -132,7 +132,7 @@ def logindex():
 
 @app.route("/register")
 def regdex():
-    return render_template('registration.html')
+    return render_template('Registration.html')
 
 @app.route("/forgotpassword")
 def forgotpassword():
@@ -237,7 +237,7 @@ def journals():
         
         saved = mongo.db.savedProfile.find_one({'form1.email': current_user})
         
-        journal_entries = mongo.db.journal.find({'username': current_user})
+        journal_entries = list(mongo.db.journal.find({'username': current_user}))
         
         logo = saved['logo'] if saved and 'logo' in saved else None
         
@@ -388,29 +388,114 @@ def audio():
 
 @app.route("/smart/overview")
 def smartoverview():
-    return render_template('SmartOverview.html')
+    
+    current_user = session.get('username')
+    
+    if current_user:
+        smart = mongo.db.verifiedUsers.find_one({'email': current_user})
+        
+        saved = mongo.db.savedProfile.find_one({'form1.email': current_user})
+        
+        logo = saved['logo'] if saved and 'logo' in saved else None
+        
+        if smart:
+            return render_template('SmartOverview.html', smart=smart, email = session['username'], saved = saved, logo = logo)
+        else:
+            return render_template('NotFound.html')
+    else:
+        return redirect(url_for('logindex'))
 
 @app.route("/NUMOA_GSO/overview")
 def gsooverview():
-    return render_template('GSOOverview.html')
+    current_user = session.get('username')
+    
+    if current_user:
+        gso = mongo.db.verifiedUsers.find_one({'email': current_user})
+        
+        saved = mongo.db.savedProfile.find_one({'form1.email': current_user})
+        
+        logo = saved['logo'] if saved and 'logo' in saved else None
+        
+        if gso:
+            return render_template('GSOOverview.html', gso=gso, email = session['username'], saved = saved, logo = logo)
+        else:
+            return render_template('NotFound.html')
+    else:
+        return redirect(url_for('logindex'))
 
 @app.route("/NUMOA_Peers/overview")
 def peersoverview():
-    return render_template('PeersOverview.html')
+    current_user = session.get('username')
+    
+    if current_user:
+        peers = mongo.db.verifiedUsers.find_one({'email': current_user})
+        
+        saved = mongo.db.savedProfile.find_one({'form1.email': current_user})
+        
+        logo = saved['logo'] if saved and 'logo' in saved else None
+        
+        if peers:
+            return render_template('PeersOverview.html', peers=peers, email = session['username'], saved = saved, logo = logo)
+        else:
+            return render_template('NotFound.html')
+    else:
+        return redirect(url_for('logindex'))
 
 #GALLERY
 
 @app.route("/NUMOA_halloween2022/galleryOne")
 def galleryOne():
-    return render_template('galleryOne.html')
+    current_user = session.get('username')
+    
+    if current_user:
+        one = mongo.db.verifiedUsers.find_one({'email': current_user})
+        
+        saved = mongo.db.savedProfile.find_one({'form1.email': current_user})
+        
+        logo = saved['logo'] if saved and 'logo' in saved else None
+        
+        if one:
+            return render_template('galleryOne.html', one=one, email = session['username'], saved = saved, logo = logo)
+        else:
+            return render_template('NotFound.html')
+    else:
+        return redirect(url_for('logindex'))
 
 @app.route("/NUMOA_partnerships/galleryTwo")
 def galleryTwo():
-    return render_template('galleryTwo.html')
+    current_user = session.get('username')
+    
+    if current_user:
+        two = mongo.db.verifiedUsers.find_one({'email': current_user})
+        
+        saved = mongo.db.savedProfile.find_one({'form1.email': current_user})
+        
+        logo = saved['logo'] if saved and 'logo' in saved else None
+        
+        if two:
+            return render_template('galleryTwo.html', two=two, email = session['username'], saved = saved, logo = logo)
+        else:
+            return render_template('NotFound.html')
+    else:
+        return redirect(url_for('logindex'))
 
 @app.route("/NUMOA_summer2024/galleryThree")
 def galleryThree():
-    return render_template('galleryThree.html')
+    current_user = session.get('username')
+    
+    if current_user:
+        three = mongo.db.verifiedUsers.find_one({'email': current_user})
+        
+        saved = mongo.db.savedProfile.find_one({'form1.email': current_user})
+        
+        logo = saved['logo'] if saved and 'logo' in saved else None
+        
+        if three:
+            return render_template('galleryThree.html', three=three, email = session['username'], saved = saved, logo = logo)
+        else:
+            return render_template('NotFound.html')
+    else:
+        return redirect(url_for('logindex'))
 
 
 
@@ -653,11 +738,11 @@ def feedbackad():
 
 @app.route("/background")
 def background():
-    return render_template("Admin/pages/informations/background.html")
+    return render_template("Admin/pages/Informations/background.html")
 
 @app.route("/background/smart")
 def smart():
-    return render_template("Admin/pages/informations/journal2.html")
+    return render_template("Admin/pages/Informations/journal2.html")
 
 @app.route("/background/nojournal")
 def norespond():
@@ -751,7 +836,7 @@ def recent_referrals():
 #         faculty = mongo.db.facultyRegistration.find_one({'_id': ObjectId(faculty_id)})
 
 #         if faculty:
-#             return render_template('Admin/pages/informations/referralResponse.html', faculty=faculty)
+#             return render_template('Admin/pages/Informations/referralResponse.html', faculty=faculty)
 #         else:
 #             return "Referral not found", 404
 
@@ -815,7 +900,7 @@ def registration():
         <body>
             <h1>Email Verification</h1>
             <p>Please verify your email by clicking the link below:</p>
-            <a href="http://127.0.0.1:5000/email-verified?token={{verification_token}}&email={{email}}">Verify Email</a>
+            <a href="http://www.nu-gits.com/email-verified?token={{verification_token}}&email={{email}}">Verify Email</a>
         </body>
         </html>
         """, verification_token=verification_token, email=email)
@@ -864,17 +949,7 @@ def email_verified():
         strands = request.form.get("Strands")
         password = request.form["password"]
         
-        if 'fileUpload' in request.files:
-            file = request.files['fileUpload']
-
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)  # Save the path if needed
-            else:
-                return "Invalid file type", 400
-        else:
-            return "No file uploaded", 400
+        
 
         timestamp = datetime.utcnow()
 
@@ -888,14 +963,12 @@ def email_verified():
             "Strands": strands,
             "password": password,
             "status": "Verified",
-            "file_path": file_path,
             "timestamp": timestamp
         }
         
         insertVerifiedUser = mongo.db.verifiedUsers.insert_one(userInformation)
 
         if insertVerifiedUser.inserted_id:
-            # Check if the token is valid
             verification_collection = mongo.db.forVerification
             verification_data = verification_collection.delete_many({"email": email})
 
@@ -937,7 +1010,7 @@ def faculty_registration():
         <body>
             <h1>Email Verification</h1>
             <p>Please verify your email by clicking the link below:</p>
-            <a href="http://127.0.0.1:5000/faculty-verified?token={{verification_token}}&email={{email}}">Verify Email</a>
+            <a href="http://www.nu-gits.com/faculty-verified?token={{verification_token}}&email={{email}}">Verify Email</a>
         </body>
         </html>
         """, verification_token=verification_token, email=email)
@@ -1018,7 +1091,7 @@ def forgot_password():
             <body>
                 <h1>Password Reset Verification</h1>
                 <p>Please verify your email by clicking the link below:</p>
-                <a href="http://127.0.0.1:5000/reset-password?token={{token}}&email={{email}}">Reset Password</a>
+                <a href="http://www.nu-gits.com/reset-password?token={{token}}&email={{email}}">Reset Password</a>
             </body>
             </html>
             """, token=verification_token, email=email)
@@ -1129,13 +1202,15 @@ def profile_user_db():
     except Exception as e:
         print(f'Error: {e}')
         return jsonify({'success': False, 'message': str(e)}), 500
-    
+
+  
 @app.route('/journal_db', methods=['POST'])
 def journal_db():
     date = request.form['date']
     mood = request.form['mood']
     title = request.form['title']
     notes = request.form['note']
+    mood_image = request.form['moodImage']
     
     username = session.get('username')
 
@@ -1144,10 +1219,25 @@ def journal_db():
         'mood': mood,
         'title': title,
         'notes': notes,
+        'mood_image': mood_image,
         'username': username
     })
 
     return redirect(url_for('journals'))
+
+@app.route('/get-timestamp', methods=['GET'])
+def get_timestamp():
+    current_user = session.get('username')
+    
+    if current_user:
+        user = mongo.db.verifiedUsers.find_one({'email': current_user})
+        
+        if user and 'timestamp' in user:
+            return jsonify({"timestamp": user['timestamp']})
+        else:
+            return jsonify({"error": "Timestamp not found"}), 404
+    else:
+        return jsonify({"error": "User not logged in"}), 403
 
 @app.route('/edit_journal/<entry_id>', methods=['GET'])
 def edit_journal(entry_id):
@@ -1440,7 +1530,7 @@ def appointment_response(appointment_id):
                 })
             
             return render_template(
-                'Admin/pages/informations/appointmentResponse.html',
+                'Admin/pages/Informations/appointmentResponse.html',
                 appointment=appointment,
                 responses=response_data
             )
@@ -1530,7 +1620,7 @@ def profile_response(profile_id):
             
             logo = saved['logo'] if saved and 'logo' in saved else None
 
-            return render_template('Admin/pages/informations/background.html', profile=profile, saved=saved, logo=logo, appointments = appointments)
+            return render_template('Admin/pages/Informations/background.html', profile=profile, saved=saved, logo=logo, appointments = appointments)
         else:
             return "Profile not found", 404
 
@@ -1689,7 +1779,7 @@ def referral_response(referral_id):
         referral = mongo.db.profReferrals.find_one({'_id': ObjectId(referral_id)})
 
         if referral:
-            return render_template('Admin/pages/informations/referralResponse.html', referral=referral)
+            return render_template('Admin/pages/Informations/referralResponse.html', referral=referral)
         else:
             return "Referral not found", 404
 
