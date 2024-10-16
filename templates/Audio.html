@@ -271,9 +271,9 @@
             <div class="image-text">
                 <span class="image-profile">
                     {% if logo %}
-                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
                     {% else %}
-                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
                     {% endif %}
                 </span>
                 <div class="text header-text" style="margin-top: 20px;"> 
@@ -333,7 +333,7 @@
                         </a>
                     </li>
                     <li class="nav-link">
-                        <a href="meditation">
+                        <a href="/meditation">
                             <i class='bx bx-leaf icon' ></i>
                             <span class="text nav-text">Meditation</span>
                         </a>
@@ -370,7 +370,7 @@
         <button class="back-button" onClick="onBack()">Back</button>
 
         <div class="box-container">
-            <div class="box" data-src="{{ url_for('static', filename='audios/music-1.mp3') }}">
+            <div class="box" data-src="https://pixabay.com/music/meditationspiritual-calm-soul-meditation-247330/">
                 <div class="image">
                     <div class="play">      
                         <i class="fas fa-play"></i>
@@ -519,6 +519,11 @@
     </div>
 
     <script>
+
+        function gotoProfile(){
+            window.location.href = '/profile'
+        }
+
         function onBack(){
             window.location.href = '/meditation';
         }
@@ -548,6 +553,12 @@
                 musicPlayer.querySelector('h3').innerText = text;
                 musicPlayer.querySelector('audio').src = src;
                 musicPlayer.querySelector('audio').play();
+
+                let audio = musicPlayer.querySelector('audio');
+                audio.load();
+                audio.play().catch(error => {
+                    console.error('Error playing audio:', error);
+                });
             });
         });
     </script>

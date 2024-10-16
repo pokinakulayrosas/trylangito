@@ -292,9 +292,9 @@
             <div class="image-text">
                 <span class="image">
                     {% if logo %}
-                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
                     {% else %}
-                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
                     {% endif %}
                 </span>
                 <div class="text header-text">
@@ -448,9 +448,7 @@
                     consent. I affirm my responsibility in working towards my/my child’s (for clients 17 years old and
                     below) goals for the current consultation. </p>
                 <div class="first-input">
-                    <label for="fullname">1. Please type your full name if you agree with the consent form.</label><br>
-                    <p class="consent">For minors (17 y/o and below), after writing down your name, please provide your
-                        parent/guardian's full name to provide assent.</p>
+                    <label for="fullname">1. Full Name</label><br>
 
                         <input type="text"  id="fullname" name="fullname" placeholder="Enter your fullname" required value="{{smartchat.firstName}} {{smartchat.middleName}} {{smartchat.lastName}}" disabled style="cursor: not-allowed;"><br>
 
@@ -875,14 +873,16 @@
                         relationship to that person.</p>
 
                     <div class="input-container textarea">
-                        <textarea name="consultation_relationship" class="consultation_relationship" id="consultation_relationship"
-                        placeholder="{{saved.form3.contactFirstName}} {{saved.form3.contactLastName}}" value=""></textarea>
+                        <input type="text" name="consultation_relationship" class="consultation_relationship" id="consultation_relationship"
+                        style="cursor: not-allowed;"
+                        placeholder="{{saved.form3.contactFirstName}} {{saved.form3.contactLastName}}" value="{{saved.form3.contactFirstName}} {{saved.form3.contactLastName}}" disabled>
                     </div>
 
                     <div class="second-input">
                         <label for="second-input">18. Contact number/s of the identified contact person/s</label><br>
                         <div class="input-container textarea">
-                            <textarea name="contact_numbers" class="contact_numbers" id="contact_numbers"
+                            <input type="text" name="contact_numbers" class="contact_numbers"
+                            style="cursor: not-allowed;" id="contact_numbers"
                                 placeholder="{{saved.form3.emergencyContact}}" disabled value="{{saved.form3.emergencyContact}}" style="cursor: not-allowed;"></textarea>
                         </div>
                     </div>
@@ -890,9 +890,11 @@
                     <div class="second-input">
                         <label for="second-input">19. E-mail address of the identified contact person/s</label><br>
                         <div class="input-container textarea">
-                            <textarea name="email_person" class="email_person" id="email_person"
+                            <input type="text" name="email_person"
+                            style="cursor: not-allowed;"
+                            class="email_person" id="email_person"
                             placeholder="{{saved.form3.emergencyEmail}}"
-                            value="{{saved.form3.emergencyEmail}}"></textarea>
+                            value="{{saved.form3.emergencyEmail}}" disabled></textarea>
                         </div>
                     </div>
 
@@ -1147,18 +1149,7 @@
                 const emailPerson = document.getElementById('email_person').value.trim();
                 const professionalsAllied = document.getElementById('professionals_allied').value.trim();
         
-                if (consultationRelationship === "") {
-                    alert("Please enter the name and relationship of the contact person.");
-                    valid = false;
-                }
-                if (contactNumbers === "") {
-                    alert("Please enter the contact number(s) of the contact person.");
-                    valid = false;
-                }
-                if (emailPerson === "") {
-                    alert("Please enter the e-mail address of the contact person.");
-                    valid = false;
-                }
+    
                 if (professionalsAllied === "") {
                     alert("Please enter the names of other allied professionals you have consulted.");
                     valid = false;
@@ -1209,6 +1200,10 @@
             form7.style.display = 'none';
         })
 
+        function gotoProfile(){
+            window.location.href = '/profile'
+        }
+
         
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -1257,6 +1252,8 @@
                 }
             });
 
+            
+
             function enableFields(){
                 const fieldsToEnable = [
                     'fullname',
@@ -1265,7 +1262,10 @@
                     'middlename',
                     'studentnumber',
                     'email',
-                    'department'
+                    'department',
+                    'consultation_relationship',
+                    'contact_numbers',
+                    'email_person',
                 ];
 
                 fieldsToEnable.forEach(id => {
@@ -1308,31 +1308,6 @@
         document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
     </script>
 
-    <script>
-        let timeout;
-    
-        function setTimeout() {
-            timeout = setTimeout(() => {
-                alert('You have been inactive for too long. You will be logged out.');
-                window.location.href = '/logout';
-            }, 30 * 60 * 1000);
-        }
-    
-        function resetTimeout() {
-            clearTimeout(timeout);
-            setTimeout();
-        }
-    
-        window.onload = setTimeout;
-        window.onmousemove = resetTimeout;
-        window.onkeypress = resetTimeout;
-        window.onclick = resetTimeout;
-        window.onscroll = resetTimeout;
-    
-        setInterval(() => {
-            fetch('/keep-alive', { method: 'POST' });
-        }, 60 * 1000);
-    </script>
 </body>
 
 </html>

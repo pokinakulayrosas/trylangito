@@ -56,7 +56,7 @@ FACULTYNAME = "faculty"
 FACULTYPASS = "login"
 
 UPLOAD_FOLDER = 'C:\\Users\\Senju\\Downloads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif','pdf'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif','pdf', 'jfif'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -110,7 +110,7 @@ def upload_logo():
     return {'success': False, 'message': 'Invalid file type'}, 400
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'gif','pdf'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'gif','pdf', 'jfif'}
         
         
 @app.route("/testConnection")
@@ -237,7 +237,7 @@ def journals():
         
         saved = mongo.db.savedProfile.find_one({'form1.email': current_user})
         
-        journal_entries = mongo.db.journal.find({'username': current_user})
+        journal_entries = list(mongo.db.journal.find({'username': current_user}))
         
         logo = saved['logo'] if saved and 'logo' in saved else None
         
@@ -1202,7 +1202,8 @@ def profile_user_db():
     except Exception as e:
         print(f'Error: {e}')
         return jsonify({'success': False, 'message': str(e)}), 500
-    
+
+  
 @app.route('/journal_db', methods=['POST'])
 def journal_db():
     date = request.form['date']
@@ -1223,6 +1224,20 @@ def journal_db():
     })
 
     return redirect(url_for('journals'))
+
+@app.route('/get-timestamp', methods=['GET'])
+def get_timestamp():
+    current_user = session.get('username')
+    
+    if current_user:
+        user = mongo.db.verifiedUsers.find_one({'email': current_user})
+        
+        if user and 'timestamp' in user:
+            return jsonify({"timestamp": user['timestamp']})
+        else:
+            return jsonify({"error": "Timestamp not found"}), 404
+    else:
+        return jsonify({"error": "User not logged in"}), 403
 
 @app.route('/edit_journal/<entry_id>', methods=['GET'])
 def edit_journal(entry_id):

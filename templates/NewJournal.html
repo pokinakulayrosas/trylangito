@@ -45,9 +45,9 @@
             <div class="image-text">
                 <span class="image-profile">
                     {% if logo %}
-                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
                     {% else %}
-                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
                     {% endif %}
                 </span>
                 <div class="text header-text" style="margin-top: 20px;"> 
@@ -163,10 +163,10 @@
     <div style="height:100%;font-size:36px; background:red;" id="parallax3">
         <form id="journalForm1">
             <div class="search-container">
-                <input type="search" placeholder="Search">
+                <input type="search" placeholder="Search" id="search-input" oninput="searchEntries()">
             </div>
             <div class="select-container">
-                <select name="category" id="select-category">
+                <select name="category" id="select-category" onchange="filterEntries()">
                     <option value="" >--</option>
                     <option value="JANUARY">JANUARY</option>
                     <option value="FEBRUARY">FEBRUARY</option>
@@ -184,7 +184,7 @@
             </div>
             <div class="parent-container">
                 {% for entry in entries %}
-                <div class="container-class" onClick="edit('{{ entry._id }}')">
+                <div class="container-class"  data-date="{{ entry.date }}" onClick="edit('{{ entry._id }}')">
                     <div class="container-box">
                         <h1>{{entry.title}}</h1><br>
                         <div class="content-box">
@@ -207,7 +207,9 @@
             <div class="glass">
                     <img class="hugging" src="{{ url_for('static', filename='assets/hugging.png') }}" alt="" style="width: 500px; height: auto; opacity: 3; filter: none; margin-left:5%; margin-top:4%;">
                     <h1 class="eychwan">Is everything well with you today?</h1>
-                    <input type="date" id="date-picker">
+
+                    <input type="date" id="date-picker" required>
+
                     <h2 class="eychtwo">How do you feel?</h2>
                     <div id="form3">
                         <input type="radio" id="mood-1" name="mood"
@@ -244,7 +246,7 @@
     <div id="form4">
         <div class="containir">
             <h1></h1>
-            <form id="notesForm" class="notesForm" method="POST" action="/journal_db">
+            <form id="notesForm" class="notesForm" method="POST" action="/journal_db" onsubmit="return confirmSubmission();">
                 <input type="hidden" id="date" name="date" required>
                 <input type="hidden" id="mood" name="mood" required>
 
@@ -272,6 +274,15 @@
 
 
     <script>
+
+        function confirmSubmission() {
+            return confirm("Are you sure you want to submit this note?");
+        }
+
+        function gotoProfile(){
+            window.location.href = '/profile'
+        }
+
         const parallax = document.getElementById('parallax');
         const parallax1 = document.getElementById('parallax1');
         const parallax2 = document.getElementById('parallax2');
@@ -422,6 +433,101 @@
         
     </script>
 
+    <script>
+        function filterEntries() {
+            const selectedMonth = document.getElementById('select-category').value;
+            const entries = document.querySelectorAll('.container-class');
+            
+            const monthMap = {
+                "JANUARY": 0,
+                "FEBRUARY": 1,
+                "MARCH": 2,
+                "APRIL": 3,
+                "MAY": 4,
+                "JUNE": 5,
+                "JULY": 6,
+                "AUGUST": 7,
+                "SEPTEMBER": 8,
+                "OCTOBER": 9,
+                "NOVEMBER": 10,
+                "DECEMBER": 11
+            };
+    
+            const monthIndex = monthMap[selectedMonth];
+    
+            entries.forEach(entry => {
+                const entryDate = new Date(entry.dataset.date);
+                if (selectedMonth === "" || entryDate.getMonth() === monthIndex) {
+                    entry.style.display = "block";
+                } else {
+                    entry.style.display = "none";
+                }
+            });
+        }
+
+        function searchEntries() { 
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const entries = document.querySelectorAll('.container-class');
+    
+            entries.forEach(entry => {
+                const title = entry.querySelector('h1') ? entry.querySelector('h1').textContent.toLowerCase() : '';
+                const date = entry.dataset.date ? entry.dataset.date.toLowerCase() : '';
+                const moodElement = entry.querySelector('.content-box p:nth-child(2)');
+                const notesElement = entry.querySelector('.content-box p:nth-child(3)');
+                const mood = moodElement ? moodElement.textContent.toLowerCase() : '';
+                const notes = notesElement ? notesElement.textContent.toLowerCase() : ''; 
+                
+                
+                if (
+                    title.includes(query) ||
+                    date.includes(query) ||
+                    mood.includes(query) ||
+                    notes.includes(query)
+                ) {
+                    entry.style.display = "block";
+                } else {
+                    entry.style.display = "none";
+                }
+            });
+        }
+    </script>
+
+    <script>
+        async function fetchTimestamp() {
+            const response = await fetch('/get-timestamp');
+            if (!response.ok) {
+                console.error('Error fetching timestamp:', response.statusText);
+                return null;
+            }
+            const data = await response.json();
+            return data.timestamp;
+        }
+
+        function setMinMaxDate(minDate) {
+            const datePicker = document.getElementById('date-picker');
+            const today = new Date();
+
+            datePicker.setAttribute('min', minDate);
+
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const formattedDate = `${yyyy}-${mm}-${dd}`;
+
+            datePicker.setAttribute('max', formattedDate);
+        }
+
+        async function initializeDatePicker() {
+            const timestamp = await fetchTimestamp();
+            if (timestamp) {
+                const minDate = new Date(timestamp).toISOString().split('T')[0];
+                setMinMaxDate(minDate);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', initializeDatePicker);
+    </script>
+
 
     <script src="{{ url_for('static', filename='scripts/script.js') }}"> </script>
 
@@ -437,30 +543,6 @@
         document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
       </script>
 
-      <script>
-        let timeout;
-    
-        function setTimeout() {
-            timeout = setTimeout(() => {
-                alert('You have been inactive for too long. You will be logged out.');
-                window.location.href = '/logout';
-            }, 30 * 60 * 1000);
-        }
-    
-        function resetTimeout() {
-            clearTimeout(timeout);
-            setTimeout();
-        }
-    
-        window.onload = setTimeout;
-        window.onmousemove = resetTimeout;
-        window.onkeypress = resetTimeout;
-        window.onclick = resetTimeout;
-        window.onscroll = resetTimeout;
-    
-        setInterval(() => {
-            fetch('/keep-alive', { method: 'POST' });
-        }, 60 * 1000);
-    </script>
+      
 </body>
 </html>

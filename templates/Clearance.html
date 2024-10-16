@@ -312,9 +312,9 @@
             <div class="image-text">
                 <span class="image-profile">
                     {% if logo %}
-                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
                     {% else %}
-                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
                     {% endif %}
                 </span>
                 <div class="text header-text" style="margin-top: 20px;"> 
@@ -602,6 +602,11 @@
         setInterval(() => {
             fetch('/keep-alive', { method: 'POST' });
         }, 60 * 1000);
+
+
+        function gotoProfile(){
+            window.location.href = '/profile'
+        }
     </script>
 
 </body>
