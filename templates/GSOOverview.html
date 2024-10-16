@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Navigation.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='SmartOverview.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <title>NU MOA GSO Overview</title>
+
+    <style>
+
+        *{
+            font-family: 'Poppins', sans-serif;
+            margin:0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root{
+            --body-color:#f0f8ff;
+            --sidebar-color:#354186;
+            --primary-color:#DDBB44;
+            --primary-color-light:#F6F5FF;
+            --toggle-color:#DDD;
+            --text-color:#F6F5FF;
+        
+            --tran-02:all 0.2s ease;
+            --tran-03:all 0.3s ease;
+            --tran-04:all 0.4s ease;
+            --tran-05:all 0.5s ease;
+        }
+        
+        body{
+            height: 100%;
+            transition: var(--tran-05);
+        }
+        
+        body.dark{
+            --body-color:#18191A;
+            --sidebar-color:#242526;
+            --primary-color:#3A3B3C;
+            --primary-color-light:#3A3B3C;
+            --toggle-color:#FFF;
+            --text-color:#CCC;
+        }
+        
+        .sidebar .text{
+            font-size: 16px;
+            font-weight: 500;
+            color:var(--text-color);
+            transition: var(--tran-03);
+            white-space: nowrap;
+            opacity: 1;
+        }
+        .sidebar .image-profile{
+            margin-top: 20px;
+            width: 62px;
+            height: 62px;
+            display: flex;
+            margin-left: 9px;  
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .sidebar{
+            position: fixed;
+            top:0;
+            left:0;
+            height: 100%;
+            width: 300px;
+            padding: 10px 14px;
+            background: var(--sidebar-color);
+            transition: var(--tran-05);
+            z-index: 100;
+        }
+        
+        .sidebar.close{
+            width: 6%;
+        }
+        
+        .sidebar.close .text{
+            opacity: 0;
+        }
+        
+        .sidebar li{
+            height: 40px;
+            margin-top: 5px;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sidebar li .icon{
+            font-size: 20px;
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .sidebar li .icon, 
+        .sidebar li .text{
+            color: var(--text-color);
+            transition: var(--tran-02);
+        }
+        
+        .sidebar li .bx-search{
+            color:#242526 ;
+            transition: var(--tran-02);
+        }
+        
+        .sidebar header{
+            position: relative;
+        }
+        
+        .sidebar .image-text img{
+            width:40px;
+        }
+        
+        .sidebar header .image-text{
+            display: flex;
+            align-items: center;
+        }
+        
+        header .image-text .header-text{
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header-text .name{
+            font-weight: 600;
+        }
+        
+        .header-text .profession{
+            margin-top: -2px;
+        }
+        .sidebar header .toggle{
+            position: absolute;
+            top:50%;
+            right:-25px;
+            transform:translateY(-50%) rotate(180deg);
+            height: 25px;
+            width: 25px;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: var(--sidebar-color);
+            font-size: 25px;
+            transition: var(--tran-03);
+        }
+        
+        .sidebar.close header .toggle{
+            transform: translateY(-50%);
+        }
+        
+        body.dark .sidebar header .toggle{
+            color:var(--text-color);
+        }
+        
+        .sidebar .menu{
+            margin-top: 35px;
+        }
+        
+        .sidebar .search-box{
+            background: var(--primary-color-light);
+            border-radius: 6px;
+            transition: var(--tran-05);
+            margin-top: 10px;
+        }
+        
+        .search-box input{
+            height: 100%;
+            width: 100%;
+            outline: none;
+            border: none;
+            border-radius:6px;
+            background: var(--primary-color-light);
+            transition: var(--tran-05);
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .sidebar li a{
+            margin-top: -50px;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            border-radius:6px;
+            align-items: center;
+            text-decoration: none;
+            transition: var(--tran-04);
+        }
+        
+        .sidebar li a:hover{
+            background: var(--primary-color);
+        }
+        
+        .sidebar li a:hover .icon,
+        .sidebar li a:hover .text{
+            color: var(--sidebar-color);
+        }
+        
+        body.dark .sidebar li a:hover .icon,
+        body.dark .sidebar li a:hover .text{
+            color: var(--text-color);
+        }
+        
+        .sidebar .menu-bar{
+            height: calc(100% -50px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .menu-bar .mode{
+            background: var(--primary-color-light);
+            position: relative;
+            border-radius: 6px;
+        }
+        
+        .menu-bar .mode .moon-sun{
+            height: 50px;
+            width: 60px;
+            display:flex ;
+            align-items: center;
+        }
+        
+        .menu-bar .mode i{
+            position: absolute;
+            transition: var(--tran-03);
+        }
+        
+        .menu-bar .mode i.sun{
+            opacity: 0;
+        }
+        
+        body.dark .menu-bar .mode i.sun{
+            opacity: 1;
+        }
+        
+        body.dark .menu-bar .mode i.moon{
+            opacity: 0;
+        }
+        
+        .menu-bar .mode .toggle-switch{
+            height: 100%;
+            min-width: 60px;
+            right:0;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            position:absolute;
+            cursor: pointer;
+            border-radius: 6px;
+            background: var(--primary-color-light);
+            transition: var(--tran-05);
+        }
+        
+        .toggle-switch .switch{
+            height: 22px;
+            width: 44px;
+            position: relative;
+            border-radius: 25px;
+            background: var(--toggle-color)
+        }
+        
+        .switch::before{
+            content:"";
+            position: absolute;
+            border-radius: 50%;
+            height: 15px;
+            top: 50%;
+            left:5px;
+            transform:translateY(-50%);
+            width: 15px;
+            background: var(--sidebar-color);
+            transition: var(--tran-03);
+        }
+        
+        body.dark .switch::before{
+            left:24px;
+        }
+        
+        .sidebar.close ~ .home{
+            left: 88px;
+            width: calc(100% - 88px);
+        }
+    </style>
+
+</head>
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    {% if logo %}
+                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
+                    {% endif %}
+                </span>
+                <div class="text header-text"> 
+                    <span class="name">{{gso.firstName}} {{gso.lastName}}</span>
+                    <span class="profession">{{gso.department}}</span>
+                </div>
+            </div>
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+        <div class="menu-bar">
+            <li class="search-box">
+                <i class='bx bx-search icon'></i>
+                    <input type="text" placeholder="Search" id="search">
+            </li>
+            <div class="menu">
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="/home">
+                            <i class='bx bx-home-smile icon'></i>
+                            <span class="text nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/profile">
+                            <i class='bx bx-user icon'></i>
+                            <span class="text nav-text">Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/journals">
+                            <i class='bx bx-note icon'></i>
+                            <span class="text nav-text">Journal</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/calendar">
+                            <i class='bx bx-calendar icon'></i>
+                            <span class="text nav-text">Calendar</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/smartchat">
+                            <i class='bx bx-edit icon'></i>
+                            <span class="text nav-text">SmartChat</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/clearance">
+                            <i class='bx bx-food-menu icon'></i>
+                            <span class="text nav-text">Clearance</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/ScheduleViewer">
+                            <i class='bx bx-calendar-event icon' ></i>
+                            <span class="text nav-text">Schedule Viewer</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/meditation">
+                            <i class='bx bx-leaf icon' ></i>
+                            <span class="text nav-text">Meditation</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="bottom-content">
+                <li class="">
+                    <a href="#" id="logoutbtn">
+                        <i class='bx bx-log-out icon' ></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+
+                <li class="mode">
+                    <div class="moon-sun">
+                        <i class='bx bx-moon icon moon' ></i>
+                        <i class='bx bx-sun icon sun' ></i>
+                    </div>
+                    <span class="mode-text text">Dark Mode</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+
+            </div>
+        </div>
+
+    </nav>
+
+    <div class="wrap">
+
+        <main class="main">
+            
+            <section class="section">
+                <div class="section_wrap">
+
+                    <div class="section_item">
+
+                        <div class="section_img">
+                            <img src="{{ url_for('static', filename='assets/bg-1.jpg') }}" alt="1">
+                        </div>
+                        <div class="section_txt">
+                            <span class="section_span">01</span>
+                            <h2 class="section_title">NU MOA<span class="stroke">Guidance Services Office</span></h2>
+                            <img src="{{ url_for('static', filename='assets/sparkle.svg') }}" class="star" alt="star">
+                        </div>
+                    </div>
+                    <div class="section_item">
+                        <div class="section_txt">
+                            <span class="section_span">02</span>
+                            <h2 class="section_title">Caring</h2>
+                            <img src="{{ url_for('static', filename='assets/sparkle.svg') }}" class="star" alt="star">
+                        </div>
+                        <div class="section_img">
+                            <img src="{{ url_for('static', filename='assets/bg-2.jpg') }}" alt="2">
+                        </div>
+                    </div>
+                    <div class="section_item">
+
+                        <div class="section_img">
+                            <img src="{{ url_for('static', filename='assets/bg-3.jpg') }}" alt="3">
+                        </div>
+                        <div class="section_txt">
+                            <span class="section_span">03</span>
+                            <h2 class="section_title">Loving</h2>
+                            <img src="{{ url_for('static', filename='assets/sparkle.svg') }}" class="star" alt="star">
+                        </div>
+                    </div>
+                    <div class="section_item">
+                        <div class="section_txt">
+                            <span class="section_span">04</span>
+                            <h2 class="section_title">Hugging</h2>
+                            <img src="{{ url_for('static', filename='assets/sparkle.svg') }}" class="star" alt="star">
+                        </div>
+                        <div class="section_img">
+                            <img src="{{ url_for('static', filename='assets/bg-4.jpg') }}" alt="4">
+                        </div>
+                    </div>
+                    <section class="section-text">
+                        <div class="content">
+                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                        </div>
+                    </section>
+                    <section class="section-text">
+                        <div class="content">
+                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                        </div>
+                    </section>
+                    <a href="/home">Back</a>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = "/";
+            } else {
+   
+            }
+        }
+   
+        document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+      </script>
+
+    <script src="{{ url_for('static', filename='scripts/script.js') }}"> </script>
+    <script>
+        let timeout;
+    
+        function setTimeout() {
+            timeout = setTimeout(() => {
+                alert('You have been inactive for too long. You will be logged out.');
+                window.location.href = '/logout';
+            }, 30 * 60 * 1000);
+        }
+    
+        function resetTimeout() {
+            clearTimeout(timeout);
+            setTimeout();
+        }
+    
+        window.onload = setTimeout;
+        window.onmousemove = resetTimeout;
+        window.onkeypress = resetTimeout;
+        window.onclick = resetTimeout;
+        window.onscroll = resetTimeout;
+    
+        setInterval(() => {
+            fetch('/keep-alive', { method: 'POST' });
+        }, 60 * 1000);
+    </script>
+
+    <script>
+        function gotoProfile(){
+            window.location.href = '/profile'
+        }
+    </script>
+
+</body>
+</html>

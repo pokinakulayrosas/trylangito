@@ -1,0 +1,119 @@
+.table_header{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 10%;
+    background-color: var(--color-primary);
+    padding: .8rem 1rem;
+}
+.table_header h1{
+    position: absolute;
+    color: var(--color-white);
+    margin-top: 0.5%;
+}
+.table_header input[type=search]{
+    margin-top: 0.8%;
+    margin-left: 70%;
+    width: 300px;
+    height: 30px;
+    border-radius: 4px;
+    outline: none;
+    border: 2px solid #fff;
+    box-sizing: border-box;
+    transition: .3s;
+    padding: 8px;
+}
+.table_body{
+  width: 95%;
+  max-height: calc(89% - 1.6rem);
+  background-color: var(--color-background);
+  margin: .8rem auto;
+  border-radius: .6rem;
+  overflow: auto;
+}
+.table_body::-webkit-scrollbar{
+    width: 0.5rem;
+    height: 0.5rem;
+}
+.table_body::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+.table_body:hover::-webkit-scrollbar-thumb{
+    visibility: visible;
+}
+table{
+    width: 100%;
+}
+td img{
+    width: 36px;
+    height: 36px;
+    margin-right: 0.6rem;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+table,th,td {
+    border-collapse: collapse;
+    padding: 1rem;
+    text-align: left;
+}
+main.table{
+    width: 82vw;
+    height: 90vh;
+    background-color: var(--color-white);
+    backdrop-filter: blur(7px);
+    box-shadow: var(--box-shadow);
+    border-radius: .8rem;
+    overflow: hidden;
+}
+thead th{
+    position: sticky;
+    left: 0;
+    background-color: var(--color-light);
+    color: var(--color-dark);
+}
+tbody tr:nth-child(even){
+    color: var(--color-dark);
+}
+tbody tr:hover{
+    background-color: var(--color-white);
+    color: var(--color-white);
+    
+}
+
+
+
+@media(max-width: 1000px){
+    td:not(:first-of-type){
+        min-width: 12.1rem;
+    }
+}
+
+aside .sidebar .dark-mode{
+    background-color: var(--color-light);
+    display: flex;
+    margin-left: 55px;
+    margin-top: 150%;
+    justify-content: space-between;
+    align-items: center;
+    height: 1.6rem;
+    width: 4.2rem;
+    cursor: pointer;
+    border-radius: var(--border-radius-1);
+}
+
+aside .sidebar .dark-mode span{
+    font-size: 1.2rem;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+aside .sidebar .dark-mode span.active{
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: var(--border-radius-1);
+}

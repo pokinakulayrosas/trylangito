@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Navigation.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='smartchat.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <title>SmartChat</title>
+    
+    <style>
+        
+    
+    :root{
+        --body-color:#f0f8ff;
+        --sidebar-color:#354186;
+        --primary-color:#DDBB44;
+        --primary-color-light:#F6F5FF;
+        --toggle-color:#DDD;
+        --text-color:#F6F5FF;
+    
+        --tran-02:all 0.2s ease;
+        --tran-03:all 0.3s ease;
+        --tran-04:all 0.4s ease;
+        --tran-05:all 0.5s ease;
+    }
+    
+    
+    
+    body.dark{
+        --body-color:#18191A;
+        --sidebar-color:#242526;
+        --primary-color:#3A3B3C;
+        --primary-color-light:#3A3B3C;
+        --toggle-color:#FFF;
+        --text-color:#CCC;
+    }
+    
+    .sidebar .text{
+        font-size: 16px;
+        font-weight: 500;
+        color:var(--text-color);
+        transition: var(--tran-03);
+        white-space: nowrap;
+        opacity: 1;
+    }
+    .sidebar .image-profile{
+        margin-top: 20px;
+        width: 62px;
+        height: 62px;
+        display: flex;
+        margin-left: 9px;  
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .sidebar{
+        position: fixed;
+        top:0;
+        left:0;
+        height: 100%;
+        width: 300px;
+        padding: 10px 14px;
+        background: var(--sidebar-color);
+        transition: var(--tran-05);
+        z-index: 100;
+    }
+    
+    .sidebar.close{
+        width: 6%;
+    }
+    
+    .sidebar.close .text{
+        opacity: 0;
+    }
+    
+    .sidebar li{
+        height: 40px;
+        margin-top: 5px;
+        list-style: none;
+        display: flex;
+        align-items: center;
+    }
+    
+    .sidebar li .icon{
+        font-size: 20px;
+        min-width: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .sidebar li .icon, 
+    .sidebar li .text{
+        color: var(--text-color);
+        transition: var(--tran-02);
+    }
+    
+    .sidebar li .bx-search{
+        color:#242526 ;
+        transition: var(--tran-02);
+    }
+    
+    .sidebar header{
+        position: relative;
+    }
+    
+    .sidebar .image-text img{
+        width:40px;
+    }
+    
+    .sidebar header .image-text{
+        display: flex;
+        align-items: center;
+    }
+    
+    header .image-text .header-text{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .header-text .name{
+        font-weight: 600;
+    }
+    
+    .header-text .profession{
+        margin-top: -2px;
+    }
+    .sidebar header .toggle{
+        position: absolute;
+        top:50%;
+        right:-25px;
+        transform:translateY(-50%) rotate(180deg);
+        height: 25px;
+        width: 25px;
+        background: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: var(--sidebar-color);
+        font-size: 25px;
+        transition: var(--tran-03);
+    }
+    
+    .sidebar.close header .toggle{
+        transform: translateY(-50%);
+    }
+    
+    body.dark .sidebar header .toggle{
+        color:var(--text-color);
+    }
+    
+    .sidebar .menu{
+        margin-top: 35px;
+    }
+    
+    .sidebar .search-box{
+        background: var(--primary-color-light);
+        border-radius: 6px;
+        transition: var(--tran-05);
+        margin-top: 10px;
+    }
+    
+    .search-box input{
+        height: 100%;
+        width: 100%;
+        outline: none;
+        border: none;
+        border-radius:6px;
+        background: var(--primary-color-light);
+        transition: var(--tran-05);
+        font-size: 16px;
+        font-weight: 500;
+    }
+    
+    .sidebar li a{
+        margin-top: -50px;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        border-radius:6px;
+        align-items: center;
+        text-decoration: none;
+        transition: var(--tran-04);
+    }
+    
+    .sidebar li a:hover{
+        background: var(--primary-color);
+    }
+    
+    .sidebar li a:hover .icon,
+    .sidebar li a:hover .text{
+        color: var(--sidebar-color);
+    }
+    
+    body.dark .sidebar li a:hover .icon,
+    body.dark .sidebar li a:hover .text{
+        color: var(--text-color);
+    }
+    
+    .sidebar .menu-bar{
+        height: calc(100% -50px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .menu-bar .mode{
+        background: var(--primary-color-light);
+        position: relative;
+        border-radius: 6px;
+    }
+    
+    .menu-bar .mode .moon-sun{
+        height: 50px;
+        width: 60px;
+        display:flex ;
+        align-items: center;
+    }
+    
+    .menu-bar .mode i{
+        position: absolute;
+        transition: var(--tran-03);
+    }
+    
+    .menu-bar .mode i.sun{
+        opacity: 0;
+    }
+    
+    body.dark .menu-bar .mode i.sun{
+        opacity: 1;
+    }
+    
+    body.dark .menu-bar .mode i.moon{
+        opacity: 0;
+    }
+    
+    .menu-bar .mode .toggle-switch{
+        height: 100%;
+        min-width: 60px;
+        right:0;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        position:absolute;
+        cursor: pointer;
+        border-radius: 6px;
+        background: var(--primary-color-light);
+        transition: var(--tran-05);
+    }
+    
+    .toggle-switch .switch{
+        height: 22px;
+        width: 44px;
+        position: relative;
+        border-radius: 25px;
+        background: var(--toggle-color)
+    }
+    
+    .switch::before{
+        content:"";
+        position: absolute;
+        border-radius: 50%;
+        height: 15px;
+        top: 50%;
+        left:5px;
+        transform:translateY(-50%);
+        width: 15px;
+        background: var(--sidebar-color);
+        transition: var(--tran-03);
+    }
+    
+    body.dark .switch::before{
+        left:24px;
+    }
+    
+    .sidebar.close ~ .home{
+        left: 88px;
+        width: calc(100% - 88px);
+    }
+</style>
+
+</head>
+
+<body>
+
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    {% if logo %}
+                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
+                    {% endif %}
+                </span>
+                <div class="text header-text">
+                    <div class="text header-text"> 
+                        <span class="name">{{smartchat.firstName}} {{smartchat.lastName}}</span>
+                        <span class="profession">{{smartchat.department}}</span>
+                    </div>
+                </div>
+            </div>
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+        <div class="menu-bar">
+            <li class="search-box">
+                <i class='bx bx-search icon'></i>
+                <input type="text" placeholder="Search">
+            </li>
+            <div class="menu">
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="/home">
+                            <i class='bx bx-home-smile icon'></i>
+                            <span class="text nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/profile">
+                            <i class='bx bx-user icon'></i>
+                            <span class="text nav-text">Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/journals">
+                            <i class='bx bx-note icon'></i>
+                            <span class="text nav-text">Journal</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/calendar">
+                            <i class='bx bx-calendar icon'></i>
+                            <span class="text nav-text">Calendar</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/smartchat">
+                            <i class='bx bx-edit icon'></i>
+                            <span class="text nav-text">SmartChat</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/clearance">
+                            <i class='bx bx-food-menu icon'></i>
+                            <span class="text nav-text">Clearance</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/ScheduleViewer">
+                            <i class='bx bx-calendar-event icon'></i>
+                            <span class="text nav-text">Schedule Viewer</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/meditation">
+                            <i class='bx bx-leaf icon'></i>
+                            <span class="text nav-text">Meditation</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="bottom-content">
+                <li class="">
+                    <a href="#" id="logoutbtn">
+                        <i class='bx bx-log-out icon'></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+
+                <li class="mode">
+                    <div class="moon-sun">
+                        <i class='bx bx-moon icon moon'></i>
+                        <i class='bx bx-sun icon sun'></i>
+                    </div>
+                    <span class="mode-text text">Dark Mode</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+
+            </div>
+        </div>
+
+    </nav>
+
+
+    <div class="website-content" id="website-content">
+        <form class="container" id="form1">
+
+            <div class="container2">
+                <h1>SmartChat: Conversation with your</h1>
+                <h2>Counselor (A.Y. 2023-2024)</h2>
+                <p class="dear">Dear SHS students,</p>
+                <p class="first-paragraph">How are you? As you go throughthe school year, you might encounter situations
+                    that may seem challenging to cope with. The Guidance Servcices Office (GSO) is here to help you when
+                    such situations arise. Through the SmartChat service
+                    of the GSO, we will be able to help you address your concerns as we work together and learn
+                    effective ways to cope with your current situation.</p>
+                <p class="second-paragraph">Please take time to fill out this form should you wish to meet with your
+                    counselor and discuss any concern/s you might have.</p>
+                <p class="third-paragraph">Once you have submitted this form, please wait for a message from your
+                    counselor regarding the confirmation of your schedule.</p>
+                <p class="fourth-paragraph">Thank you!</p>
+                <p class="fifth-paragraph">Your Guidance Counselor,</p>
+                <p class="sixth-paragraph">Ms. Candice Chelsea de Castro, RPm, RGC</p>
+            </div>
+
+            <div class="container3">
+                <p class="first-line">Hi, Alexandra Mae. When you submit this form, the owner will see your name and
+                    email address.</p>
+                <h3>INFORMED CONSENT AND DATA PRIVACY NOTICE</h3>
+                <p class="second-line">Please make sure to read our consent form prior to filling out the SmartChat
+                    Form.</p>
+                <p class="third-line">DATA PRIVACY AND CONSENT :</p>
+                <p class="fourth-line">By filling out this form, I allow the Guidance Services Office (GSO) to collect
+                    the information I place here. I understand that the following information will be collected from me:
+                </p>
+                <ul class="collected">
+                    <li>Personal information</li>
+                    <li>Contact person and details in case of emergency</li>
+                    <li>Nature of my concern</li>
+                </ul>
+                <p class="fifth-line">I understand that the GSO will keep my information safe and will use it for
+                    purposes relevant to the functioning of the Guidance Services Office unless there is a need to
+                    inform others. </p>
+                <p class="sixth-line">I expect the Guidance Services Office (GSO) to uphold the utmost ethical standards
+                    and confidentiality. As this is a professional service, I am aware that records (both written and
+                    digital) are essential and will be kept safe. </p>
+                <p class="seventh-line">This confidentiality, however, will be suspended under the following
+                    circumstances:</p>
+                <ul class="circumstances">
+                    <li>When there is serious, known, and foreseeable harm to myself or others;</li>
+                    <li>When I reveal information of instances of abuse, in any form, being committed against me or a
+                        vulnerable person (e.g., child, elder; employee, woman, mentally ill, etc.);</li>
+                    <li>When a court order is issued or when such release is required by law; and</li>
+                    <li>When I have authorized such a release in writing or by verbal permission.</li>
+                </ul>
+                <p class="eight-line">TERMINATION OF SERVICES: </p>
+                <p class="ninth-line">At any point in time, I have the right to terminate the services of the
+                    undersigned counselor and at the same time, the counselor can terminate the services once I show
+                    improvement in my case, or if the counseling relationship has not been facilitative. </p>
+                <p class="tenth-line">I acknowledge that I have read and understood the terms outlined in this informed
+                    consent. I affirm my responsibility in working towards my/my child’s (for clients 17 years old and
+                    below) goals for the current consultation. </p>
+                <div class="first-input">
+                    <label for="fullname">1. Full Name</label><br>
+
+                        <input type="text"  id="fullname" name="fullname" placeholder="Enter your fullname" required value="{{smartchat.firstName}} {{smartchat.middleName}} {{smartchat.lastName}}" disabled style="cursor: not-allowed;"><br>
+
+              
+                        <button type="button" class="button" id="nextButton">Next</button>
+                </div>
+            </div>
+        </form>
+
+
+
+        <form class="container" id="form2" style="display:none;height:80%; margin-top:11%">
+
+            <div class="container2">
+                <h4>SmartChat: Conversation with your</h4>
+                <h5>Counselor (A.Y. 2023-2024)</h5>
+            </div>
+
+            <div class="container3">
+                <p class="first-asterisk">*
+                <p class="first-required">Required</p>
+                </p>
+
+
+                <div class="second-input">
+                    <label for="second-input">2. Is this your first
+                        time to talk to your counselor?
+                    </label><br>
+
+                    <input type="radio" id="yes" name="yes_no" value="Yes">
+                    <label for="yes">Yes</label><br>
+                    <input type="radio" id="no" name="yes_no" value="No">
+                    <label for="no">No</label><br>
+                </div>
+
+                <button type="button" class="button" id="previous">Previous</button>
+                <button type="button" class="button" id="nextBtn1">Next</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container" id="form3" style="display:none; height:170%; margin-top:5%;">
+        <form id="personalInfo">
+            <div class="container2" style="height:12.5%">
+                <h6>SmartChat: Conversation with your Counselor (A.Y. 2023-2024)</h6>
+
+            </div>
+
+            <div class="container3">
+
+                <p class="first-asterisk">*
+                <p class="first-required">Required</p>
+                </p>
+
+                <p class="eleventh-line">PERSONAL INFORMATION</p>
+
+
+                <div class="second-input">
+                    <label for="second-input">3. Last Name</label><br>
+                    <input type="text" id="lastname" name="lastname" placeholder="Enter your Last Name" value="{{smartchat.lastName}}" disabled style="cursor: not-allowed;"><br>
+                </div>
+
+                <div class="fourth-input">
+                    <label for="fourth-input">4. Given Name</label><br>
+                    <input type="text" id="given" name="given" placeholder="Enter your Given Name" value="{{smartchat.firstName}}" disabled style="cursor: not-allowed;"><br>
+                </div>
+
+                <div class="fourth-input">
+                    <label for="fourth-input">5. Middle Name</label><br>
+                    <input type="text" id="middlename" name="middlename" placeholder="Enter your Middle Name" value="{{smartchat.middleName}}" disabled style="cursor: not-allowed;"><br>
+                </div>
+
+                <div class="fourth-input">
+                    <label for="fourth-input">6. Student Number (Ex. 2019-123456)</label><br>
+                    <input type="text" id="studentnumber" name="studentnumber" placeholder="Enter your Student Number"  
+                    value="{{smartchat.studentID}}" disabled style="cursor: not-allowed;"><br>
+                </div>
+
+                <div class="fourth-input">
+                    <label for="fourth-input">7. Year Level
+                    </label><br>
+
+                    <input type="radio" id="year11" name="year_level" value="year 11" required style="margin-top: 20px;">
+                    <label for="year11" style="font-size:0.9rem">Year 11</label><br>
+
+                    <input type="radio" id="year12" name="year_level" value="year 12" required>
+                    <label for="year12" style="font-size:0.9rem">Year 12</label><br>
+
+                    <input type="radio" id="1styear" name="year_level" value="1styear" required>
+                    <label for="1styear" style="font-size:0.9rem">1st Year</label><br>
+
+                    <input type="radio" id="2ndyear" name="year_level" value="2ndyear" required>
+                    <label for="2ndyear" style="font-size:0.9rem">2nd Year</label><br>
+
+                    <input type="radio" id="3rdyear" name="year_level" value="3rdyear" required>
+                    <label for="year12" style="font-size:0.9rem">3rd Year</label><br>
+
+                    <input type="radio" id="4thyear" name="year_level" value="4thyear" required>
+                    <label for="year12" style="font-size:0.9rem">4th Year</label><br>
+
+                    <input type="radio" id="5thyear" name="year_level" value="5thyear" required>
+                    <label for="5thyear" style="font-size:0.9rem">5th Year</label><br>
+                </div>
+
+                <div class="fourth-input">
+                    <label for="fourth-input">8. Department
+                    </label><br>
+
+                    <input type="text" id="department" name="department" placeholder="Enter your Department" value="{{smartchat.department}}" disabled style="cursor: not-allowed;"><br>
+                </div>
+
+                <div class="fourth-input">
+                    <label for="fourth-input">9. Section</label><br>
+                    <input type="text" id="section" name="section" placeholder="Enter your Section" required minlength="3"><br>
+                </div>
+
+                <button type="button" class="button" id="previous1">Previous</button>
+                <button type="button" class="button" id="nextBtn2">Next</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container" id="form4" style="display:none;height:310%; margin-top:5%">
+        <form id="concernsForm">
+            <div class="container2" style="height:6.5%">
+                <h6>SmartChat: Conversation with your Counselor (A.Y. 2023-2024)</h6>
+            </div>
+
+            <div class="container3">
+
+                <p class="first-asterisk">*
+                <p class="first-required">Required</p>
+                </p>
+
+                <p class="eleventh-line">PERSONAL NATURE OF CONCERN/S</p>
+                <p class="twelvth-line">In this section, you can briefly share any concern/s that you wish to discuss with
+                    your counselors.</p>
+
+
+
+                <div class="fourth-input">
+                    <label for="fourth-input">10. Which area/s of concern do you wish to talk about with your counselor? (Select atleast 3)
+                    </label><br><br>
+                    <input type="checkbox" id="concern1" name="concerns" value="academic difficulty">
+                    <label for="concern" style="font-size:0.95rem">Academic difficulty</label><br><br>
+
+                    <input type="checkbox" id="concern2" name="concerns" value="attendance">
+                    <label for="concern2" style="font-size:0.9rem">Attendance</label><br><br>
+
+                    <input type="checkbox" id="concern3" name="concerns" value="Career/vocational">
+                    <label for="concern3" style="font-size:0.9rem">Career/vocational concern</label><br><br>
+
+                    <input type="checkbox" id="concern4" name="concerns" value="Classroom Behavior">
+                    <label for="concern4" style="font-size:0.9rem">Classroom Behavior</label><br><br>
+
+                    <input type="checkbox" id="concern5" name="concerns" value="conflict with prof/school personnel">
+                    <label for="concern5" style="font-size:0.9rem">Conflict with professors/school personnel</label><br><br>
+
+                    <input type="checkbox" id="concern6" name="concerns" value="family concern">
+                    <label for="concern6" style="font-size:0.9rem">Family concern</label><br><br>
+
+                    <input type="checkbox" id="concern7" name="concerns" value="financial difficulty">
+                    <label for="concern7" style="font-size:0.9rem">Financial difficulty</label><br><br>
+
+                    <input type="checkbox" id="concern8" name="concerns" value="Gender/sexuality concern">
+                    <label for="concern8" style="font-size:0.9rem">Gender/sexuality concern</label><br><br>
+
+                    <input type="checkbox" id="concern9" name="concerns" value="health concern">
+                    <label for="concern9" style="font-size:0.9rem">Health concern</label><br><br>
+
+                    <input type="checkbox" id="concern10" name="concerns" value="motivation">
+                    <label for="concern10" style="font-size:0.9rem">Motivation</label><br><br>
+
+                    <input type="checkbox" id="concern11" name="concerns" value="peer relationship">
+                    <label for="concern11" style="font-size:0.9rem">Peer relationship</label><br><br>
+
+                    <input type="checkbox" id="concern12" name="concerns" value="personal adjustment">
+                    <label for="concern12" style="font-size:0.9rem">Personal adjustment</label><br><br>
+
+                    <input type="checkbox" id="concern13" name="concerns" value="Romantic relationship">
+                    <label for="concern13" style="font-size:0.9rem">Romantic relationship
+                    </label><br><br>
+
+                    <input type="checkbox" id="concern14" name="concerns" value="time management">
+                    <label for="concern14" style="font-size:0.9rem">Time Management</label><br><br>
+
+                    <input type="checkbox" id="concern15" name="concerns" value="work concern">
+                    <label for="concern15" style="font-size:0.9rem">Work Concern</label><br><br>
+
+                    <input type="checkbox" id="concern16" name="concerns" value="other concern">
+                    <input type="text" id="otherConcerns" name="otherConcerns" placeholder="Specify if other" style="margin-left:1%"><br>
+                </div>
+
+                <div class="fourth-input" style="width:100%">
+                    <label for="fourth-input">11. On a scale 0f 1 to 10, with 1 being very manageable and 10 being not
+                        manageable at all and would need immediate help, how would
+                        you rate the intensity of your concern?
+                    </label>
+                    <div class="fourth-input">
+
+                        <input type="radio" id="rate1" name="rate_level" value="1" required>
+                        <label for="rate1" style="font-size:0.9rem">1</label><br>
+                        <input type="radio" id="rate2" name="rate_level" value="2" required>
+                        <label for="rate2" style="font-size:0.9rem">2</label><br>
+                        <input type="radio" id="rate3" name="rate_level" value="3" required>
+                        <label for="rate3" style="font-size:0.9rem">3</label><br>
+                        <input type="radio" id="rate4" name="rate_level" value="4" required>
+                        <label for="rate4" style="font-size:0.9rem">4</label><br>
+                        <input type="radio" id="rate5" name="rate_level" value="5" required>
+                        <label for="rate5" style="font-size:0.9rem">5</label><br>
+                        <input type="radio" id="rate6" name="rate_level" value="6" required>
+                        <label for="rate6" style="font-size:0.9rem">6</label><br>
+                        <input type="radio" id="rate7" name="rate_level" value="7" required>
+                        <label for="rate7" style="font-size:0.9rem">7</label><br>
+                        <input type="radio" id="rate8" name="rate_level" value="8" required>
+                        <label for="rate8" style="font-size:0.9rem">8</label><br>
+                        <input type="radio" id="rate9" name="rate_level" value="9" required>
+                        <label for="rate9" style="font-size:0.9rem">9</label><br>
+                        <input type="radio" id="rate10" name="rate_level" value="10" required>
+                        <label for="rate10" style="font-size:0.9rem">10</label><br>
+                    </div>
+                </div>
+
+                <div class="fourth-input">
+                    <label for="fourth-input">12. Which emotion/s do you feel as a result of your concerns? (Select atleast 3)
+                    </label><br><br>
+                    <input type="checkbox" id="concern17" name="emotions" value="Anxious">
+                    <label for="concern" style="font-size:0.95rem">Anxious</label><br><br>
+
+                    <input type="checkbox" id="concern18" name="emotions" value="Apologetic">
+                    <label for="concern18" style="font-size:0.9rem">Apologetic</label><br><br>
+
+                    <input type="checkbox" id="concern19" name="emotions" value="Arrogant">
+                    <label for="concern19" style="font-size:0.9rem">Arrogant</label><br><br>
+
+                    <input type="checkbox" id="concern20" name="emotions" value="Confident">
+                    <label for="concern20" style="font-size:0.9rem">Confident</label><br><br>
+
+                    <input type="checkbox" id="concern21" name="emotions" value="Curious">
+                    <label for="concern21" style="font-size:0.9rem">Curious</label><br><br>
+
+                    <input type="checkbox" id="concern22" name="emotions" value="Disappointed">
+                    <label for="concern22" style="font-size:0.9rem">Disappointed</label><br><br>
+
+                    <input type="checkbox" id="concern23" name="emotions" value="Enraged">
+                    <label for="concern23" style="font-size:0.9rem">Enraged</label><br><br>
+
+                    <input type="checkbox" id="concern24" name="emotions" value="Exhausted">
+                    <label for="concern24" style="font-size:0.9rem">Exhausted</label><br><br>
+
+                    <input type="checkbox" id="concern25" name="emotions" value="Frightened">
+                    <label for="concern25" style="font-size:0.9rem">Frightened</label><br><br>
+
+                    <input type="checkbox" id="concern26" name="emotions" value="Frustrated">
+                    <label for="concern26" style="font-size:0.9rem">Frustrated</label><br><br>
+
+                    <input type="checkbox" id="concern27" name="emotions" value="Grieving">
+                    <label for="concern27" style="font-size:0.9rem">Grieving</label><br><br>
+
+                    <input type="checkbox" id="concern28" name="emotions" value="Guilty">
+                    <label for="concern28" style="font-size:0.9rem">Guilty</label><br><br>
+
+                    <input type="checkbox" id="concern29" name="emotions" value="Happy">
+                    <label for="concern29" style="font-size:0.9rem">Happy</label><br><br>
+
+                    <input type="checkbox" id="concern30" name="emotions" value="Horrified">
+                    <label for="concern30" style="font-size:0.9rem">Horrified</label><br><br>
+
+                    <input type="checkbox" id="concern31" name="emotions" value="Hurt">
+                    <label for="concern31" style="font-size:0.9rem">Hurt</label><br><br>
+
+                    <input type="checkbox" id="concern32" name="emotions" value="Jealous">
+                    <label for="concern32" style="font-size:0.9rem">Jealous</label><br><br>
+
+                    <input type="checkbox" id="concern33" name="emotions" value="Lonely">
+                    <label for="concern33" style="font-size:0.9rem">Lonely</label><br><br>
+
+                    <input type="checkbox" id="concern34" name="emotions" value="Pessimistic">
+                    <label for="concern34" style="font-size:0.9rem">Pessimistic</label><br><br>
+
+                    <input type="checkbox" id="concern35" name="emotions" value="Paranoid">
+                    <label for="concern35" style="font-size:0.9rem">Paranoid</label><br><br>
+
+                    <input type="checkbox" id="concern36" name="emotions" value="Relaxed">
+                    <label for="concern36" style="font-size:0.9rem">Relaxed</label><br><br>
+
+                    <input type="checkbox" id="concern37" name="emotions" value="Sad">
+                    <label for="concern37" style="font-size:0.9rem">Sad</label><br><br>
+
+                    <input type="checkbox" id="concern38" name="emotions" value="Stressed">
+                    <label for="concern38" style="font-size:0.9rem">Stressed</label><br><br>
+
+                    <input type="checkbox" id="concern39" name="emotions" value="Undecided">
+                    <label for="concern39" style="font-size:0.9rem">Undecided</label><br><br>
+
+                    <input type="checkbox" id="concern40" name="emotions" value="Withdrawn">
+                    <label for="concern40" style="font-size:0.9rem">Withdrawn</label><br><br>
+
+                    <input type="checkbox" id="concern41" name="otherEmotionsBox" value="Other emotions">
+                    <input type="text" id="otherEmotions" name="otherEmotions" placeholder="Specify if other" style="margin-left:1%"><br>
+                </div>
+            </div>
+
+
+            <button type="button" class="button" style="background: #24305E;
+            color: #FFF;
+            width: 13%;
+            border-radius: 2px;
+            height: 1.5%;
+            padding:7px 5px;
+            align-items: center;
+            margin-bottom: -4px;
+            font-size: 15px;
+            margin-left: 10%;" id="previous2">Previous</button>
+            <button type="button" class="button" style="height: 1.5%;" id="nextBtn3">Next</button>
+        </form>
+    </div>
+
+    <div class="container" id="form5" style="display:none; height:170%; margin-top:5%;">
+        <form id="contactForm">
+            <div class="container2" style="height:14.5%">
+                <h4>SmartChat: Conversation with your</h4>
+                <h5>Counselor (A.Y. 2023-2024)</h5>
+
+            </div>
+
+            <div class="container3">
+
+                <p class="first-asterisk">*
+                <p class="first-required">Required</p>
+                </p>
+
+                <p class="eleventh-line">CONTACT INFORMATION</p>
+                <p class="thirteenth-line">Please answer the following questions on how your guidance counselor can contact
+                    you.</p>
+
+                <div class="fourth-input">
+                    <label for="fourth-input">13. What is your email address in MS Teams/Outlook?</label><br>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" value="{{email}}" disabled style="cursor: not-allowed;"><br>
+                </div>
+
+                <div class="fourth-input">
+                    <label for="fourth-input">14. I would prefer to have my session...
+                    </label><br>
+                </div>
+
+                <input type="radio" id="f2f" name="mode" value="F2F at the GSO" required>
+                <label for="f2f" style="font-size:0.9rem;color:#374785;">F2F at the GSO</label><br>
+                <input type="radio" id="online" name="mode" value="Online via MS Teams" required>
+                <label for="online" style="font-size:0.9rem; color:#374785;">Online via MS Teams</label><br>
+            </div>
+
+            <div class="fourth-input" style="margin-left:6%;">
+                <label for="fourth-input">15. Please select the day/s that you are most available for session.
+                </label><br><br>
+
+                <input type="checkbox" id="day1" name="day" value="Monday" required>
+                <label for="day1" style="font-size:0.95rem">Monday</label><br><br>
+
+                <input type="checkbox" id="day2" name="day" value="Tuesday" required>
+                <label for="day2" style="font-size:0.9rem">Tuesday</label><br><br>
+
+                <input type="checkbox" id="day3" name="day" value="Thursday" required>
+                <label for="day3" style="font-size:0.9rem">Thursday</label><br><br>
+
+                <input type="checkbox" id="day4" name="day" value="Classroom Behavior" required>
+                <label for="day4" style="font-size:0.9rem">Classroom Behavior</label><br><br>
+            </div>
+
+            <div class="fifth-input" style="margin-left:6%;margin-top:-2%">
+                <label for="fifth-input">16. Please select the time slot/s that you are most available for the session.
+                </label><br><br>
+
+                <input type="checkbox" id="time1" name="time" value="9:30 - 10:30 a.m." required>
+                <label for="time1" style="font-size:0.95rem">9:30 - 10:30 a.m.</label><br><br>
+
+                <input type="checkbox" id="time2" name="time" value="10:30 - 11:30 a.m." required>
+                <label for="time2" style="font-size:0.9rem">10:30 - 11:30 a.m.</label><br><br>
+
+                <input type="checkbox" id="time3" name="time" value="1:30 - 2:30 p.m." required>
+                <label for="time3" style="font-size:0.9rem">1:30 - 2:30 p.m.</label><br><br>
+
+                <input type="checkbox" id="time4" name="time" value="2:30 - 3:30 p.m." required>
+                <label for="time4" style="font-size:0.9rem">2:30 - 3:30 p.m.</label><br><br>
+
+                <input type="checkbox" id="time5" name="time" value="3:30 - 4:30 p.m." required>
+                <label for="time5" style="font-size:0.9rem">3:30 - 4:30 p.m.</label><br><br>
+            </div>
+
+            <button type="button" class="button" id="previous3" style="height:35px;margin-left:10%">Previous</button>
+            <button type="button" class="button" id="nextBtn4" style="height:35px">Next</button>
+        </form>
+    </div>
+
+    <div class="container" id="form6" style="display:none; height:170%; margin-top:5%;">
+        <form id="emergencyContact">
+            <div class="container2" style="height:14.5%">
+                <h4>SmartChat: Conversation with your</h4>
+                <h5>Counselor (A.Y. 2023-2024)</h5>
+
+            </div>
+
+            <div class="container3">
+                
+                <p class="first-asterisk">*
+                <p class="first-required">Required</p>
+                </p>
+
+                <p class="eleventh-line" style="font-size:1.5rem">CONTACT PERSON/S IN CASE OF EMERGENCY</p>
+
+                <div class="fourth-input">
+                    <label for="fourth-input" style="font-size:1rem;font-weight:bold;">17. CONSULTATIONS WITH FAMILY MEMBERS
+                        & ALLIED PROFESSIONALS:
+                    </label><br><br>
+
+                    <p class="fourteenth-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In order to create a supportive
+                        environment for me, the counselor has my permission to contact following in case there is a need to do so, especially if
+                        my safety/the safety of others is at risk:<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Members
+                        of my family, particularly my immediate relatives (an adult relative, i.e. mother/father, aunt/uncle, adult siblings).</p>
+
+                    <p class="fifteenth-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please write the person's name and your
+                        relationship to that person.</p>
+
+                    <div class="input-container textarea">
+                        <input type="text" name="consultation_relationship" class="consultation_relationship" id="consultation_relationship"
+                        style="cursor: not-allowed;"
+                        placeholder="{{saved.form3.contactFirstName}} {{saved.form3.contactLastName}}" value="{{saved.form3.contactFirstName}} {{saved.form3.contactLastName}}" disabled>
+                    </div>
+
+                    <div class="second-input">
+                        <label for="second-input">18. Contact number/s of the identified contact person/s</label><br>
+                        <div class="input-container textarea">
+                            <input type="text" name="contact_numbers" class="contact_numbers"
+                            style="cursor: not-allowed;" id="contact_numbers"
+                                placeholder="{{saved.form3.emergencyContact}}" disabled value="{{saved.form3.emergencyContact}}" style="cursor: not-allowed;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="second-input">
+                        <label for="second-input">19. E-mail address of the identified contact person/s</label><br>
+                        <div class="input-container textarea">
+                            <input type="text" name="email_person"
+                            style="cursor: not-allowed;"
+                            class="email_person" id="email_person"
+                            placeholder="{{saved.form3.emergencyEmail}}"
+                            value="{{saved.form3.emergencyEmail}}" disabled></textarea>
+                        </div>
+                    </div>
+
+                    <div class="second-input">
+                        <label for="second-input">20. Other allied professionals with whom I have consulted, particularly
+                            (Counselor, Psychologist, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Psychiatrist - Name)</label><br>
+                        <div class="input-container textarea">
+                            <textarea name="professionals_allied" class="professionals_allied" id="professionals_allied"
+                                placeholder="Enter your answer"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <button type="button" class="button" id="previous4">Previous</button>
+                <button type="button" class="button" id="nextBtn5">Next</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container" id="form7" style="display:none; height:80%; margin-top:5%;">
+
+        <div class="container2" style="height:28.5%">
+            <h4>SmartChat: Conversation with your</h4>
+            <h5>Counselor (A.Y. 2023-2024)</h5>
+
+        </div>
+
+        <div class="container3">
+
+            <p class="eleventh-line" style="font-size:1.5rem;margin-top:3%">You are almost done.</p>
+            <p class="thirteenth-line" style="margin-top:1%; font-size:1rem;">Please double-check the information you
+                disclosed on this form. Also, please wait for a message from your counselor regarding the confirmation
+                of your schedule. Thank you!</p>
+
+            <button type="button" class="button" id="previous5"
+                style="border-radius:3px;margin-top:1%">Previous</button>
+            <button type="button" class="button" id="submit" style="border-radius:3px;margin-top:4%">Submit</button>
+        </div>
+    </div>
+    <div class="header-revealer"></div>
+
+
+    <script>
+        const nextButton = document.getElementById('nextButton');
+        const prevBtn = document.getElementById('previous');
+        const nextBtn1 = document.getElementById('nextBtn1');
+        const prevBtn1 = document.getElementById('previous1');
+        const nextBtn2 = document.getElementById('nextBtn2');
+        const prevBtn2 = document.getElementById('previous2');
+        const nextBtn3 = document.getElementById('nextBtn3');
+        const nextBtn4 = document.getElementById('nextBtn4');
+        const prevBtn3 = document.getElementById('previous3');
+        const prevBtn4 = document.getElementById('previous4');
+        const prevBtn5 = document.getElementById('previous5');
+
+        const errorMessage = document.getElementById('errorMessage');
+
+        const form1 = document.getElementById('form1');
+        const form2 = document.getElementById('form2');
+        const form3 = document.getElementById('form3');
+        const form4 = document.getElementById('form4');
+        const form5 = document.getElementById('form5');
+        const form6 = document.getElementById('form6');
+        const form7 = document.getElementById('form7');
+
+        const fullnameInput = document.getElementById('fullname');
+
+        
+
+        document.getElementById('nextButton').addEventListener('click', function() {
+            const form = document.getElementById('form1');
+            
+                form.style.display = 'none'; 
+                document.getElementById('form2').style.display = 'block'; 
+        });
+
+        document.getElementById('nextBtn1').addEventListener('click', function() {
+            const radioButtons = document.querySelectorAll('input[name="yes_no"]');
+            let isChecked = false;
+        
+            radioButtons.forEach(radio => {
+                if (radio.checked) {
+                    isChecked = true;
+                }
+            });
+        
+            if (!isChecked) {
+                alert('Please select an option before proceeding.');
+            } else {
+                    form1.style.display = 'none';
+                    form2.style.display = 'none';
+                    form3.style.display = 'block';
+            }
+        });
+
+
+        
+
+        document.getElementById('nextBtn2').addEventListener('click', function() {
+            const form = document.getElementById('personalInfo');
+        
+            
+            const yearLevel = document.querySelector('input[name="year_level"]:checked');
+            const section = document.getElementById('section').value.trim();
+        
+        
+            // Validation checks
+            let isValid = true;
+            let errorMessage = '';
+        
+            
+        
+            if (!yearLevel) {
+                isValid = false;
+                errorMessage += 'Please select a year Level.\n';
+            }
+        
+            if (section.length < 3) {
+                isValid = false;
+                errorMessage += 'Section must be at least 3 characters long.\n';
+            }
+        
+            if (isValid) {
+                    form1.style.display = 'none';
+                    form2.style.display = 'none';
+                    form3.style.display = 'none';
+                    form4.style.display = 'block';
+            } else {
+                alert('Please fill out all the fields.');
+            }
+        });
+
+        
+        document.getElementById('nextBtn3').addEventListener('click', function() {
+            // Get the form
+            const form = document.getElementById('concernsForm');
+            
+            // Check if at least 3 checkboxes are selected
+            const concernCheckboxes = document.querySelectorAll('input[name="concerns"]:checked');
+            const emotionCheckboxes = document.querySelectorAll('input[name="emotions"]:checked');
+            const rateSelected = document.querySelector('input[name="rate_level"]:checked');
+            const otherConcernsCheckbox = document.getElementById('concern16');
+            const otherConcernsInput = document.getElementById('otherConcerns');
+            const otherEmotionsCheckbox = document.getElementById('emotion41');
+            const otherEmotionsInput = document.getElementById('otherEmotions');
+            // Validate the checkboxes
+            if (concernCheckboxes.length < 3) {
+                alert('Please select at least 3 concerns.');
+                return;
+            }
+        
+            if (emotionCheckboxes.length < 3) {
+                alert('Please select at least 3 emotions.');
+                return;
+            }
+        
+            if (!rateSelected) {
+                alert('Please rate the intensity of your concern.');
+                return;
+            }
+        
+            
+            //if (otherConcernsCheckbox.checked && otherConcernsInput.value.trim().length <= 2) {
+            //    alert('If you selected "Other" for concerns, please enter at least 3 letters.');
+            //    return;
+            //}
+        
+            // Validate "Other" emotions
+            //if (otherEmotionsCheckbox.checked && otherEmotionsInput.value.trim().length <= 2) {
+            //   alert('If you selected "Other" for emotions, please enter at least 3 letters.');
+            //    return;
+            //}
+
+            form1.style.display = 'none';
+            form2.style.display = 'none';
+            form3.style.display = 'none';
+            form4.style.display = 'none';
+            form5.style.display = 'block';
+
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('nextBtn4').addEventListener('click', function(event) {
+                event.preventDefault();
+        
+                if (validateForm()) {
+                    form1.style.display = 'none';
+                    form2.style.display = 'none';
+                    form3.style.display = 'none';
+                    form4.style.display = 'none';
+                    form5.style.display = 'none';
+                    form6.style.display = 'block';
+                }
+            });
+        
+            function validateForm() {
+                let valid = true;
+                
+                const dayCheckboxes = document.querySelectorAll('input[name="day"]:checked');
+                const timeCheckboxes = document.querySelectorAll('input[name="time"]:checked');
+                
+                if (dayCheckboxes.length === 0) {
+                    alert("Please select at least one day.");
+                    valid = false;
+                }
+                
+                if (timeCheckboxes.length === 0) {
+                    alert("Please select at least one time slot.");
+                    valid = false;
+                }
+                
+                const emailInput = document.getElementById('email');
+                if (!emailInput.checkValidity()) {
+                    alert("Please enter a valid email address.");
+                    valid = false;
+                }
+                
+                const modeRadios = document.querySelectorAll('input[name="mode"]:checked');
+                if (modeRadios.length === 0) {
+                    alert("Please select a preferred mode for the session.");
+                    valid = false;
+                }
+                
+                return valid;
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('nextBtn5').addEventListener('click', function(event) {
+                event.preventDefault();
+        
+                if (validateForm()) {
+                        form1.style.display = 'none';
+                        form2.style.display = 'none';
+                        form3.style.display = 'none';
+                        form4.style.display = 'none';
+                        form5.style.display = 'none';
+                        form6.style.display = 'none';
+                        form7.style.display = 'block';
+                }
+            });
+        
+            function validateForm() {
+                let valid = true;
+    
+                const consultationRelationship = document.getElementById('consultation_relationship').value.trim();
+                const contactNumbers = document.getElementById('contact_numbers').value.trim();
+                const emailPerson = document.getElementById('email_person').value.trim();
+                const professionalsAllied = document.getElementById('professionals_allied').value.trim();
+        
+    
+                if (professionalsAllied === "") {
+                    alert("Please enter the names of other allied professionals you have consulted.");
+                    valid = false;
+                }
+        
+                return valid;
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            form1.style.display = 'block';
+            form2.style.display = 'none';
+        })
+
+        prevBtn1.addEventListener('click', () => {
+            form1.style.display = 'none';
+            form2.style.display = 'block';
+            form3.style.display = 'none';
+        })
+        prevBtn2.addEventListener('click', () => {
+            form1.style.display = 'none';
+            form2.style.display = 'none';
+            form3.style.display = 'block';
+            form4.style.display = 'none';
+        })
+        prevBtn3.addEventListener('click', () => {
+            form1.style.display = 'none';
+            form2.style.display = 'none';
+            form3.style.display = 'none';
+            form4.style.display = 'block';
+            form5.style.display = 'none';
+        })
+        prevBtn4.addEventListener('click', () => {
+            form1.style.display = 'none';
+            form2.style.display = 'none';
+            form3.style.display = 'none';
+            form4.style.display = 'none';
+            form5.style.display = 'block';
+            form6.style.display = 'none';
+        })
+        prevBtn5.addEventListener('click', () => {
+            form1.style.display = 'none';
+            form2.style.display = 'none';
+            form3.style.display = 'none';
+            form4.style.display = 'none';
+            form5.style.display = 'none';
+            form6.style.display = 'block';
+            form7.style.display = 'none';
+        })
+
+        function gotoProfile(){
+            window.location.href = '/profile'
+        }
+
+        
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('submit').addEventListener('click', function(event) {
+                event.preventDefault();
+
+                
+
+                //content-form
+                //nextFormPage
+                //nextFormPage2
+        
+                if(confirm("Are you sure you want to submit?")){
+
+                    enableFields();
+                    
+                    const formData = {
+                        form1: collectFormData('form1'),
+                        form2: collectFormData('form2'),
+                        form3: collectFormData('personalInfo'),
+                        form4: collectFormData('concernsForm'),
+                        form5: collectFormData('contactForm'),
+                        form6: collectFormData('emergencyContact'),
+                    };
+            
+                    fetch('/smartchat_form', { 
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Form submitted successfully!');
+                            window.location.href = `/smartchat`;
+                        } else {
+                            alert('There was a problem with the submission.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('There was an error submitting the form.');
+                    });
+                }
+            });
+
+            
+
+            function enableFields(){
+                const fieldsToEnable = [
+                    'fullname',
+                    'lastname',
+                    'given',
+                    'middlename',
+                    'studentnumber',
+                    'email',
+                    'department',
+                    'consultation_relationship',
+                    'contact_numbers',
+                    'email_person',
+                ];
+
+                fieldsToEnable.forEach(id => {
+                    document.getElementById(id).disabled = false;
+                });
+            }
+        
+            function collectFormData(formId) {
+                const form = document.getElementById(formId);
+                const formData = new FormData(form);
+                const data = {};
+                
+                formData.forEach((value, key) => {
+                    // Append values if multiple
+                    if (data[key]) {
+                        data[key] = [].concat(data[key], value);
+                    } else {
+                        data[key] = value;
+                    }
+                });
+        
+                return data;
+            }
+        });
+
+
+    </script>
+
+    <script src="{{ url_for('static', filename='scripts/script.js') }}"> </script>
+
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = "/";
+            } else {
+
+            }
+        }
+
+        document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+    </script>
+
+</body>
+
+</html>

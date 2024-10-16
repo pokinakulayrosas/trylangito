@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='admin/styles/dashboard.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='admin/styles/smartchatResponse.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+      rel="stylesheet"
+    /><link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <title>Smart Chat</title>
+
+    <style>
+      aside .sidebar .dark-mode {
+        background-color: var(--color-light);
+        display: flex;
+        margin-left: 55px;
+        margin-top: 150%;
+        justify-content: space-between;
+        align-items: center;
+        height: 1.6rem;
+        width: 4.2rem;
+        cursor: pointer;
+        border-radius: var(--border-radius-1);
+      }
+
+      aside .sidebar .dark-mode strong {
+        font-size: 1.2rem;
+        width: 50%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      aside .sidebar .dark-mode strong.active {
+        background-color: var(--color-primary);
+        color: white;
+        border-radius: var(--border-radius-1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <aside>
+        <div class="toggle">
+          <div class="logo">
+            <img src="{{ url_for('static', filename='admin/logo.png') }}" />
+            <h2>NU<strong class="danger">GITS</strong></h2>
+          </div>
+          <div class="close" id="close-btn">
+            <strong class="material-icons-sharp"> close </strong>
+          </div>
+        </div>
+
+        <div class="sidebar">
+          <a href="/dashboard">
+            <strong class="material-icons-sharp"> dashboard </strong>
+            <h3>Dashboard</h3>
+          </a>
+          <a href="/dashboard/profile">
+            <strong class="material-icons-sharp"> person_outline </strong>
+            <h3>Student Profile</h3>
+          </a>
+          <a href="/dashboard/faculty/profile">
+            <strong class="material-icons-sharp"> person_outline </strong>
+            <h3>Faculty Profile</h3>
+        </a>
+          <a href="/admin/appointments" class="active">
+            <strong class="material-icons-sharp"> assignment </strong>
+            <h3>Appointments</h3>
+          </a>
+          <a href="/admin/clearance">
+            <strong class="material-icons-sharp"> article </strong>
+            <h3>Clearance</h3>
+          </a>
+          <a href="/admin/schedule">
+            <strong class="material-icons-sharp"> calendar_month </strong>
+            <h3>Calendar</h3>
+          </a>
+          <a href="/admin/feedback">
+            <strong class="material-icons-sharp"> question_answer </strong>
+            <h3>Feedback</h3>
+          </a>
+          <a href="/schedule/setter">
+            <strong class="material-icons-sharp"> schedule </strong>
+            <h3>Schedule</h3>
+          </a>
+          <a href="/dashboard/referral">
+            <strong class="material-icons-sharp"> psychology </strong>
+            <h3>Referral</h3>
+          </a>
+          <a href="#" id="logoutbtn">
+            <strong class="material-icons-sharp"> logout </strong>
+            <h3>Logout</h3>
+          </a>
+        </div>
+      </aside>
+
+        <div class="container2">
+          <div class="container-glass">
+            <div class="buttons">
+              <input type="submit" id="back" value="Back" style="cursor: pointer;">
+              <input type="submit" id="response" value="Respond" style="cursor: pointer; {% if appointment.responseSubmitted %} display: none; {% endif %}" {%if appointment.responseSubmitted %} disabled {% endif %}>
+              
+            </div>
+
+            
+
+            <input type="submit" id="done" value="Done" style="display: {% if appointment.responseSubmitted %} block {% else %} none {% endif %}; position: absolute; height: 40px; background: #000; color: #fff; margin-top: 550px; margin-left: 100px; border-radius: 10px; width: 80px; cursor: pointer;">
+
+            <input type="submit" id="cancel" value="Cancel" style="display: {% if appointment.responseSubmitted %} block {% else %} none {% endif %}; position: absolute; height: 40px; background: #000; color: #fff; margin-top: 550px; margin-left: 350px; border-radius: 10px; width: 80px; cursor: pointer;">
+
+            <h1 style="position: absolute; margin-left: -700px">
+              <strong>Status:</strong> 
+              {% if appointment.responseSubmitted %} 
+                  {% for response in responses %}
+                      {{ response.status }}
+                  {% endfor %}
+              {% else %} 
+                  No responses yet
+              {% endif %}
+          </h1>
+            
+          {% if appointment %}
+            <div class="content-glass">
+              <h1>SmartChat Response</h1><br>
+              <div class="content-text">
+                <p><strong>1. Full Name:</strong><br><br> <span>{{ appointment.form1.fullname}}</span></p><br>
+                <p><strong>2. Is this your first time to talk to your counselor?:</strong><br><br> <span>{{ appointment.form2.yes_no}}</span></p><br>
+                <p><strong>3. Last Name:</strong> <br><br><span>{{appointment.form3.lastname}}</span></p><br>
+                <p><strong>4. Given Name:</strong><br><br> <span>{{appointment.form3.given}}</span></p><br>
+                <p><strong>5. Middle Name:</strong><br><br> <span>{{appointment.form3.middlename}}</span></p><br>
+                <p><strong>6. Student Number:</strong> <br><br><span>{{appointment.form3.studentnumber}}</span></p><br>
+                <p><strong>7. Grade Level:</strong><br><br> <span>{{appointment.form3.year_level}}</span></p><br>
+                <p><strong>8. Strand:</strong><br><br> <span>{{appointment.form3.department}}</span></p><br>
+                <p><strong>9. Section:</strong><br><br> <span>{{appointment.form3.section}}</span></p><br>
+
+
+                <p><strong>
+                  10. Which area/s of concern do you wish to talk about with your
+                  councelor?</strong><br><br><span> {{appointment.form4.concerns}}</span> <br><br><strong>
+                  If others:</strong><br><br>
+                  <span>{{appointment.form4.otherConcerns}}</span>
+                </p><br>
+                <p><strong> 
+                  11. On a scale of 1 to 10, with 1 bbeing very manageable and 10
+                  being not manageable at all and would need immediate help, how
+                  would you rate the intensify of your concern?</strong> <br><br><span>{{appointment.form4.rate_level}}</span>
+                </p><br>
+                <p><strong>12. Which emotion/s do you feel as a result of your concerns?</strong><br> <br><span>{{appointment.form4.emotions}}</span></p>
+                <p><strong>If others: </strong><br><br><span>{{appointment.form4.otherEmotions}}</span></p><br>
+                <p><strong>13. What is your email in MS Teams?</strong><br><br> <span>{{appointment.form5.email}}</span></p><br>
+                <p><strong>14. I would prefer my sessions...</strong><br><br> <span>{{appointment.form5.mode}}</span></p><br>
+                <p><strong>
+                  15. Please select the day that you are available for the session?</strong><br><br> <span>{{appointment.form5.day}}</span>
+                </p><br>
+                <p><strong>
+                  16. Please select time slot that you are most available for the
+                  session.</strong> <br><br><span>{{appointment.form5.time}}</span>
+                </p><br>
+
+
+                <p><strong>
+                    17. CONSULTATIONS WITH FAMILY MEMBERS & ALLIED PROFESSIONALS:</strong><br><br> <span>{{appointment.form6.consultation_relationship}}</span>
+                  </p><br>
+                  <p><strong>
+                    18. Contact number/s of the identified contact person: </strong> <br><br><span>{{appointment.form6.contact_numbers}}</span>
+                  </p><br>
+                  <p><strong>
+                    19. E-mail address of the identified contact person/s: </strong> <br><br><span>{{appointment.form6.email_person}}</span>
+                  </p><br>
+                  <p><strong>
+                    20. Other allied professionals with whom I have consulted.</strong><br><br> <span>{{appointment.form6.professionals_allied}}</span>
+                  </p><br>
+              </div>
+            </div>
+            
+          </div>
+          {% else %}
+            <p>No SmartChat Response</p>
+          {% endif %}
+        </div>
+
+        <div id="modal" class="modal">
+          <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Respond to {{appointment.form1.fullname}}</h2>
+            <form id="modal-form">
+              <label for="name">Counselor Name:</label>
+              <input type="hidden" name="studentEmail" value="{{appointment.form5.email}}">
+              <input type="hidden" name="smartchatID" value="{{appointment._id}}">
+
+              <select id="name" name="name" required>
+                <option value="" disabled selected>Select your name</option>
+                <option value="Candace Chelsea de Castro, RPm, RGC">Candace Chelsea de Castro</option>
+                <option value="Sarah Bless Sanchez-Maddela, RPm, RGC">Sarah Bless Sanchez-Maddela</option>
+                <option value="Hazel Ann Morgado, MaEd, CMHFA">Hazel Ann Morgado</option>
+              </select>
+        
+              <label for="date">Schedule Date:</label>
+              <input type="date" id="date" name="date" required>
+
+              <label for="modality">Modality: </label>
+              <select name="modality" id="modality" required>
+                <option value="Online">Online</option>
+                <option value="Face-to-Face">Face-to-Face</option>
+              </select>
+
+              <input type="hidden" name="userId" value="{{ current_user_id }}">
+
+              <label for="room">Room (Enter the link if online)</label>
+              <input type="text" id="room" name="room" value="">
+
+              <input type="hidden" id="pending" name="status" value="Pending">
+
+              <input type="submit" value="Submit">
+            </form>
+          </div>
+        </div>
+
+        <div id="update-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+              <span class="close-btn">&times;</span>
+              <h2>Update Appointment</h2>
+              {% if responses %}
+              <form id="update-modal-form">
+                  <label for="update-name">Counselor Name:</label>
+                  <input type="hidden" name="studentEmail" value="{{appointment.form5.email}}">
+      
+                  <select id="update-name" name="name" required>
+                      <option value="" disabled selected>Select your name</option>
+                      <option value="Candace Chelsea de Castro, RPm, RGC">Candace Chelsea de Castro</option>
+                      <option value="Sarah Bless Sanchez-Maddela, RPm, RGC">Sarah Bless Sanchez-Maddela</option>
+                      <option value="Hazel Ann Morgado, MaEd, CMHFA">Hazel Ann Morgado</option>
+                  </select>
+
+                  {% for responsety in responses %}
+                  <input type="hidden" name="userId" value="{{ responsety._id }}">
+                  {% endfor %}
+      
+                  <label for="update-date">Schedule Date:</label>
+                  <input type="date" id="update-date" name="date" required>
+      
+                  <label for="update-modality">Modality: </label>
+                  <select name="modality" id="update-modality" required>
+                      <option value="Online">Online</option>
+                      <option value="Face-to-Face">Face-to-Face</option>
+                  </select>
+      
+                  <label for="update-room">Room (Enter the link if online)</label>
+                  <input type="text" id="update-room" name="room" value="">
+      
+                  <input type="hidden" id="update-status" name="status" value="Done">
+      
+                  <input type="submit" value="Update">
+              </form>
+              {% else %}
+              <h1>Nothing to see here</h1>
+              {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="dark-mode" style="display: none;">
+        <span class="material-icons-sharp"> light_mode </span>
+        <span class="material-icons-sharp"> dark_mode </span>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const darkModeToggle = document.querySelector('.dark-mode');
+
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                const isDarkMode = currentTheme === 'dark';
+                document.body.classList.toggle('dark-mode-variable', isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+            }
+
+            darkModeToggle.addEventListener('click', () => {
+                const isDarkMode = document.body.classList.toggle('dark-mode-variable');
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+            });
+        });
+    </script>
+    
+    <script>
+
+      const modal = document.getElementById('modal');
+      const openModalBtn = document.getElementById('response'); 
+      const closeModalSpan = document.querySelector('.close-btn');
+
+      openModalBtn.addEventListener('click', () => {
+        modal.style.display = 'block';
+      });
+      closeModalSpan.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+      window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+
+      const btn = document.getElementById('back')
+
+      btn.addEventListener('click', ()=>{
+        window.location.href = '/admin/appointments'
+      })
+
+      function confirmLogout() {
+          if (confirm("Are you sure you want to log out?")) {
+              window.location.href = "/";
+          } else {
+ 
+          }
+      }
+ 
+      document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+    </script>
+
+    <script>
+      const modalForm = document.getElementById('modal-form');
+    
+      modalForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+    
+        const formData = new FormData(modalForm);
+        const data = Object.fromEntries(formData.entries());
+    
+        try {
+          const response = await fetch('/appointment_modal/response', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+    
+          if (response.ok) {
+            const result = await response.json();
+            alert(result.message);
+            document.getElementById('response').disabled = true;
+            modal.style.display = 'none';
+          } else {
+            alert('Error saving data');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Error saving data');
+        }
+      });
+
+      
+      document.getElementById('done').onclick = function() {
+        if ({{ appointment.responseSubmitted | tojson }}) { 
+            const appointmentData = {
+                counselorName: 'Candace Chelsea de Castro',
+                date: '2024-10-15',
+                modality: 'Online',
+                room: 'https://example.com/meeting'
+            };
+            
+            openUpdateModal(appointmentData);
+        }
+    };
+    
+    function openUpdateModal(appointment) {
+        document.getElementById('update-name').value = appointment.counselorName || '';
+        document.getElementById('update-date').value = appointment.date || '';
+        document.getElementById('update-modality').value = appointment.modality || '';
+        document.getElementById('update-room').value = appointment.room || '';
+    
+        const updateModal = document.getElementById('update-modal');
+        updateModal.style.display = 'block';
+    
+        const closeBtn = updateModal.querySelector('.close-btn');
+        closeBtn.onclick = function() {
+            updateModal.style.display = 'none';
+        };
+    
+        const updateForm = document.getElementById('update-modal-form');
+        updateForm.onsubmit = function(event) {
+            event.preventDefault();
+            const formData = new FormData(updateForm);
+            
+            fetch('/update-appointment', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Update successful!');
+                updateModal.style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error updating appointment:', error);
+            });
+        };
+    }
+
+
+    </script>
+
+    <script src="{{ url_for('static', filename='admin/component/students.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='./styles/verifyEmail.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <style>
+        *{
+            margin: 0;
+            font-family: Arial;z
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f6f6f9;
+            transition: 0.5s;
+        }
+        .login{
+            position: relative;
+            padding: 50px;
+            background: #fff;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+        .login form{
+            position: relative;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .login h2{
+            font-weight: 500;
+            border-left: 15px solid #363949;
+            line-height: 1em;
+            padding-left: 10px;
+            transition: 0.5s;
+            color: #333;
+        }
+        .login .inputBox{
+            position: relative;
+        }
+        .login .inputBox input{
+            position: relative;
+            width: 75%;
+            padding: 10px 15px;
+            outline: none;
+            border: 2px solid #555;
+            font-size: 1em;
+            color: #333;
+        }
+        .login .inputBox input#emailVerificationButton{
+            border: none;
+            background: #363949;
+            color: #fff;
+            transition: 0.5s;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .colors{
+            position: absolute;
+            right: 0;
+            padding: 10px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .colors span{
+            position: relative;
+            width: 20px;
+            height: 20px;
+            background: var(--clr);
+            margin: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .colors span.active{
+            border: 2px solid #333;
+            scale: 1.5;
+            transition: 0.5s;
+        }
+        .image .img{
+            margin-left: -600px;
+            margin-top: -280px;
+            width: 800px;
+            height: 600px;
+            position: fixed;
+        }
+    </style>
+</head>
+<body>
+    <div class="login">
+        <h2 id="txt">Your email has been verified</h2>
+        <form name="signup_form" method="POST" enctype="multipart/form-data" onsubmit="return validateStudentID()">
+            <div class="inputBox">
+                <input type="email" placeholder="{{ email }}" value="{{ email }}" id="email" name="email" readonly>
+            </div>
+            <div class="inputBox">
+                <input type="text" placeholder="First Name" id="firstName" name="firstName" required>
+            </div>
+            <div class="inputBox">
+                <input type="text" placeholder="Middle Name" id="middleName" name="middleName">
+            </div>
+            <div class="inputBox">
+                <input type="text" placeholder="Last Name" id="lastName" name="lastName" required>
+            </div>
+            
+            <div class="inputBox">
+                <input type="text" placeholder="Student ID" id="studentID" name="studentID" required pattern="^\d{4}-\d{6}$" 
+                title="Format: YYYY-XXXXXX (e.g., 2023-123456)">
+            </div>
+            <select name="department" id="department" style="width: 75%; height: 40px;" required onchange="showSHSOptions()">
+                <option value="" disabled selected>Please select your department</option>
+                <option value="Dentistry">Dentistry</option>
+                <option value="Information Technology">Information Technology</option>
+                <option value="Allied Health">Allied Health</option>
+                <option value="Accountancy and Management">Accountancy and Management</option>
+                <option value="Optometry">Optometry</option>
+                <option value="Architecture">Architecture</option>
+                <option value="Arts and Science">Arts and Science</option>
+                <option value="SHS">Senior High School</option>
+            </select>
+
+            <div id="shs-options" style="display: none; margin-top: 10px;">
+                <select name="Strands" id="shsStrands" style="width: 75%; height: 40px;">
+                    <option value="" disabled selected>Please select your SHS option</option>
+                    <option value="STEM">STEM</option>
+                    <option value="GAS">GAS</option>
+                    <option value="ABM">ABM</option>
+                </select>
+            </div>
+
+            <div class="inputBox">
+                <input type="password" placeholder="Password" id="password" name="password" required>
+            </div>
+            <div class="inputBox">
+                <input type="password" placeholder="Confirm Password" id="cpassword" name="cpassword" required>
+            </div>
+            <p id="error" style="color: red;"></p>
+            <div class="inputBox">
+                <input type="submit" role="button" value="Sign Up" id="emailVerificationButton">
+            </div>
+        </form>
+    </div>
+
+
+    <script>
+        let btn = document.getElementById('btn');
+        let txt = document.getElementById('txt');
+        function changeColor(color){
+            document.body.style.background = color;
+            btn.style.background = color;
+            txt.style.borderColor = color;
+       
+            document.querySelectorAll('span').forEach(function(item){
+                item.classList.remove('active');
+            })
+            event.target.classList.add('active');
+        }
+    </script>
+    <script>
+        function showSHSOptions() {
+            const departmentSelect = document.getElementById('department');
+            const shsOptionsDiv = document.getElementById('shs-options');
+    
+            if (departmentSelect.value === 'SHS') {
+                shsOptionsDiv.style.display = 'block';
+            } else {
+                shsOptionsDiv.style.display = 'none';
+            }
+        }
+
+        function validateStudentID() {
+            const studentIDInput = document.getElementById("studentID");
+            const studentIDPattern = /^\d{4}-\d{6}$/;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("cpassword").value;
+            const errorElement = document.getElementById("error");
+            const strongPasswordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
+            if (!studentIDPattern.test(studentIDInput.value)) {
+                alert("Invalid Student ID format. Use YYYY-XXXXXX.");
+                return false;
+            }
+            if (!strongPasswordPattern.test(password)) {
+                alert("Password must be at least 8 characters long, contain at least one uppercase letter, and one special character.");
+                return false;
+            }
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return false;
+            }
+            
+            return true;
+        }
+    </script>
+</body>
+</html>

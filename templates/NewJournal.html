@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal</title>
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='NewJournal.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <style>
+        input[type="date"] {
+            background-color: #ffffff;
+            padding: 15px;
+            position: absolute;
+            width:30%;
+            height:8%;
+            transform: translate(-50%, -50%);
+            top: 35%;
+            left: 70%;
+            font-family: "Roboto Mono", monospace;
+            color: #3A3B3C;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+        }
+
+        ::-webkit-calendar-picker-indicator {
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        
+    </style>
+    
+</head>
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image-profile">
+                    {% if logo %}
+                    <img src="data:image/png;base64,{{ logo }}" class="icon" alt="" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="Default Logo" style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;" onClick="gotoProfile()">
+                    {% endif %}
+                </span>
+                <div class="text header-text" style="margin-top: 20px;"> 
+                    <span class="name">{{journal.firstName}} {{journal.lastName}}</span>
+                    <span class="profession">{{journal.department}}</span>
+                </div>
+            </div>
+            <i class='bx bx-chevron-right toggle' style="margin-top: 10px;"></i>
+        </header>
+        <div class="menu-bar">
+            <li class="search-box">
+                <i class='bx bx-search icon'></i>
+                    <input type="text" placeholder="Search" id="search">
+            </li>
+            <div class="menu">
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="/home">
+                            <i class='bx bx-home-smile icon'></i>
+                            <span class="text nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/profile">
+                            <i class='bx bx-user icon'></i>
+                            <span class="text nav-text">Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/journals">
+                            <i class='bx bx-note icon'></i>
+                            <span class="text nav-text">Journal</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/calendar">
+                            <i class='bx bx-calendar icon'></i>
+                            <span class="text nav-text">Calendar</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/smartchat">
+                            <i class='bx bx-edit icon'></i>
+                            <span class="text nav-text">SmartChat</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/clearance">
+                            <i class='bx bx-food-menu icon'></i>
+                            <span class="text nav-text">Clearance</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/ScheduleViewer">
+                            <i class='bx bx-calendar-event icon' ></i>
+                            <span class="text nav-text">Schedule Viewer</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/meditation">
+                            <i class='bx bx-leaf icon' ></i>
+                            <span class="text nav-text">Meditation</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="bottom-content">
+                <li class="">
+                    <a href="#" id="logoutbtn">
+                        <i class='bx bx-log-out icon' ></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+
+                <li class="mode">
+                    <div class="moon-sun">
+                        <i class='bx bx-moon icon moon' ></i>
+                        <i class='bx bx-sun icon sun' ></i>
+                    </div>
+                    <span class="mode-text text">Dark Mode</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+
+            </div>
+        </div>
+
+    </nav>
+
+    
+    <div class="parallax" id="parallax">
+        <div style="display: flex; justify-content: center; align-content: center;">
+            <div class="journal-cont" style="background: #000; width: 500px; height: 100px; margin-top: 20%;">
+                <h1 style="color: #fff; text-align: center; margin-top: 30px;">JOURNAL</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="journal-container" style="height:60%;" id="parallax1">
+        
+    </div>
+
+    <div class="parallax" style="height: 40%; background-image: url('/static/assets/BlueWallpaper.png');" id="parallax2">
+        <div style="display: flex; justify-content: center; align-content: center;">
+            <div class="journal-cont" style="background: #000; width: 500px; height: 100px; margin-top: 5%;">
+                <h1 style="color: #fff; text-align: center; margin-top: 30px;">JOURNAL</h1>
+            </div>
+        </div>
+    </div>
+
+    <div style="height:100%;font-size:36px; background:red;" id="parallax3">
+        <form id="journalForm1">
+            <div class="search-container">
+                <input type="search" placeholder="Search" id="search-input" oninput="searchEntries()">
+            </div>
+            <div class="select-container">
+                <select name="category" id="select-category" onchange="filterEntries()">
+                    <option value="" >--</option>
+                    <option value="JANUARY">JANUARY</option>
+                    <option value="FEBRUARY">FEBRUARY</option>
+                    <option value="MARCH">MARCH</option>
+                    <option value="APRIL">APRIL</option>
+                    <option value="MAY">MAY</option>
+                    <option value="JUNE">JUNE</option>
+                    <option value="JULY">JULY</option>
+                    <option value="AUGUST">AUGUST</option>
+                    <option value="SEPTEMBER">SEPTEMBER</option>
+                    <option value="OCTOBER">OCTOBER</option>
+                    <option value="NOVEMBER">NOVEMBER</option>
+                    <option value="DECEMBER">DECEMBER</option>
+                </select>
+            </div>
+            <div class="parent-container">
+                {% for entry in entries %}
+                <div class="container-class"  data-date="{{ entry.date }}" onClick="edit('{{ entry._id }}')">
+                    <div class="container-box">
+                        <h1>{{entry.title}}</h1><br>
+                        <div class="content-box">
+                            <p style="margin-top: -50px;">Date: {{entry.date}}</p><br>
+                            <p>Mood: {{entry.mood}}</p><br>
+                            <p>{{ entry.notes }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+        </form>
+        <button id="submitButton" style="margin-left: 70%; margin-top: 5%;">Next</button>
+    </div>
+
+    <div class="form2" id="form2">
+        <img class="file" src="{{ url_for('static', filename='assets/bg-journaltwo.png') }}" alt="">
+        <form id="form-glass">
+            <div class="glass">
+                    <img class="hugging" src="{{ url_for('static', filename='assets/hugging.png') }}" alt="" style="width: 500px; height: auto; opacity: 3; filter: none; margin-left:5%; margin-top:4%;">
+                    <h1 class="eychwan">Is everything well with you today?</h1>
+
+                    <input type="date" id="date-picker" required>
+
+                    <h2 class="eychtwo">How do you feel?</h2>
+                    <div id="form3">
+                        <input type="radio" id="mood-1" name="mood"
+                        value='Happy' class="radio">
+                        <label class="emoji emoji-1" for="mood-1"><img src="{{ url_for('static', filename='assets/Happy.png') }}" alt="" style="width:30px;height:auto;opacity:3; filter:none;"></label>
+
+                        <input type="radio" id="mood-2" name="mood"
+                        value='Sad' class="radio">
+                        <label class="emoji emoji-2" for="mood-2"><img src="{{ url_for('static', filename='assets/Sad.png') }}" alt="" style="width:30px;height:auto; opacity:3; filter:none;"></label>
+
+                        <input type="radio" id="mood-3" name="mood"
+                        value='Shy' class="radio">
+                        <label class="emoji emoji-3" for="mood-3"><img src="{{ url_for('static', filename='assets/Shy.png') }}" alt="" style="width:30px;height:auto; opacity:3; filter:none;"></label>
+
+                        <input type="radio" id="mood-4" name="mood"
+                        value='empty' class="radio">
+                        <label class="emoji emoji-4" for="mood-4"><img src="{{ url_for('static', filename='assets/empty.png') }}" alt="" style="width:30px;height:auto;opacity:3; filter:none;"></label>
+
+                        <input type="radio" id="mood-5" name="mood"
+                        value='scarxious' class="radio">
+                        <label class="emoji emoji-5" for="mood-5"><img src="{{ url_for('static', filename='assets/scarxious.png') }}" alt="" style="width:30px;height:auto;opacity:3; filter:none;"></label>
+
+                        <input type="radio" id="mood-6" name="mood"
+                        value='Anger' class="radio">
+                        <label class="emoji emoji-6" for="mood-6"><img src="{{ url_for('static', filename='assets/Anger.png') }}" alt="" style="width:30px;height:auto;opacity:3; filter:none;"></label>
+                    </div>
+
+                        <img id='secondButton' src="{{ url_for('static', filename='assets/arrow.png') }}" alt=""  style="width:50px;height:auto;opacity:3; filter:none;margin-left:97%; cursor:pointer;margin-top:15%">
+
+                        <img id="prev1" src="{{ url_for('static', filename='assets/arrow.png') }}" alt=""  style="width:50px;height:auto;opacity:3; filter:none;margin-left:-0.5%; cursor:pointer;margin-top:15%; transform: scaleX(-1);">
+                </div>
+        </form> 
+    </div>
+    <div id="form4">
+        <div class="containir">
+            <h1></h1>
+            <form id="notesForm" class="notesForm" method="POST" action="/journal_db" onsubmit="return confirmSubmission();">
+                <input type="hidden" id="date" name="date" required>
+                <input type="hidden" id="mood" name="mood" required>
+
+                <label class="title" for="title">Title:</label>
+                <input type="text" id="title" name="title"  required>
+
+                <label class="moody" for="moody">Mood: </label>
+                <label class="moood" for="moood"><img src="{{ url_for('static', filename='assets/Anger.png') }}" alt="" style="width:30px;height:auto;opacity:3; filter:none; margin-top:-2rem;margin-left:90%;position:absolute"></label>
+            
+                <input type="hidden" id="moodImage" name="moodImage" required>
+                
+                <textarea id="note" name="note" rows="20" placeholder="Note" required></textarea>
+                    
+                <button id="submitJournal" type="submit">SUBMIT</button>
+                <button id="prev2" style="margin-left:-.05%;margin-top:-2.7%;">BACK</button>
+            </form>
+            
+            <div id="notesList">
+                
+            </div>
+        </div>
+        
+        
+    </div>
+
+
+    <script>
+
+        function confirmSubmission() {
+            return confirm("Are you sure you want to submit this note?");
+        }
+
+        function gotoProfile(){
+            window.location.href = '/profile'
+        }
+
+        const parallax = document.getElementById('parallax');
+        const parallax1 = document.getElementById('parallax1');
+        const parallax2 = document.getElementById('parallax2');
+        const parallax3 = document.getElementById('parallax3');
+
+        parallax.style.display = "block";
+        parallax1.style.display = "block";
+        parallax2.style.display = "block";
+        parallax3.style.display = "block";
+
+        const form2 = document.getElementById('form2');
+
+        form2.style.display = "none";
+
+        const form3 = document.getElementById('form3');
+
+        form3.style.display = "none";
+
+        const form4 = document.getElementById('form4');
+
+        form4.style.display = "none";
+
+        const nextBtn = document.getElementById('submitButton');
+
+        nextBtn.addEventListener('click', () => {
+            parallax.style.display = "none";
+            parallax1.style.display = "none";
+            parallax2.style.display = "none";
+            parallax3.style.display = "none";
+            form2.style.display = "block";
+            form3.style.display = "block";
+            form4.style.display = "none";
+        });
+
+        
+        document.getElementById('secondButton').addEventListener('click', function(){
+
+            var date = document.getElementById('date-picker').value;
+            var mood = document.querySelector('input[type=radio]:checked')
+
+            if (!date){
+                alert('Please select a date.');
+                return;
+            }
+            if (!mood){
+                alert('Please select your mood.');
+                return;
+            }
+
+            var moodValue = mood.value;
+            var moodImage = document.querySelector('.moood img');
+            var moodImageInput = document.getElementById('moodImage'); // Select the hidden input
+
+            switch (moodValue) {
+                case 'Happy':
+                    moodImage.src = "{{ url_for('static', filename='assets/Happy.png') }}";
+                    moodImageInput.value = 'Happy.png'; // Set the hidden input value
+                    break;
+                case 'Sad':
+                    moodImage.src = "{{ url_for('static', filename='assets/Sad.png') }}";
+                    moodImageInput.value = 'Sad.png';
+                    break;
+                case 'Shy':
+                    moodImage.src = "{{ url_for('static', filename='assets/Shy.png') }}";
+                    moodImageInput.value = 'Shy.png';
+                    break;
+                case 'empty':
+                    moodImage.src = "{{ url_for('static', filename='assets/empty.png') }}";
+                    moodImageInput.value = 'empty.png';
+                    break;
+                case 'scarxious':
+                    moodImage.src = "{{ url_for('static', filename='assets/scarxious.png') }}";
+                    moodImageInput.value = 'scarxious.png';
+                    break;
+                case 'Anger':
+                    moodImage.src = "{{ url_for('static', filename='assets/Anger.png') }}";
+                    moodImageInput.value = 'Anger.png';
+                    break;
+                default:
+                    moodImage.src = ""; // Default case
+                    moodImageInput.value = ""; // Reset value
+            }
+
+            var dateHeader = document.querySelector('#form4 h1');
+            dateHeader.textContent = new Date(date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: '2-digit'
+            });
+
+
+            parallax.style.display = "none";
+            parallax1.style.display = "none";
+            parallax2.style.display = "none";
+            parallax3.style.display = "none";
+            form2.style.display = "none";
+            form3.style.display = "none";
+            form4.style.display = "block";
+        })
+
+            
+        
+
+
+        const prev1 = document.getElementById('prev1');
+
+        prev1.addEventListener('click', ()=> {
+            parallax.style.display = "block";
+            parallax1.style.display = "block";
+            parallax2.style.display = "block";
+            parallax3.style.display = "block";
+            form2.style.display = "none";
+            form3.style.display = "none";
+            form4.style.display = "none";
+        });
+
+        const prev2 = document.getElementById('prev2');
+
+        prev2.addEventListener('click', () => {
+            parallax.style.display = "none";
+            parallax1.style.display = "none";
+            parallax2.style.display = "none";
+            parallax3.style.display = "none";
+            form2.style.display = "block";
+            form3.style.display = "block";
+            form4.style.display = "none";
+        })
+
+        document.querySelectorAll('.radio').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                document.querySelectorAll('.emoji').forEach(function(emoji) {
+                    emoji.style.transform = 'scale(1)';
+                });
+                const selectedEmoji = document.querySelector(`label[for="${this.id}"]`);
+                selectedEmoji.style.transform = 'scale(1.3)';
+            });
+        });
+
+        document.getElementById('submitJournal').addEventListener('click', function() {
+            document.getElementById('date').value = document.getElementById('date-picker').value;
+            document.getElementById('mood').value = document.querySelector('input[name="mood"]:checked').value;
+        });
+
+        function edit(entry_id) {
+            window.location.href = "/edit_journal/" + entry_id;
+        }
+
+        
+    </script>
+
+    <script>
+        function filterEntries() {
+            const selectedMonth = document.getElementById('select-category').value;
+            const entries = document.querySelectorAll('.container-class');
+            
+            const monthMap = {
+                "JANUARY": 0,
+                "FEBRUARY": 1,
+                "MARCH": 2,
+                "APRIL": 3,
+                "MAY": 4,
+                "JUNE": 5,
+                "JULY": 6,
+                "AUGUST": 7,
+                "SEPTEMBER": 8,
+                "OCTOBER": 9,
+                "NOVEMBER": 10,
+                "DECEMBER": 11
+            };
+    
+            const monthIndex = monthMap[selectedMonth];
+    
+            entries.forEach(entry => {
+                const entryDate = new Date(entry.dataset.date);
+                if (selectedMonth === "" || entryDate.getMonth() === monthIndex) {
+                    entry.style.display = "block";
+                } else {
+                    entry.style.display = "none";
+                }
+            });
+        }
+
+        function searchEntries() { 
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const entries = document.querySelectorAll('.container-class');
+    
+            entries.forEach(entry => {
+                const title = entry.querySelector('h1') ? entry.querySelector('h1').textContent.toLowerCase() : '';
+                const date = entry.dataset.date ? entry.dataset.date.toLowerCase() : '';
+                const moodElement = entry.querySelector('.content-box p:nth-child(2)');
+                const notesElement = entry.querySelector('.content-box p:nth-child(3)');
+                const mood = moodElement ? moodElement.textContent.toLowerCase() : '';
+                const notes = notesElement ? notesElement.textContent.toLowerCase() : ''; 
+                
+                
+                if (
+                    title.includes(query) ||
+                    date.includes(query) ||
+                    mood.includes(query) ||
+                    notes.includes(query)
+                ) {
+                    entry.style.display = "block";
+                } else {
+                    entry.style.display = "none";
+                }
+            });
+        }
+    </script>
+
+    <script>
+        async function fetchTimestamp() {
+            const response = await fetch('/get-timestamp');
+            if (!response.ok) {
+                console.error('Error fetching timestamp:', response.statusText);
+                return null;
+            }
+            const data = await response.json();
+            return data.timestamp;
+        }
+
+        function setMinMaxDate(minDate) {
+            const datePicker = document.getElementById('date-picker');
+            const today = new Date();
+
+            datePicker.setAttribute('min', minDate);
+
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const formattedDate = `${yyyy}-${mm}-${dd}`;
+
+            datePicker.setAttribute('max', formattedDate);
+        }
+
+        async function initializeDatePicker() {
+            const timestamp = await fetchTimestamp();
+            if (timestamp) {
+                const minDate = new Date(timestamp).toISOString().split('T')[0];
+                setMinMaxDate(minDate);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', initializeDatePicker);
+    </script>
+
+
+    <script src="{{ url_for('static', filename='scripts/script.js') }}"> </script>
+
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = "/";
+            } else {
+   
+            }
+        }
+   
+        document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+      </script>
+
+      
+</body>
+</html>

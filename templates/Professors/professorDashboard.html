@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/logo.png') }}" type="x-icon">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='admin/styles/dashboard.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+    <title>Professor Dashboard</title>
+
+    
+  </head>
+  <body>
+    <div class="container">
+      <aside>
+        <div class="toggle">
+          <div class="logo">
+            <img src="{{ url_for('static', filename='admin/logo.png') }}" />
+            <h2>NU<span class="danger">GITS</span></h2>
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp"> close </span>
+          </div>
+        </div>
+
+        <div class="sidebar">
+          <a href="#" class="active">
+            <span class="material-icons-sharp"> dashboard </span>
+            <h3>Dashboard</h3>
+          </a>
+          <a href="/professor/referral_form">
+            <span class="material-icons-sharp"> psychology </span>
+            <h3>Referral</h3>
+          </a>
+          <a href="#" id="logoutbtn">
+            <span class="material-icons-sharp"> logout </span>
+            <h3>Logout</h3>
+          </a>
+        </div>
+      </aside>
+
+      <main>
+        <h1 style="font-family: 'Poppins', sans-serif;">Professor's Dashboard</h1>
+
+        <div class="analyse">
+            <div class="sales" style="width: 300px;">
+                <div class="status" style="display: flex; justify-content: center;
+                align-items: center; 
+                text-align: center;">
+                    <div class="info">
+                        <h3 style="margin-left: 0px;">Number of Referrals</h3>
+                        <h1 style="margin-left: 0px;">{{total}}</h1>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        
+
+        <div class="recent-orders">
+          <h2>Recent Referrals</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>Date</th>
+                <th>Course</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="referral-body">
+            {% for referrals in referrals %}
+              <tr>
+                  <td>{{ referrals.form2.studFname }}</td>
+                  <td>{{ referrals.form2.date }}</td>
+                  <td>{{ referrals.form2.college }}</td>
+                  <td>{{ referrals.form2.status or 'Pending' }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </main>
+ 
+      <div class="right-section">
+        <div class="nav">
+          <button id="menu-btn">
+            <span class="material-icons-sharp"> menu </span>
+          </button>
+
+          <div class="profile">
+            <div class="info">
+              <p>Hey, <b>{{faculty.firstName}} {{faculty.lastName}}</b></p>
+              <small class="text-muted">{{email}}</small>
+            </div>
+            <div class="profile-photo">
+              <img src="{{ url_for('static', filename='admin/elijah.jpg') }}" />
+            </div>
+          </div>
+        </div>
+
+        
+      </div>
+    </div>
+
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+    
+    
+    
+    <script type="text/javascript">
+      google.charts.load("current", { packages: ["corechart"] });
+      google.charts.setOnLoadCallback(drawChart);
+
+      
+    </script>
+
+    <script>
+      function confirmLogout() {
+          if (confirm("Are you sure you want to log out?")) {
+              window.location.href = "/logout";
+          }
+      }
+ 
+      document.querySelector('#logoutbtn').addEventListener('click', confirmLogout);
+    </script>
+
+    
+  </body>
+</html>
