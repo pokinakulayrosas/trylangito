@@ -17,6 +17,49 @@
 .main-title {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    color: var(--color-dark);
+}
+
+.main-title .first-title{
+    flex-grow: 1;
+}
+
+.dark-mode{
+    background-color: var(--color-light);
+    margin-right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 1.6rem;
+    width: 4.2rem;
+    cursor: pointer;
+    border-radius: var(--border-radius-1);
+}
+
+.dark-mode span{
+    font-size: 1.2rem;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dark-mode span.active{
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: var(--border-radius-1);
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.profile-photo{
+    margin-left: 5px;
 }
 
 .main-cards{

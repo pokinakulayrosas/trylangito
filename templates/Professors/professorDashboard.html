@@ -13,12 +13,17 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
       rel="stylesheet"
     />
+    <link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ url_for('static', filename='admin/styles/reports.css') }}"
+    />
     <title>Professor Dashboard</title>
 
     
   </head>
   <body>
-    <div class="container">
+    <div class="grid-container">
       <aside>
         <div class="toggle">
           <div class="logo">
@@ -46,17 +51,30 @@
         </div>
       </aside>
 
-      <main>
-        <h1 style="font-family: 'Poppins', sans-serif;">Professor's Dashboard</h1>
+      <main class="main-container">
+        <div class="main-title">
+          <h1 class="first-title">Professor's Dashboard</h1>
+          <div class="dark-mode">
+            <span class="material-icons-sharp active"> light_mode </span>
+            <span class="material-icons-sharp"> dark_mode </span>
+          </div>
+          <div class="info">
+            
+            <p>Hey, <b>{{faculty.firstName}} {{faculty.lastName}}</b></p>
+            <small class="text-muted">{{email}}</small>
+          </div>
+          <div class="profile-photo">
+            <img src="{{ url_for('static', filename='assets/user_profile.png') }}" style="width: 50px; height: 50px;"/>
+          </div>
+        </div>
+
 
         <div class="analyse">
             <div class="sales" style="width: 300px;">
-                <div class="status" style="display: flex; justify-content: center;
-                align-items: center; 
-                text-align: center;">
-                    <div class="info">
-                        <h3 style="margin-left: 0px;">Number of Referrals</h3>
-                        <h1 style="margin-left: 0px;">{{total}}</h1>
+                <div class="status" style="display: flex; justify-content: center; align-items: center; text-align: center;">
+                    <div class="info1">
+                        <h3 style="margin-left: 0px; color: var(--color-dark);">Number of Referrals</h3>
+                        <h1 style="margin-left: 0px; color: var(--color-dark);">{{total}}</h1>
                     </div>
                 </div>
             </div>
@@ -66,9 +84,9 @@
         
 
         <div class="recent-orders">
-          <h2>Recent Referrals</h2>
+          <h2 style="color: var(--color-dark);">Recent Referrals</h2>
           <table>
-            <thead>
+            <thead style="color: var(--color-dark);">
               <tr>
                 <th>Full Name</th>
                 <th>Date</th>
@@ -77,47 +95,49 @@
                 <th></th>
               </tr>
             </thead>
-            <tbody id="referral-body">
+            <tbody id="referral-body" style="color: var(--color-dark);">
             {% for referrals in referrals %}
               <tr>
                   <td>{{ referrals.form2.studFname }}</td>
                   <td>{{ referrals.form2.date }}</td>
                   <td>{{ referrals.form2.college }}</td>
-                  <td>{{ referrals.form2.status or 'Pending' }}</td>
+                  <td>{{ referrals.form3.status }}</td>
+                  <td style="cursor: pointer; color: var(--color-primary);">Details</td>
               </tr>
             {% endfor %}
             </tbody>
           </table>
         </div>
       </main>
- 
-      <div class="right-section">
-        <div class="nav">
-          <button id="menu-btn">
-            <span class="material-icons-sharp"> menu </span>
-          </button>
 
-          <div class="profile">
-            <div class="info">
-              <p>Hey, <b>{{faculty.firstName}} {{faculty.lastName}}</b></p>
-              <small class="text-muted">{{email}}</small>
-            </div>
-            <div class="profile-photo">
-              <img src="{{ url_for('static', filename='admin/elijah.jpg') }}" />
-            </div>
-          </div>
-        </div>
-
-        
-      </div>
     </div>
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const darkModeToggle = document.querySelector('.dark-mode');
+
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            const isDarkMode = currentTheme === 'dark';
+            document.body.classList.toggle('dark-mode-variable', isDarkMode);
+            darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+            darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            const isDarkMode = document.body.classList.toggle('dark-mode-variable');
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+            darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+        });
+      });
+    </script>
 
     <script
       type="text/javascript"
       src="https://www.gstatic.com/charts/loader.js"
     ></script>
-    
-    
     
     <script type="text/javascript">
       google.charts.load("current", { packages: ["corechart"] });

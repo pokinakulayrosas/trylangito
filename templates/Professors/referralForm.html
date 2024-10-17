@@ -51,10 +51,10 @@
         <main id="form1">
             <div class="glass-container">
                 <div class="container-font">
-                    <h1>College Student Referral Form AY 2024-2025</h1>
-                    <p>Thank you for reaching out to the Guidance Service Office. Please fill out this form to give a more detailed narrative regarding your referral which can help us as we reach out of the students. Please note that when we reach out to the student, we will be informing them that you have referred them to the GSO.</p>
-                    <h2>For discipline-related concerns/referrals, please reach out to the Discipline Office.</h2>
-                    <p>Thank you very much!</p>
+                    <h1 style="color: #fff;">College Student Referral Form AY 2024-2025</h1>
+                    <p style="color: #fff;">Thank you for reaching out to the Guidance Service Office. Please fill out this form to give a more detailed narrative regarding your referral which can help us as we reach out of the students. Please note that when we reach out to the student, we will be informing them that you have referred them to the GSO.</p>
+                    <h2 style="color: #fff;">For discipline-related concerns/referrals, please reach out to the Discipline Office.</h2>
+                    <p style="color: #fff;">Thank you very much!</p>
                 </div>
             </div>
             <div class="glass-content">
@@ -67,13 +67,11 @@
                     <h2>DATA PRIVACY AND CONSENT:</h2>
                     <p>The information that you supply via this form will be entered into an electronic filling system, and will only be accessed by authorized personnel of NU-MOA Guidance Service Office. The purpose of this form is to evaluate and get information regarding the student you are referring to the GSO.</p>
                     <p>You understand that by submitting this form, you are giving your full consent to NU-MOA Guidance Service Office to process your provided information for the purposes stated above.</p>
-                    <h2 class="content-font-h2">1. Please type your full name if you agree with the consent form.<span style="color: red;">*</span></h2>
+                    <h2 class="content-font-h2">1. Full Name.<span style="color: red;">*</span></h2>
 
                     <input type="text" id="fullname" name="fullname" value="{{username.firstName}} {{username.middleName}} {{username.lastName}}" disabled><br>
 
-                    <h2 class="content-font-h2" style="margin-left: 50px;">Please type your email.<span style="color: red;">*</span></h2>
-
-                    <input type="text" id="email" name="email" value="{{email}}" disabled><br>
+                    <input type="hidden" id="email" name="email" value="{{email}}" disabled><br>
 
                     <input type="button" class="button" id="nextButton" value="Next">
                 </form>
@@ -83,11 +81,11 @@
             <form id="nextFormPage">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="nextFormPage-container">
-                    <h1>College Student Referral Form AY 2024-2025</h1>
+                    <h1 style="color: #fff;">College Student Referral Form AY 2024-2025</h1>
                 </div>
                 <div class="nextFormPage-content">
                     <br>
-                    <p style="color: #181a1e;"><span style="color: red;">*</span> Required</p>
+                    <p style="color: var(--color-dark);"><span style="color: red;">*</span> Required</p>
                     <h1>STUDENT DETAILS</h1>
 
                     <h2>2. Date of Referral <span style="color: red;">*</span></h2>
@@ -125,7 +123,7 @@
                 </div>
                 <div class="nextFormPage-content">
                     <br>
-                    <p style="color: #181a1e;"><span style="color: red;">*</span> Required</p>
+                    <p style="color: var(--color-dark);"><span style="color: red;">*</span> Required</p>
                     <h1>STUDENT DETAILS</h1>
 
                     <h2>5. Year Level <span style="color: red;">*</span></h2>
@@ -152,6 +150,31 @@
             </form>
         </div>
     </div>
+
+    <div class="dark-mode" style="display: none;">
+        <span class="material-icons-sharp"> light_mode </span>
+        <span class="material-icons-sharp"> dark_mode </span>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const darkModeToggle = document.querySelector('.dark-mode');
+  
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                const isDarkMode = currentTheme === 'dark';
+                document.body.classList.toggle('dark-mode-variable', isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+            }
+  
+            darkModeToggle.addEventListener('click', () => {
+                const isDarkMode = document.body.classList.toggle('dark-mode-variable');
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                darkModeToggle.querySelector('span:nth-child(1)').classList.toggle('active', !isDarkMode);
+                darkModeToggle.querySelector('span:nth-child(2)').classList.toggle('active', isDarkMode);
+            });
+        });
+    </script>
 
     <script>
         const nextBtn = document.getElementById('nextButton');

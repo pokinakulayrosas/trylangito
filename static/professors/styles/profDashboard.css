@@ -562,7 +562,7 @@ main .glass-container .container-font h1{
     margin-top: 60px;
     font-weight: 800;
     font-size: 34px;
-    color: var(--color-white);
+    color: var(--color-dark);
 }
 
 main .glass-container .container-font p{
@@ -570,7 +570,7 @@ main .glass-container .container-font p{
     margin-top: 20px;
     font-weight: 400;
     text-align: justify;
-    color: var(--color-white);
+    color: var(--color-dark);
     padding-right: 50px;
     font-size: 15px;
 }
@@ -580,21 +580,21 @@ main .glass-container .container-font h2{
     margin-top: 20px;
     font-weight: bold;
     font-size: 15px;
-    color: var(--color-white);
+    color: var(--color-dark);
 }
 
 main .glass-content{
     position: relative;
     width: 850px;
     height: 750px;
-    background: #F5F7F8;
+    background: var(--color-white);
     margin-left: 390%;
     margin-top: 1132%;
     box-shadow: 0px 10px 15px 5px rgba(0, 0, 0, 0.1);
 }
 
 main .glass-content .content-font p{
-    color: #181a1e;
+    color: var(--color-dark);
     margin-left: 40px;
     margin-top: 30px;
     font-size: 15px;
@@ -614,7 +614,7 @@ main .glass-content .content-font h2{
     margin-top: 10px;
     font-size: 15px;
     text-decoration: underline;
-    color: #181a1e;
+    color: var(--color-dark);
 }
 
 main .glass-content .content-font .content-font-h2{
@@ -639,7 +639,9 @@ main .glass-content .content-font input[type=text]{
     padding: 8px;
     box-sizing: border-box;
     transition: .3s;
+    color: #000;
 }
+
 
 main .glass-content .content-font input[type=text]:focus{
     border-color: dodgerblue;
@@ -654,7 +656,7 @@ main .glass-content .content-font input[type=button]{
     font-weight: 600;
     border-radius: 5px;
     background: #1E0272;
-    color: var(--color-white);
+    color: #fff;
 }
 
 .container2{
@@ -675,14 +677,14 @@ main .glass-content .content-font input[type=button]{
     text-align: center;
     margin-top: 50px;
     font-size: 30px;
-    color: var(--color-white);
+    color: var(--color-dark);
 }
 
 .container2 .nextFormPage-content{
     position: absolute;
     width: 850px;
     height: 780px;
-    background: #F5F7F8;
+    background: var(--color-white);
     margin-left: 10%;
     margin-top: 10%;
     box-shadow: 0px 10px 15px 5px rgba(0, 0, 0, 0.1);
@@ -690,6 +692,7 @@ main .glass-content .content-font input[type=button]{
 
 .container2 .nextFormPage-content p{
     margin-left: 30px;
+    color: var(--color-dark);
 }
 
 .container2 .nextFormPage-content h1{
@@ -702,7 +705,7 @@ main .glass-content .content-font input[type=button]{
     margin-left: 30px;
     margin-top: 20px;
     font-size: 15px;
-    color: #181a1e;
+    color: var(--color-dark);
 }
 
 .container2 .nextFormPage-content input[type=text]{
@@ -715,11 +718,13 @@ main .glass-content .content-font input[type=button]{
     padding: 8px;
     box-sizing: border-box;
     transition: .3s;
+    color: #000;
 }
 
 .container2 .nextFormPage-content input[type=radio]{
     margin-top: 20px;
     margin-left: 50px;
+    color: var(--color-dark);
 }
 
 .container2 .nextFormPage-content input[type=button]{
@@ -730,7 +735,7 @@ main .glass-content .content-font input[type=button]{
     font-weight: 600;
     border-radius: 5px;
     background: #1E0272;
-    color: var(--color-white);
+    color: #fff;
 }
 
 .container2 .nextFormPage-content input[type="date"] {
@@ -746,6 +751,7 @@ main .glass-content .content-font input[type=button]{
     border: 2px solid #aaa;
     outline: none;
     border-radius: 5px;
+    color: #000;
 }
 
 ::-webkit-calendar-picker-indicator {
@@ -773,14 +779,14 @@ main .glass-content .content-font input[type=button]{
     text-align: center;
     margin-top: 50px;
     font-size: 30px;
-    color: var(--color-white);
+    color: var(--color-dark);
 }
 
 .container3 .nextFormPage-content{
     position: absolute;
     width: 850px;
     height: 650px;
-    background: #F5F7F8;
+    background: var(--color-white);
     margin-left: 10%;
     margin-top: 11%;
     box-shadow: 0px 10px 15px 5px rgba(0, 0, 0, 0.1);
@@ -788,6 +794,7 @@ main .glass-content .content-font input[type=button]{
 
 .container3 .nextFormPage-content p{
     margin-left: 30px;
+    color: var(--color-dark);
 }
 
 .container3 .nextFormPage-content h1{
@@ -800,12 +807,13 @@ main .glass-content .content-font input[type=button]{
     margin-left: 30px;
     margin-top: 20px;
     font-size: 15px;
-    color: #181a1e;
+    color: var(--color-dark);
 }
 
 .container3 .nextFormPage-content input[type=radio]{
     margin-top: 20px;
     margin-left: 50px;
+    color: var(--color-dark);
 }
 
 .container3 .nextFormPage-content input[type=button]{
@@ -816,7 +824,7 @@ main .glass-content .content-font input[type=button]{
     font-weight: 600;
     border-radius: 5px;
     background: #1E0272;
-    color: var(--color-white);
+    color: #fff;
 }
 
 .container3 .nextFormPage-content textarea{
@@ -833,6 +841,7 @@ main .glass-content .content-font input[type=button]{
     border-radius: 5px; 
     resize: none;
     overflow-y: auto;
+    color: #000;
 }
 
 .container3 .nextFormPage-content textarea:hover{
