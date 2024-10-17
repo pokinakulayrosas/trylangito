@@ -124,7 +124,7 @@
                 <input type="text" placeholder="Faculty ID" id="facultyID" name="facultyID" required pattern="^\d{2}-\d{4}$" 
                 title="Format: YY-XXXX (e.g., 23-1234)">
             </div>
-            <select name="department" id="department" style="width: 75%; height: 40px;" required>
+            <select name="department" id="department" style="width: 75%; height: 40px;" required onchange="showSHSOptions()">
                 <option value="" disabled selected>Please select your department</option>
                 <option value="Dentistry">Dentistry</option>
                 <option value="Information Technology">Information Technology</option>
@@ -145,7 +145,9 @@
                 </select>
             </div>
             <div class="inputBox">
-                <input type="password" placeholder="Password" id="password" name="password" required>
+                <input type="password" placeholder="Password" id="password" name="password" required 
+                pattern="^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d@$!%*?&]{8,}$" 
+                title="Password must be at least 8 characters long, contain at least one uppercase letter and one special character.">
             </div>
             <div class="inputBox">
                 <input type="password" placeholder="Confirm Password" id="conpassword" name="conpassword" required>
@@ -188,23 +190,17 @@
         function validateFacultyID() {
             const studentIDInput = document.getElementById("studentID");
             const studentIDPattern = /^\d{2}-\d{4}$/;
-            const pass = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("conpassword").value;
             const errorElement = document.getElementById("error");
-            const strongPasswordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('conpassword').value;
 
-            if (!studentIDPattern.test(studentIDInput.value)) {
-                alert("Invalid Student ID format. Use YY-XXXX.");
-                return false;
-            }
-
-            if (pass !== confirmPassword) {
+            if (password !== confirmPassword){
                 alert("Passwords do not match!");
                 return false;
             }
 
-            if (!strongPasswordPattern.test(pass)) {
-                alert("Password must be at least 8 characters long, contain at least one uppercase letter, and one special character.");
+            if (!studentIDPattern.test(studentIDInput.value)) {
+                alert("Invalid Student ID format. Use YY-XXXX.");
                 return false;
             }
 
