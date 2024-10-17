@@ -123,7 +123,7 @@
 
   .container {
     width: 60%;
-    height: 270%;
+    height: 280%;
     margin: 8% auto;
     background: rgba(255, 255, 255, 0.7); 
     position: relative;
@@ -131,7 +131,7 @@
     margin-top: 100%;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(20px); 
+    -webkit-backdrop-filter: blur(20px);
 }
 
   .container2{
@@ -143,15 +143,15 @@
   .container2 h1{
     color: #FFF;
     font-size: 3rem;
-    padding-top: 17%;
+    padding-top: 40px;
     padding-left: 5%;
-
+    
   }
   .container2 h2{
     color: #FFF;
     font-size: 3rem;
-    padding-top: 1%;
-    padding-left: 5%;
+    padding-top: 2%;
+    padding-left: 150px;
     margin-top: -9%;
 
     
