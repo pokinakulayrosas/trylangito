@@ -9,6 +9,11 @@
       href="{{ url_for('static', filename='admin/styles/dashboard.css') }}"
     />
     <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='admin/styles/referralResponse.css') }}"
+    />
+    <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
       rel="stylesheet"
     />
@@ -46,7 +51,7 @@
     </style>
   </head>
   <body>
-    <div class="container">
+    <div class="grid-container">
       <aside>
         <div class="toggle">
           <div class="logo">
@@ -106,30 +111,31 @@
         </div>
       </aside>
 
-      <main>
-        <div class="container">
-            <h1>Referral Submission Response</h1>
-    
-            <div class="response-details">
-                <h2 style="font-size: 20px;">Form Details</h2>
-                <p style="font-size: 20px;"><strong>Professor's Full Name:</strong> {{ referral.form1.fullname}}
-                <p style="font-size: 20px;"><strong>Date of Referral:</strong> {{ referral.form2.date }}</p>
-                <p style="font-size: 20px;"><strong>Student Name:</strong> {{ referral.form2.studFname }}</p>
-                <p style="font-size: 20px;"><strong>College:</strong> {{ referral.form2.college }}</p>
-                <p style="font-size: 20px;"><strong>Year Level:</strong> {{ referral.form3.level }}</p>
-                <p style="font-size: 20px;"><strong>Reason for Referral:</strong> {{ referral.form3.reasons }}</p>
-            </div>
+      <main class="main-container">
+        <div class="main-title">
+          <h1>Referral Response</h1>
+        </div>
 
-            
+        <div class="referral-container">
+          <div class="referral-card">
+            <h2>1. Professor's Full Name: <span style="color: orange">{{referral.form1.fullname}}</span></h2><br>
+
+            <h2>2. Date of Referral: <span style="color: orange">{{ referral.form2.date }}</span></h2><br>
+
+            <h2>3. Referred Student's Name: <span style="color: orange">{{ referral.form2.studFname }}</span></h2><br>
+
+            <h2>4. Department: <span style="color: orange">{{ referral.form2.college }}</span></h2><br>
+
+            <h2>5. Year Level: <span style="color: orange">{{ referral.form3.level }}</span></h2><br>
+
+            <h2>6. Reasons: <span style="color: orange">{{ referral.form3.reasons }}</span></h2><br>
+          </div>
+          <div class="buttons">
+            <input type="submit" value="Done">
+            <input type="submit" value="Cancel">
+          </div>
         </div>
-        <div class="reponseForm" id="form1">
-          <form id="reponseForm">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <h2>Reasons:</h2>
-            <textarea placeholder="enter your answer" id="textarea" name="reasonResponse"></textarea>
-            <input type="submit" value="Send a Response" id="adminResponse">
-          </form>
-        </div>
+
       </main>
     </div>
 
