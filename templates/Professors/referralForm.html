@@ -59,6 +59,7 @@
             </div>
             <div class="glass-content">
                 <form class='content-font' id="content-form" >
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <br>
                     <p >Hi, Professor. When you submit this form, the owner will be able see your name and email address.</p>
                     <p><span style="color: red;">*</span> Required</p>
@@ -80,6 +81,7 @@
         </main>
         <div id="form2" class="container2">
             <form id="nextFormPage">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="nextFormPage-container">
                     <h1>College Student Referral Form AY 2024-2025</h1>
                 </div>
@@ -117,6 +119,7 @@
         </div>   
         <div class="container3" id="form3">
             <form id="nextFormPage2">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="nextFormPage-container">
                     <h1>College Student Referral Form AY 2024-2025</h1>
                 </div>
@@ -241,7 +244,7 @@
                     fetch('/referral_form_db', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token() }}'
                         },
                         body: JSON.stringify(formData)
                     })

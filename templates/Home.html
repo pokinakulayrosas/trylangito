@@ -393,6 +393,7 @@
 
         <div class="contact-form">
             <form id="feedbackForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <h3 class="titleF">Feedback Form</h3>
                 <div class="input-container">
                     <input type="text" name="name" class="input" id="fullname"/>
@@ -479,6 +480,7 @@
                     return;
                 }
 
+                const csrfToken = document.querySelector('input[name="csrf_token"]').value;
                 const formData = {
                     form: collectFormData('feedbackForm')
                 };
@@ -487,7 +489,8 @@
                     method: 'POST',
                     headers: {
                         'Content-Type':
-                        'application/json'
+                        'application/json',
+                        'X-CSRFToken': csrfToken
                     },
                     body: JSON.stringify(formData)
                 })

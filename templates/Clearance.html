@@ -408,6 +408,8 @@
     <div class="container" style="margin-bottom: 2rem;">
         <h2>Clearance Form</h2>
         <form id="clearanceForm">
+
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             
             <label for="first_name">First Name:</label>
             <input type="text" class="inputt" id="first_name" name="first_name"
@@ -470,7 +472,7 @@
                     fetch('/clearance_form', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token() }}'
                         },
                         body: JSON.stringify(formData)
                     })

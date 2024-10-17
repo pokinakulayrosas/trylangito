@@ -391,6 +391,7 @@
 
     <div class="website-content" id="website-content">
         <form class="container" id="form1">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
             <div class="container2">
                 <h1>SmartChat: Conversation with your</h1>
@@ -461,7 +462,7 @@
 
 
         <form class="container" id="form2" style="display:none;height:80%; margin-top:11%">
-
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="container2">
                 <h4>SmartChat: Conversation with your</h4>
                 <h5>Counselor (A.Y. 2023-2024)</h5>
@@ -492,6 +493,7 @@
 
     <div class="container" id="form3" style="display:none; height:170%; margin-top:5%;">
         <form id="personalInfo">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="container2" style="height:12.5%">
                 <h6>SmartChat: Conversation with your Counselor (A.Y. 2023-2024)</h6>
 
@@ -573,6 +575,7 @@
 
     <div class="container" id="form4" style="display:none;height:310%; margin-top:5%">
         <form id="concernsForm">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="container2" style="height:6.5%">
                 <h6>SmartChat: Conversation with your Counselor (A.Y. 2023-2024)</h6>
             </div>
@@ -769,6 +772,7 @@
 
     <div class="container" id="form5" style="display:none; height:170%; margin-top:5%;">
         <form id="contactForm">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="container2" style="height:14.5%">
                 <h4>SmartChat: Conversation with your</h4>
                 <h5>Counselor (A.Y. 2023-2024)</h5>
@@ -845,6 +849,7 @@
 
     <div class="container" id="form6" style="display:none; height:170%; margin-top:5%;">
         <form id="emergencyContact">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="container2" style="height:14.5%">
                 <h4>SmartChat: Conversation with your</h4>
                 <h5>Counselor (A.Y. 2023-2024)</h5>
@@ -1220,6 +1225,7 @@
 
                     enableFields();
                     
+                    const csrfToken = document.querySelector('input[name="csrf_token"]').value;
                     const formData = {
                         form1: collectFormData('form1'),
                         form2: collectFormData('form2'),
@@ -1232,7 +1238,8 @@
                     fetch('/smartchat_form', { 
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken':csrfToken
                         },
                         body: JSON.stringify(formData)
                     })

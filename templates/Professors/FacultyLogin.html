@@ -111,6 +111,7 @@
     <div class="login">
         <h2 id="txt">Faculty Login</h2>
         <form action="/faculty_auth" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="inputBox">
                 <input type="text" placeholder="Email" id="email" name="email">
             </div>

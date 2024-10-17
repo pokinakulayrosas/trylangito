@@ -124,6 +124,7 @@
         </div>
         <div class="reponseForm" id="form1">
           <form id="reponseForm">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <h2>Reasons:</h2>
             <textarea placeholder="enter your answer" id="textarea" name="reasonResponse"></textarea>
             <input type="submit" value="Send a Response" id="adminResponse">

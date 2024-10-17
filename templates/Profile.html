@@ -128,7 +128,7 @@
 
             {% else %}
 
-            <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="" onclick="triggerUpload()" style="cursor: pointer;">
+            <img src="{{ url_for('static', filename='assets/user_profile.png') }}" class="icon" alt="" onclick="triggerUpload()" style="cursor: pointer;" >
 
             <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
 
@@ -178,6 +178,7 @@
 
             <div class="profile-text2">
                 <form style="position: absolute; width: 1200px; margin-top: -30px; margin-left: -30px;" id="basicInfo">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <label for="profileLastName" >Last Name:<span style="color:red;">*</span></label>
                     <input disabled type="text" name="lastName" id="profileLastName" placeholder="{{profile.lastName}}"
                     value="{{profile.lastName}}"
@@ -260,7 +261,7 @@
             <h4>Address</h4>
             <div class="profile-text3">
                 <form id="address" style="position:absolute; margin-top: -20px;">
-
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <h2 style="margin-top: 120;">Present Address <span>Permanent Address</span></h2>
 
                 <label for="presentProvince"  >Province:<span style="color:red;">*</span></label>
@@ -319,7 +320,7 @@
             <h4>Contact Information</h4>
             <div class="profile-text3">
                 <form id="contactInfo" style="position:absolute; margin-top: -80px;">
-
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <label for="contactFirstName"  >First Name:<span style="color:red;">*</span></label>
                 <input disabled type="text" name="contactFirstName" id="contactFirstName" placeholder="{{ saved.form3.contactFirstName if saved and saved.form3 else 'Please Enter First Name' }}"
                 style="margin-top: 150px; margin-left: 80px;" required
@@ -381,7 +382,10 @@
     
                 fetch('/upload_logo', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token() }}'
+                    }
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -594,6 +598,7 @@
                 if (confirm("Do you want to confirm? This cannot be undo.")) {
                     enableFields();
     
+                    const csrfToken = document.querySelector('input[name="csrf_token"]').value;
                     const formData = {
                         form1: collectFormData('basicInfo'),
                         form2: collectFormData('address'),
@@ -603,7 +608,7 @@
                     fetch('/profile_user_db', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json', 'X-CSRFToken': csrfToken
                         },
                         body: JSON.stringify(formData)
                     })

@@ -162,6 +162,7 @@
 
     <div style="height:100%;font-size:36px; background:red;" id="parallax3">
         <form id="journalForm1">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="search-container">
                 <input type="search" placeholder="Search" id="search-input" oninput="searchEntries()">
             </div>
@@ -204,6 +205,7 @@
     <div class="form2" id="form2">
         <img class="file" src="{{ url_for('static', filename='assets/bg-journaltwo.png') }}" alt="">
         <form id="form-glass">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="glass">
                     <img class="hugging" src="{{ url_for('static', filename='assets/hugging.png') }}" alt="" style="width: 500px; height: auto; opacity: 3; filter: none; margin-left:5%; margin-top:4%;">
                     <h1 class="eychwan">Is everything well with you today?</h1>
@@ -247,6 +249,8 @@
         <div class="containir">
             <h1></h1>
             <form id="notesForm" class="notesForm" method="POST" action="/journal_db" onsubmit="return confirmSubmission();">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
                 <input type="hidden" id="date" name="date" required>
                 <input type="hidden" id="mood" name="mood" required>
 

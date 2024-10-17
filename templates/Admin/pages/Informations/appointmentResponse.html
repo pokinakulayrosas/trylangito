@@ -200,6 +200,7 @@
             <span class="close-btn">&times;</span>
             <h2>Respond to {{appointment.form1.fullname}}</h2>
             <form id="modal-form">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
               <label for="name">Counselor Name:</label>
               <input type="hidden" name="studentEmail" value="{{appointment.form5.email}}">
               <input type="hidden" name="smartchatID" value="{{appointment._id}}">
@@ -349,7 +350,7 @@
           const response = await fetch('/appointment_modal/response', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token() }}'
             },
             body: JSON.stringify(data),
           });
@@ -380,7 +381,7 @@
             
             openUpdateModal(appointmentData);
         }
-    };
+      };
     
     function openUpdateModal(appointment) {
         document.getElementById('update-name').value = appointment.counselorName || '';

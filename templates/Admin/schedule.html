@@ -306,6 +306,7 @@
           <span class="close-btn">&times;</span>
           <h1>Add a counselor's information</h1>
           <form id="modal-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <label for="name">Counselor Name:</label>
             <select id="name" name="name" required>
               <option value="" disabled selected>Select your name</option>
@@ -453,7 +454,7 @@
           const response = await fetch ('/scheduleViewer/response', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token() }}'
             },
             body: JSON.stringify(data),
           });

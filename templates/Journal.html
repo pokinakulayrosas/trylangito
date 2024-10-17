@@ -419,6 +419,8 @@
         <div class="containir">
             <h1>{{entry.date}}</h1>
             <form id="notesForm" class="notesForm" method="POST" action="/update_journal/{{ entry._id }}" onsubmit="return confirmSubmission();">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
                 <input type="hidden" id="date" name="date" value="{{ entry.date }}" required>
                 <input type="hidden" id="mood" name="mood" value="{{ entry.mood }}" required>
             
@@ -434,6 +436,7 @@
             </form>
 
             <form method="POST" action="/delete_journal/{{ entry._id }}" style="display:inline;" onsubmit="return deleteSubmission();" >
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button id="deleteBtn" type="submit" style="margin-left: 10%; margin-top: 550px; position: absolute;">DELETE</button>
             </form>
                 
