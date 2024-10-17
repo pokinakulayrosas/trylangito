@@ -137,6 +137,7 @@
     <div class="login">
         <h2 id="txt" style="margin-top: 20px;">Sign In</h2>
         <form action="/" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="inputBox">
                 <input type="text" placeholder="Email" id="email" name="email" disabled>
             </div>

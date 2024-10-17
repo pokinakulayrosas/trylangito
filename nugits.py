@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, f
 from flask_pymongo import PyMongo
 from flask_cors import CORS
 from flask_mail import Mail, Message
+from flask_wtf.csrf import CSRFProtect
 
 from bson import ObjectId
 from werkzeug.utils import secure_filename
@@ -26,6 +27,7 @@ MONGODB_URI="mongodb+srv://elijahcobarrubias034:iZfMkoxoHYFiFHWI@nugitscluster.m
 app = Flask("__name__")
 app.secret_key="secret_key"
 CORS(app)
+csrf = CSRFProtect(app)
 
 app.permanent_session_lifetime = timedelta(minutes=30)
 
@@ -860,23 +862,33 @@ def login():
         email = request.form["email"]
         password = request.form["password"]
         color = request.form.get("color")
-        
+
+        # Check for hardcoded usernames and passwords
         if email == USERNAME and password == PASSWORD:
             session['username'] = email
             session.permanent = True
             return redirect(url_for("index"))
-        elif email == FACULTYNAME and password ==FACULTYPASS:
-             session['username'] = email
-             session.permanent = True
-             return redirect(url_for("prof_login"))
-        elif mongo.db.verifiedUsers.find_one({"email": email, "password": password}):
+        elif email == FACULTYNAME and password == FACULTYPASS:
             session['username'] = email
-            mongo.db.colors.insert_one({'email': email, 'color': color})
             session.permanent = True
-            return redirect(url_for("home")) 
-        else:
-            error = "Incorrect username or password. Please try again."
-            return render_template("Login.html", error=error)  
+            return redirect(url_for("prof_login"))
+
+        user = mongo.db.verifiedUsers.find_one({"email": email})
+
+        if user:
+            if user['status'] == 'Inactive':
+                error = "Your account is inactive. Please contact support."
+                return render_template("Login.html", error=error)
+
+            if user['password'] == password:
+                session['username'] = email
+                mongo.db.colors.insert_one({'email': email, 'color': color})
+                session.permanent = True
+                return redirect(url_for("home"))
+        
+        error = "Incorrect username or password. Please try again."
+        return render_template("Login.html", error=error)
+
     else:
         return render_template("Login.html")
 
@@ -962,7 +974,7 @@ def email_verified():
             "department": department,
             "Strands": strands,
             "password": password,
-            "status": "Verified",
+            "status": "Active",
             "timestamp": timestamp
         }
         
@@ -1054,6 +1066,8 @@ def facultyVerified():
         facultyID = request.form["facultyID"]
         department = request.form["department"]
         password = request.form["password"]
+        
+        timestamp = datetime.utcnow()
 
         userInformation = {
             "email": email,
@@ -1063,7 +1077,8 @@ def facultyVerified():
             "facultyID": facultyID,
             "department": department,
             "password": password,
-            "status": "Verified"
+            "status": "Verified",
+            "timestamp": timestamp
         }
         
         insertVerifiedUser = mongo.db.facultyRegistration.insert_one(userInformation)
@@ -1119,7 +1134,6 @@ def reset_password():
         confirm_password = request.form["confirm_password"]
 
         if new_password == confirm_password:
-            # Update the password in the database
             mongo.db.verifiedUsers.update_one({"email": email}, {"$set": {"password": new_password}})
             return redirect(url_for("login"))
         else:
@@ -1624,6 +1638,38 @@ def profile_response(profile_id):
         else:
             return "Profile not found", 404
 
+    except Exception as e:
+        print(f'Error: {e}')
+        return "An error occurred", 500
+    
+@app.route("/inactivate_account/<profile_id>", methods=['POST'])
+def inactivate_account(profile_id):
+    try:
+        result = mongo.db.verifiedUsers.update_one(
+            {'_id': ObjectId(profile_id)},
+            {'$set': {'status': 'Inactive'}}
+        )
+
+        if result.modified_count > 0:
+            return "Account inactivated", 200
+        else:
+            return "Profile not found or already inactive", 404
+
+    except Exception as e:
+        print(f'Error: {e}')
+        return "An error occurred", 500
+
+@app.route("/activate_account/<profile_id>", methods=['POST'])
+def activate_account(profile_id):
+    try:
+        result = mongo.db.verifiedUsers.update_one(
+            {'_id': ObjectId(profile_id)},
+            {'$set': {'status': 'Active'}}
+        )
+        if result.modified_count > 0:
+            return "Account activated", 200
+        else:
+            return "Profile not found or already active", 404
     except Exception as e:
         print(f'Error: {e}')
         return "An error occurred", 500

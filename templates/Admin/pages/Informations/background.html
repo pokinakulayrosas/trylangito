@@ -29,19 +29,19 @@
           <p>Department: {{ profile.department }}</p>
           <p>Email: {{ profile.email }}</p>
         </div>
-        <button class="button" onclick="gotojournal()">Remove Account</button>
+        <button class="button" id="statusButton" onclick="toggleAccountStatus('{{ profile._id }}')">
+          {{ 'Activate Account' if profile.status == 'Inactive' else 'Inactivate Account' }}
+        </button>
         <button class="button" onclick="gotojournal('{{ profile.email }}')">Journal</button>
 
-        {% for appointment in appointments%}
-        <button class="button" onclick="gotosmart('{{ appointment._id}}')">SmartChat Response {{loop.index}}</button>
-        {% endfor %}
+        
         
       </div>
     </div>
     <div class="container2">
       <div class="buttons">
-        <button class="button" onclick="showBasic()">About Me</button>
-        <button class="button" onclick="showFamily()">Emergency Contact</button>
+        <button class="button" id ="aboutButton">About Me</button>
+        <button class="button" id="smartchatButtons">Smartchat Response</button>
         <button><a href="/dashboard">Go to Dashboard</a></button>
       </div>
     </div>
@@ -93,7 +93,17 @@
           <p><strong>Contact Number:</strong> {{saved.form3.emergencyContact}}</p>
         </div>
       </div>
+
+      
     </div>
+
+    <div class="container3" id="family" style="display: none;">
+      <h1>SmartChat Responses:</h1>
+      {% for appointment in appointments%}
+        <button class="button" onclick="gotosmart('{{ appointment._id}}')">SmartChat Response {{loop.index}}</button>
+      {% endfor %}
+    </div>
+
     {% else %}
     <p>Not editing the profile yet.</p>
     {% endif %}
@@ -124,23 +134,25 @@
     </script>
 
     <script>
-        function showEducation() {
-            document.getElementById("education").style.display = "block";
-            document.getElementById("family").style.display = "none";
-            document.getElementById("basic").style.display = "none";
-        }
 
-        function showBasic() {
-            document.getElementById("basic").style.display = "block";
-            document.getElementById("education").style.display = "none";
-            document.getElementById("family").style.display = "none";
-        }
-    
-        function showFamily() {
-            document.getElementById("education").style.display = "none";
-            document.getElementById("family").style.display = "block";
-            document.getElementById("basic").style.display = "none";
-        }
+        document.addEventListener('DOMContentLoaded', function () {
+          const aboutButton = document.getElementById('aboutButton');
+          const smartchatButton = document.getElementById('smartchatButtons');
+          const basicContainer = document.getElementById('basic');
+          const familyContainer = document.getElementById('family');
+      
+          familyContainer.style.display = 'none';
+          
+          aboutButton.addEventListener('click', function() {
+            basicContainer.style.display = 'block';
+            familyContainer.style.display = 'none';
+          });
+      
+          smartchatButton.addEventListener('click', function() {
+            basicContainer.style.display = 'none';
+            familyContainer.style.display = 'block';
+          });
+        });
 
         function gotojournal(email){
           window.location.href = '/admin/journal/' + email;
@@ -149,6 +161,38 @@
         function gotosmart(appointment_id){
           window.location.href = '/appointment_response/' + appointment_id;
         }
+
+        function toggleAccountStatus(profileId) {
+          const button = document.getElementById('statusButton');
+          const action = button.innerText === 'Inactivate Account' ? 'inactivate' : 'activate';
+      
+          const confirmMessage = action === 'inactivate' 
+            ? "Are you sure you want to inactivate this account? This cannot be undone." 
+            : "Are you sure you want to activate this account?";
+      
+          if (confirm(confirmMessage)) {
+            fetch(`/${action}_account/${profileId}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() }}'
+              }
+            })
+            .then(response => {
+              if (response.ok) {
+                alert(`Account has been ${action}d.`);
+                button.innerText = action === 'inactivate' ? 'Activate Account' : 'Inactivate Account';
+              } else {
+                alert("Failed to change account status.");
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert("An error occurred while trying to change account status.");
+            });
+          }
+        }
+
     </script>
 
   </body>
