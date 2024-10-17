@@ -108,9 +108,10 @@
         {% if messages %}
             <p style="color: red;">{{ messages }}</p>
         {% endif %}
-        <form id="signup_form" name="signup_form" method="POST">
+        <form id="signup_Form" name="signup_form" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="inputBox">
-                <input type="email" placeholder="Email" id="email" name="email">
+                <input type="email" placeholder="Email eg. juandelacruz@nu-moa.edu.ph" id="email" name="email" required>
             </div>
 
             <p>Already have an account? <a href="/faculty/login" style="text-decoration: none;">Sign in</a></p>
@@ -122,6 +123,25 @@
         
     </div>
  
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById('signup_Form');
+            const emailInput = document.getElementById('email');
+    
+            form.addEventListener('submit', function(event) {
+                const emailValue = emailInput.value.trim();
+    
+                const domainRegex = /^[a-zA-Z0-9._%+-]+@nu-moa\.edu\.ph$/;
+    
+    
+                if (!domainRegex.test(emailValue)) {
+                    event.preventDefault(); 
+                     alert("Please enter NU-MOA's email address eg.: juandelacruz@students.nu-moa.edu.ph");
+                }
+            });
+        });
+    </script>
+
     <script>
         let btn = document.getElementById('submit');
         let txt = document.getElementById('txt');

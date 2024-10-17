@@ -186,12 +186,10 @@
             event.target.classList.add('active');
             document.getElementById('selectedColor').value = color;
         
-            // Enable the input fields
             document.getElementById('email').disabled = false;
             document.getElementById('password').disabled = false;
             document.getElementById('btn').disabled = false;
         
-            // Disable default color option if a different color is selected
             if (color !== '#f6f6f9') {
                 document.querySelector('span[style="--clr:#f6f6f9;"]').style.pointerEvents = 'none';
                 document.querySelector('span[style="--clr:#f6f6f9;"]').style.opacity = '0.5';
