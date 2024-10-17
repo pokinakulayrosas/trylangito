@@ -8,7 +8,7 @@ body {
     
     max-width: 90%;
     margin: 0 auto;
-    background-color: #fff;
+    background-color: var(--color-white);
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
@@ -16,14 +16,14 @@ body {
   .container2{
     margin: 0 auto;
     max-width: 90%;
-    background-color: #fff;
+    background-color: var(--color-white);
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   .container3{
     margin: 0 auto;
     max-width: 90%;
-    background-color: #fff;
+    background-color: var(--color-white);
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
