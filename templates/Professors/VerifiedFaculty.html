@@ -121,8 +121,8 @@
             </div>
             
             <div class="inputBox">
-                <input type="text" placeholder="Faculty ID" id="facultyID" name="facultyID" required pattern="^\d{4}-\d{6}$" 
-                title="Format: YYYY-XXXXXX (e.g., 2023-123456)">
+                <input type="text" placeholder="Faculty ID" id="facultyID" name="facultyID" required pattern="^\d{2}-\d{4}$" 
+                title="Format: YY-XXXX (e.g., 23-1234)">
             </div>
             <select name="department" id="department" style="width: 75%; height: 40px;" required>
                 <option value="" disabled selected>Please select your department</option>
@@ -135,6 +135,15 @@
                 <option value="Arts and Science">Arts and Science</option>
                 <option value="SHS">Senior High School</option>
             </select>
+
+            <div id="shs-options" style="display: none; margin-top: 10px;">
+                <select name="Strands" id="shsStrands" style="width: 75%; height: 40px;">
+                    <option value="" disabled selected>Please select your SHS option</option>
+                    <option value="STEM">STEM</option>
+                    <option value="GAS">GAS</option>
+                    <option value="ABM">ABM</option>
+                </select>
+            </div>
             <div class="inputBox">
                 <input type="password" placeholder="Password" id="password" name="password" required>
             </div>
@@ -164,16 +173,28 @@
         }
     </script>
     <script>
+
+        function showSHSOptions() {
+            const departmentSelect = document.getElementById('department');
+            const shsOptionsDiv = document.getElementById('shs-options');
+    
+            if (departmentSelect.value === 'SHS') {
+                shsOptionsDiv.style.display = 'block';
+            } else {
+                shsOptionsDiv.style.display = 'none';
+            }
+        }
+
         function validateFacultyID() {
             const studentIDInput = document.getElementById("studentID");
-            const studentIDPattern = /^\d{4}-\d{6}$/;
+            const studentIDPattern = /^\d{2}-\d{4}$/;
             const pass = document.getElementById("password").value;
             const confirmPassword = document.getElementById("conpassword").value;
             const errorElement = document.getElementById("error");
             const strongPasswordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
 
             if (!studentIDPattern.test(studentIDInput.value)) {
-                alert("Invalid Student ID format. Use YYYY-XXXXXX.");
+                alert("Invalid Student ID format. Use YY-XXXX.");
                 return false;
             }
 

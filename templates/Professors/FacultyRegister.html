@@ -124,22 +124,7 @@
     </div>
  
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const form = document.getElementById('signup_Form');
-            const emailInput = document.getElementById('email');
-    
-            form.addEventListener('submit', function(event) {
-                const emailValue = emailInput.value.trim();
-    
-                const domainRegex = /^[a-zA-Z0-9._%+-]+@nu-moa\.edu\.ph$/;
-    
-    
-                if (!domainRegex.test(emailValue)) {
-                    event.preventDefault(); 
-                     alert("Please enter NU-MOA's email address eg.: juandelacruz@students.nu-moa.edu.ph");
-                }
-            });
-        });
+        
     </script>
 
     <script>

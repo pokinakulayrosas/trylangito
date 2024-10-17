@@ -1077,7 +1077,7 @@ def facultyVerified():
             "facultyID": facultyID,
             "department": department,
             "password": password,
-            "status": "Verified",
+            "status": "Active",
             "timestamp": timestamp
         }
         
