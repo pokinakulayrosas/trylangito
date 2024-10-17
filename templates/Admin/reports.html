@@ -598,10 +598,10 @@
       var varChartOptions1 = {
         series: [{
         name: 'Students',
-        data: {{ referrals | tojson }}
+        data: {{ users_counts | tojson }}
       }, {
         name: 'Professors',
-        data: {{ appointments | tojson}}
+        data: {{ faculty_counts | tojson}}
       }],
       chart: {
         height: 350,

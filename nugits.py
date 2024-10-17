@@ -600,14 +600,48 @@ def reportsAdmin():
     ]
     clearance_data = list(mongo.db.clearance.aggregate(clearance_pipeline))
     
+    verifiedUsers_pipeline = [
+        {
+            "$group": {
+                "_id": {
+                    "year": {"$year": "$timestamp"},
+                    "month": {"$month": "$timestamp"}
+                },
+                "count": {"$sum": 1}
+            }
+        },
+        {
+            "$sort": {"_id": 1}
+        }
+    ]
+    verifiedUsers_data = list(mongo.db.verifiedUsers.aggregate(verifiedUsers_pipeline))
+    
+    
+    faculty_pipeline = [
+        {
+            "$group": {
+                "_id": {
+                    "year": {"$year": "$timestamp"},
+                    "month": {"$month": "$timestamp"}
+                },
+                "count": {"$sum": 1}
+            }
+        },
+        {
+            "$sort": {"_id": 1}
+        }
+    ]
+    faculty_data = list(mongo.db.facultyRegistration.aggregate(faculty_pipeline))
 
     months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     referrals_counts = [0] * 12
     appointments_counts = [0] * 12
     clearance_counts = [0] * 12
+    users_counts = [0] * 12
+    faculty_counts = [0] * 12
 
     for item in referrals_data:
-        month = item['_id']['month'] - 1  # 0-indexed
+        month = item['_id']['month'] - 1
         referrals_counts[month] = item['count']
         
     for item in appointments_data:
@@ -618,6 +652,13 @@ def reportsAdmin():
         month = item['_id']['month'] - 1
         clearance_counts[month] = item['count']
         
+    for item in verifiedUsers_data:
+        month = item['_id']['month'] - 1
+        users_counts[month] = item['count']
+    
+    for item in faculty_data:
+        month = item['_id']['month'] - 1
+        faculty_counts[month] = item['count']
 
     relevant_concerns = [
         "academic difficulty", "attendance", "Career/vocational", 
@@ -695,7 +736,7 @@ def reportsAdmin():
             index = emotion_labels[item["_id"]]
             emotions_counts[index] = item["count"]
     
-    return render_template("Admin/reports.html", referralsPending=referralsPending, Done = Done, Cancelled = Cancelled, Appeal = Appeal, follow = follow, referrals=referrals_counts, appointments=appointments_counts,clearance=clearance_counts, concerns_counts=concerns_counts, relevant_concerns=relevant_concerns, emotions_counts=emotions_counts, relevant_emotions=relevant_emotions)
+    return render_template("Admin/reports.html", referralsPending=referralsPending, Done = Done, Cancelled = Cancelled, Appeal = Appeal, follow = follow, referrals=referrals_counts, appointments=appointments_counts,clearance=clearance_counts, concerns_counts=concerns_counts, relevant_concerns=relevant_concerns, emotions_counts=emotions_counts, relevant_emotions=relevant_emotions, users_counts = users_counts, faculty_counts=faculty_counts)
     
 @app.route("/dashboard/addform")
 def addForm():
