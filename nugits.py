@@ -1065,6 +1065,7 @@ def facultyVerified():
         middleName = request.form["middleName"]
         facultyID = request.form["facultyID"]
         department = request.form["department"]
+        strands = request.form.get("Strands")
         password = request.form["password"]
         
         timestamp = datetime.utcnow()
@@ -1076,6 +1077,7 @@ def facultyVerified():
             "middleName": middleName,
             "facultyID": facultyID,
             "department": department,
+            "Strands": strands,
             "password": password,
             "status": "Active",
             "timestamp": timestamp
