@@ -106,6 +106,7 @@
     <div class="login">
         <h2 id="txt">Your email has been verified</h2>
         <form name="signup_form" method="POST" onsubmit="return validateFacultyID()">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="inputBox">
                 <input type="email" placeholder="{{ email }}" value="{{ email }}" id="email" name="email" readonly>
             </div>
