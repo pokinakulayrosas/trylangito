@@ -191,7 +191,7 @@
             const errorElement = document.getElementById("error");
             const strongPasswordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
             if (!studentIDPattern.test(studentIDInput.value)) {
-                alert("Invalid Student ID format. Use YY-XXXX.");
+                alert("Invalid Student ID format. Use YYYY-XXXXXX.");
                 return false;
             }
             if (!strongPasswordPattern.test(password)) {

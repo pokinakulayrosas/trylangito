@@ -30,7 +30,7 @@
           <p>Email: {{ profile.email }}</p>
         </div>
         <button class="button" id="statusButton" onclick="toggleAccountStatus('{{ profile._id }}')">
-          {{ 'Activate Account' if profile.status == 'Inactive' else 'Inactivate Account' }}
+          {{ 'Activate Account' if profile.status == 'Inactive' else 'Deactivate Account' }}
         </button>
         <button class="button" onclick="gotojournal('{{ profile.email }}')">Journal</button>
 

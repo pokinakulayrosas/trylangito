@@ -992,6 +992,9 @@ def verify_email(email):
 def email_verified():
     email = request.args.get("email")
     token = request.args.get("token")
+    
+    if mongo.db.verifiedUsers.find_one({"email": email}):
+        return render_template('alreadyVerified.html', email=email)
 
     if request.method == "POST":
         firstName = request.form["firstName"]
