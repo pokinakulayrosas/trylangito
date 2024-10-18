@@ -29,13 +29,17 @@
 }
 
 .referral-card{
-    background-color: #263843;
+    background-color: var(--color-white);
     margin-bottom: 20px;
     padding: 25px;
     box-sizing: border-box;
     -webkit-column-break-inside: avoid;
     border-radius: 5px;
     box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+}
+
+.referral-card h2{
+    color: var(--color-dark);
 }
 
 .buttons{
@@ -46,6 +50,9 @@
 }
 
 .buttons input{
+    box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+    color: var(--color-white);
+    border-radius: 5px;
     width: 100px;
     height: 50px;
 }
