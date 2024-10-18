@@ -250,7 +250,9 @@ def journals():
 
     else:
         return redirect(url_for('logindex'))
-  
+
+
+
 @app.route("/calendar")
 def Calendar():
     
@@ -952,8 +954,11 @@ def registration():
         <html>
         <body>
             <h1>Email Verification</h1>
-            <p>Please verify your email by clicking the link below:</p>
+            <p>Thank you for registering at NU-GITS. Kindly click "Verify Email" below to verify your account or the email account you provided.</p>
             <a href="http://www.nu-gits.com/email-verified?token={{verification_token}}&email={{email}}">Verify Email</a>
+            <p>If you didn't create this account, you can safely ignore this email.</p><br>
+            <p>Best regards,</p>
+            <p>NU-GITS</p>
         </body>
         </html>
         """, verification_token=verification_token, email=email)

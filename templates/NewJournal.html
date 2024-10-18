@@ -139,6 +139,17 @@
 
     </nav>
 
+    <div id="agreementModal" class="modal">
+        <div class="modal-content">
+            <p style="text-align: justify;">By using the journal feature, you acknowledge that all journal entries you create will remain completely confidential and will not be visible to the Guidance Office. The content of your entries is private and accessible only to you, ensuring that your thoughts and reflections are protected. However, the emotions you select when making an entry will be visible to counselors. This allows them to monitor emotional trends and better understand your overall well-being, without accessing any specific details from your journal entries.</p><br>
+
+            <p style="text-align: justify;">The emotions you choose are intended solely for the purpose of assessing your emotional progress. Counselors will use this information to help track your mental health trends, but they will not see the personal content within the journal itself. This system ensures that while your emotions are part of your mental health progress, your private reflections remain secure and confidential.</p><br>
+
+            <p style="text-align: justify;">All journal entries will be stored securely and will be automatically deleted once you complete the clearance process. Before deletion, you will be notified and given time to download and save all of your entries for personal use. This ensures that you have the opportunity to keep a record of your reflections. By using the journal, you agree to these terms regarding confidentiality, data usage, and the storage of your entries.</p>
+            <button id="acceptBtn">Accept</button>
+            <button id="declineBtn">Decline</button>
+        </div>
+    </div>
     
     <div class="parallax" id="parallax">
         <div style="display: flex; justify-content: center; align-content: center;">
@@ -148,8 +159,29 @@
         </div>
     </div>
 
-    <div class="journal-container" style="height:60%;" id="parallax1">
-        
+    <div class="journal-container" style="height:auto;" id="parallax1">
+        <div class="text-description">
+            <div class="main-title">
+                
+            </div>
+            <div class="textcontainer">
+                <div class="textcard">
+                    <br><br>
+                    <h3>Instructions for Creating and Managing a Journal Entry:</h3><br>
+                    <p>1. Click the "Next" button to begin.</p><br>
+                    <p>2. Read the agreement form carefully, then select the option that applies to you by ticking the box.</p><br>
+                    <p>3. Choose a date for your journal entry (you can only select dates from when you created your account).</p><br>
+                    <p>4. Select the emotion that best describes your current feeling.</p><br>
+                    <p>5. Click the arrow "Next" to proceed.</p><br>
+                    <p>6. Create a title and write the content of your journal entry.</p><br>
+                    <p>7. Once you're done, click "Submit."</p><br><br>
+                    <h3>To delete or update an existing journal entry:</h3><br>
+                    <p>1. Click on the journal entry you want to modify.</p><br>
+                    <p>2. To update, edit the content and click "Update."</p><br>
+                    <p>3. To delete, click the entry and then select "Delete."</p><br><br>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="parallax" style="height: 40%; background-image: url('/static/assets/bulldog.png');" id="parallax2">
@@ -278,6 +310,18 @@
 
 
     <script>
+
+        window.onload = function() {
+            document.getElementById('agreementModal').style.display = 'block';
+        };
+        
+        document.getElementById('acceptBtn').onclick = function() {
+            document.getElementById('agreementModal').style.display = 'none';
+        };
+        
+        document.getElementById('declineBtn').onclick = function() {
+            window.location.href = '/home';
+        };
 
         function confirmSubmission() {
             return confirm("Are you sure you want to submit this note?");
