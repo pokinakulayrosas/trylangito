@@ -10,7 +10,7 @@
     <style>
         *{
             margin: 0;
-            font-family: Arial;z
+            font-family: Arial;
             padding: 0;
             box-sizing: border-box;
         }
@@ -22,82 +22,89 @@
             background: #161D6F;
             transition: 0.5s;
         }
-        .login{
-            position: relative;
-            padding: 50px;
-            background: #fff;
-            width: 400px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+
+        .login {
+        max-width: 320px;
+        padding: 1rem;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 20px 20px 30px rgba(0, 0, 0, .05);
         }
-        .login form{
-            position: relative;
-            width: 400px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+
+        .title {
+        font-weight: 600;
+        color: rgb(31 41 55);
         }
-        .login h2{
-            font-weight: 500;
-            border-left: 15px solid #161D6F;
-            line-height: 1em;
-            padding-left: 10px;
-            transition: 0.5s;
-            color: #333;
+
+        .description {
+        margin-top: 1rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        color: rgb(75 85 99);
         }
-        .login .inputBox{
-            position: relative;
+
+        .description a {
+        --tw-text-opacity: 1;
+        color: rgb(59 130 246);
         }
-        .login .inputBox input{
-            position: relative;
-            width: 75%;
-            padding: 10px 15px;
-            outline: none;
-            border: 2px solid #555;
-            font-size: 1em;
-            color: #333;
+
+        .description a:hover {
+        -webkit-text-decoration-line: underline;
+        text-decoration-line: underline;
         }
-        .login .inputBox input#emailVerificationButton{
-            border: none;
-            background: #161D6F;
-            color: #fff;
-            transition: 0.5s;
-            font-size: 1.1em;
-            font-weight: 500;
-            cursor: pointer;
+
+        .actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 1rem;
+        -moz-column-gap: 1rem;
+        column-gap: 1rem;
+        flex-shrink: 0;
         }
-        .colors{
-            position: absolute;
-            right: 0;
-            padding: 10px;
-            background: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+
+        .pref {
+        font-size: 0.75rem;
+        line-height: 1rem;
+        color: rgb(31 41 55 );
+        -webkit-text-decoration-line: underline;
+        text-decoration-line: underline;
+        transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none;
+        background-color: transparent;
         }
-        .colors span{
-            position: relative;
-            width: 20px;
-            height: 20px;
-            background: var(--clr);
-            margin: 10px;
-            border-radius: 50%;
-            cursor: pointer;
+
+        .pref:hover {
+        color: rgb(156 163 175);
         }
-        .colors span.active{
-            border: 2px solid #333;
-            scale: 1.5;
-            transition: 0.5s;
+
+        .pref:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
         }
-        .image .img{
-            margin-left: -600px;
-            margin-top: -280px;
-            width: 800px;
-            height: 600px;
-            position: fixed;
+
+        .accept {
+        font-size: 0.75rem;
+        line-height: 1rem;
+        background-color: rgb(17 24 39);
+        font-weight: 500;
+        border-radius: 0.5rem;
+        color: #fff;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem;
+        border: none;
+        transition: all .15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .accept:hover {
+        background-color: rgb(55 65 81);
+        }
+
+        .accept:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
         }
     </style>
 
@@ -105,10 +112,14 @@
 <body>
     <div class="login">
         <form name="verify_email">
-            <h1>Email Verification</h1>
-            <p>Please check your email for a verification link.</p>
-            <p>Email: {{ email }}</p>
-            <p><a href="/">Back to Login</a></p>
+            <span class="title">✉ Email Verification</span>
+            <p class="description">Please check your email for a verification link.</p>
+            <p class="description">Email: <a href="#">{{ email }}</a></p>
+            <div class="actions">
+                <button class="accept">
+                    Back to login
+                </button>
+            </div>
         </form>
     </div>
 

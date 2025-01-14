@@ -54,8 +54,6 @@ mail = Mail(app)
 USERNAME="admin"
 PASSWORD="root"
 
-FACULTYNAME = "faculty"
-FACULTYPASS = "login"
 
 UPLOAD_FOLDER = 'C:\\Users\\Senju\\Downloads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif','pdf', 'jfif'}
@@ -130,7 +128,12 @@ def testConnection():
         
 @app.route("/")
 def logindex():
+    session.clear()
     return render_template('Login.html')
+
+@app.route("/selection")
+def regSelection():
+    return render_template('SignupSelect.html')
 
 @app.route("/register")
 def regdex():
@@ -140,18 +143,9 @@ def regdex():
 def forgotpassword():
     return render_template('Forgotten/ForgotPassword.html')
 
-@app.route("/faculty/login")
-def prof_login():
-    return render_template('Professors/FacultyLogin.html')
-
 @app.route("/faculty/register")
 def prof_register():
     return render_template("Professors/FacultyRegister.html")
-
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('prof_login'))
 
 @app.route('/keep-alive', methods=['POST'])
 def keep_alive():
@@ -825,7 +819,7 @@ def prof_dashboard():
         else:
             return "User not found", 404
     else:
-        return redirect(url_for('prof_login'))        
+        return redirect(url_for('logindex'))        
 
 
 
@@ -846,29 +840,8 @@ def referral_form():
         else:
             return "User not found", 404
     else:
-        return redirect(url_for('prof_login'))  
+        return redirect(url_for('logindex'))  
 
-
-#under maintenance
-@app.route("/professor/recent_referrals")
-def recent_referrals():
-    if 'user' not in session:
-        return redirect(url_for('prof_login'))
-    
-    user_id = session.get('user')
-    
-    try:
-        user = mongo.db.facultyRegistration.find_one({'_id': ObjectId(user_id)})
-        
-        if user:
-            referrals = mongo.db.referrals.find({'professor_id': user_id})
-            referrals_list = list(referrals)
-            return jsonify(referrals_list)
-        else:
-            return jsonify([])
-    except Exception as e:
-        print(f'Error fetching referrals: {e}')
-        return jsonify([])
 
 
     
@@ -906,15 +879,10 @@ def login():
         password = request.form["password"]
         color = request.form.get("color")
 
-        # Check for hardcoded usernames and passwords
         if email == USERNAME and password == PASSWORD:
             session['username'] = email
             session.permanent = True
             return redirect(url_for("index"))
-        elif email == FACULTYNAME and password == FACULTYPASS:
-            session['username'] = email
-            session.permanent = True
-            return redirect(url_for("prof_login"))
 
         user = mongo.db.verifiedUsers.find_one({"email": email})
 
@@ -925,10 +893,18 @@ def login():
 
             if user['password'] == password:
                 session['username'] = email
-                mongo.db.colors.insert_one({'email': email, 'color': color})
                 session.permanent = True
+                mongo.db.colors.insert_one({'email': email, 'color': color})
                 return redirect(url_for("home"))
         
+        faculty = mongo.db.facultyRegistration.find_one({'email': email})
+
+        if faculty:
+            if faculty['password'] == password:
+                session['user'] = email
+                session.permanent = True
+                return redirect(url_for('prof_dashboard'))
+
         error = "Incorrect username or password. Please try again."
         return render_template("Login.html", error=error)
 
@@ -1038,21 +1014,7 @@ def email_verified():
     return render_template('emailVerified.html', email=email)
 
 
-@app.route('/faculty_auth', methods=['POST'])
-def faculty_auth():
-    if request.method == "POST":
-        email = request.form.get('email')
-        password = request.form.get('password')
-        
-        if mongo.db.facultyRegistration.find_one({'email': email, 'password': password}):
-            session['user'] = email
-            session.permanent = True
-            return redirect(url_for('prof_dashboard'))
-        else:
-            error = "Incorrect username or password. Please try again."
-            return render_template('Professors/FacultyLogin.html', error = error)
-    else:
-        return render_template('Professors/FacultyLogin.html')
+
 
 @app.route("/faculty/register", methods=['GET', 'POST'])
 def faculty_registration():
@@ -1139,7 +1101,7 @@ def facultyVerified():
             verification_collection = mongo.db.forVerification
             verification_data = verification_collection.delete_many({"email": email})
 
-            return redirect(url_for('prof_login'))
+            return redirect(url_for('logindex'))
 
     return render_template('Professors/VerifiedFaculty.html', email=email)
     
@@ -1149,7 +1111,7 @@ def facultyVerified():
 def forgot_password():
     if request.method == "POST":
         email = request.form["email"]
-        if mongo.db.verifiedUsers.find_one({"email": email}):
+        if mongo.db.verifiedUsers.find_one({"email": email}) or mongo.db.facultyRegistration.find_one({"email": email}):
             verification_token = createToken()
             msg = Message("Password Reset Verification", recipients=[email])
             html_content = render_template_string("""
@@ -1186,7 +1148,10 @@ def reset_password():
 
         if new_password == confirm_password:
             mongo.db.verifiedUsers.update_one({"email": email}, {"$set": {"password": new_password}})
-            return redirect(url_for("login"))
+            return redirect(url_for("logindex"))
+        elif new_password == confirm_password:
+            mongo.db.facultyRegistration.update_one({"email": email}, {"$set": {"password": new_password}})
+            return redirect(url_for("logindex"))
         else:
             return render_template('ResetPassword.html', email=email, error="Passwords do not match.", token=token)
 

@@ -111,14 +111,13 @@
         <form id="signup_Form" name="signup_form" method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="inputBox">
-                <input type="email" placeholder="Email eg. juandelacruz@nu-moa.edu.ph" id="email" name="email" required>
+                <input type="email" placeholder="eg. juandelacruz@nu-moa.edu.ph" id="email" name="email" required>
             </div>
 
-            <p>Already have an account? <a href="/faculty/login" style="text-decoration: none;">Sign in</a></p>
+            <p>Already have an account? <a href="/" style="text-decoration: none;">Sign in</a></p>
             <div class="inputBox">
             <input type="submit" value="Sign Up" id="submit">
             </div>
- 
         </form>
         
     </div>
