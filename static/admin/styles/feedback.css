@@ -2,6 +2,37 @@
     font-family: 'Poppins', system-ui;
 }
 
+:root{
+    --color-primary: #a8d0e6;
+    --color-danger: #f76c6c;
+    --color-success: #24305e;
+    --color-warning: #f8e9a1;
+    --color-white: #fff;
+    --color-info-dark: #7d8da1;
+    --color-dark: #363949;
+    --color-light: rgba(132,139,200,0.18);
+    --color-dark-variant: #677483;
+    --color-background: #f6f6f9;
+
+    --card-border-radius: 2rem;
+    --border-radius-1: 0.4rem;
+    --border-radius-2: 1.2rem;
+
+    --card-padding: 1.8rem;
+    --padding-1: 1.2rem;
+
+    --box-shadow: 0 2rem 3rem var(--color-light);
+}
+
+.dark-mode-variable{
+    --color-background: #181a1e;
+    --color-white: #202528;
+    --color-dark: #edeffd;
+    --color-dark-variant: #a3bdcc;
+    --color-light: rgba(0,0,0,0.4);
+    --box-shadow: 0 2rem 3rem var(--color-light);
+}
+
 body{
     margin: 0;
     padding: 0;
@@ -24,19 +55,19 @@ body, html{
     margin-top: 1rem;
     margin-left: 1rem;
     display: flex;
-    background: #f0f0f0;
+    background: var(--color-white);
     justify-content: center;
     align-items: start;
     width: 235px;
     height: 350px;
-    box-shadow: 5px 10px 15px 1px rgba(0,0,0,0.3);
+    box-shadow: var(--box-shadow);
     border-radius: 10px;
     margin-bottom: 1rem;
 }
 
 .container .container-glass .content-glass{
     margin-top: 1.8rem;
-    background: #f0f0f0;
+    background: var(--color-white);
     width: 200px;
     height: 85%;
     overflow-y: auto;
@@ -44,14 +75,14 @@ body, html{
 
 .container .container-glass .content-glass h1{
     text-align: center;
-    color: #000;
+    color:var(--color-dark-variant);
 }
 
 .container .container-glass .content-glass p{
     text-align:justify;
     padding-right: 10px;
     margin-left: 10px;
-    color: #000;
+    color:var(--color-dark);
 }
 
 .container .container-glass .content-glass::-webkit-scrollbar {
