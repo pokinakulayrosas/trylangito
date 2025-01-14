@@ -1,0 +1,371 @@
+:root{
+    --color-primary: #a8d0e6;
+    --color-danger: #f76c6c;
+    --color-success: #24305e;
+    --color-warning: #f8e9a1;
+    --color-white: #fff;
+    --color-info-dark: #7d8da1;
+    --color-dark: #363949;
+    --color-light: rgba(132,139,200,0.18);
+    --color-dark-variant: #677483;
+    --color-background: #f6f6f9;
+
+    --card-border-radius: 2rem;
+    --border-radius-1: 0.4rem;
+    --border-radius-2: 1.2rem;
+
+    --card-padding: 1.8rem;
+    --padding-1: 1.2rem;
+
+    --box-shadow: 0 2rem 3rem var(--color-light);
+}
+
+.dark-mode-variable{
+    --color-background: #181a1e;
+    --color-white: #202528;
+    --color-dark: #edeffd;
+    --color-dark-variant: #a3bdcc;
+    --color-light: rgba(0,0,0,0.4);
+    --box-shadow: 0 2rem 3rem var(--color-light);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    appearance: 0;
+    border: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    font-family: "Poppins", system-ui;
+    font-size: 0.88rem;
+    user-select: none;
+    overflow-x: hidden;
+    color: var(--color-dark);
+    background-color: var(--color-background);
+}
+
+.profile-container{
+    margin-top: 1.4rem;
+}
+
+.profile-container h1{
+    margin-left: 140px;
+    font-size: 30px;
+    font-family: 'Poppins', system-ui;
+    color:midnightblue;
+}
+
+.profile-container .profile-first-content{
+    background:#fff;
+    width: 1150px;
+    height: 310px;
+    margin-left: 10%;
+    margin-top: 20px;
+    flex-direction: row;
+    border-radius: 5px;
+    box-shadow: 0px 10px 15px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container .profile-first-content img{
+    width: 220px;
+    height: 220px;
+    margin-left: 45px;
+    margin-top: 45px;
+    position: absolute;
+    
+}
+
+.profile-container .profile-first-content .profile-texts{
+    position: absolute;
+}
+
+.profile-container .profile-first-content .profile-texts h2{
+    margin-left: 330px;
+    margin-top: 50px;
+    font-size: 25px;
+    font-family: 'Poppins', system-ui;
+}
+
+.profile-container .profile-first-content .profile-texts p{
+    margin-left: 330px;
+    margin-top: 10px;
+    font-size: 15px;
+    padding-right: 100px;
+    text-align: justify;
+    font-family: 'Poppins', system-ui;
+}
+
+.profile-container .profile-first-content .profile-texts .baba{
+    margin-top: 40px;
+}
+
+.profile-container .profile-second-content{
+    background:#fff;
+    width: 1150px;
+    height: 510px;
+    margin-left: 10%;
+    margin-top: 20px;
+    flex-direction: row;
+    border-radius: 5px;
+    box-shadow: 0px 10px 15px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.4rem;
+}
+
+.profile-container .profile-second-content h4{
+    font-size: 20px;
+    position: absolute;
+    font-weight: 500;
+    margin-top: 25px;
+    margin-left: 25px;
+}
+
+.profile-container .profile-second-content h4::after {
+    content: '';
+    display: block;
+    width: 1100px;
+    height: 2px; 
+    background-color: #000;
+    position: absolute;
+    margin-top: 5px;
+}
+
+.profile-container .profile-second-content .profile-text2 label{
+    margin-left: 50px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.profile-container .profile-second-content .profile-text2 input[type=text]{
+    margin-top: 15px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+.profile-container .profile-second-content .profile-text2 input[type=text]:disabled{
+    margin-top: 15px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    cursor: not-allowed;
+}
+
+
+.profile-container .profile-second-content .profile-text2 input[type=number]{
+    margin-top: 15px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+.profile-container .profile-second-content .profile-text2 input[type=number]:disabled{
+    margin-top: 15px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+    cursor: not-allowed;
+}
+
+.profile-container .profile-second-content .profile-text2 select{
+    margin-top: 15px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+.profile-container .profile-second-content .profile-text2 input[type=date]{
+    margin-top: 15px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+.profile-container .profile-second-content .profile-text2 input[type=date]{
+    margin-top: 15px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+.profile-container .profile-second-content .profile-text2 select:disabled{
+    margin-top: 15px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+    cursor: not-allowed;
+}
+
+
+
+
+
+.profile-container .profile-third-content{
+    background:#fff;
+    width: 1150px;
+    height: 550px;
+    margin-left: 10%;
+    margin-top: 20px;
+    flex-direction: row;
+    border-radius: 5px;
+    box-shadow: 0px 10px 15px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.4rem;
+}
+
+.profile-container .profile-third-content h4{
+    font-size: 20px;
+    position: absolute;
+    font-weight: 500;
+    margin-top: 25px;
+    margin-left: 25px;
+    color: midnightblue;
+}
+
+.profile-container .profile-third-content h4::after {
+    content: '';
+    display: block;
+    width: 1100px;
+    height: 2px; 
+    background-color: #000;
+    position: absolute;
+    margin-top: 5px;
+}
+
+.profile-container .profile-third-content .profile-text3 label{
+    margin-left: 20px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+
+
+.profile-container .profile-third-content .profile-text3 input[type=text]{
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+.profile-container .profile-third-content .profile-text3 input[type=text]:disabled{
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+    cursor: not-allowed;
+}
+
+.profile-container .profile-third-content .profile-text3 input[type=email]{
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+.profile-container .profile-third-content .profile-text3 input[type=number]{
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+.profile-container .profile-third-content .profile-text3 input[type=email]:disabled{
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+    cursor: not-allowed;
+}
+
+.profile-container .profile-third-content .profile-text3 input[type=number]:disabled{
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 300px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+    cursor: not-allowed;
+}
+
+.profile-container .profile-third-content .profile-text3 h2{
+    margin-top: 80px;
+    position: absolute;
+    margin-left: 20px;
+    font-weight: 500;
+}
+
+.profile-container .profile-third-content .profile-text3 h2 span{
+    margin-left: 405px;
+    font-weight: 500;
+}

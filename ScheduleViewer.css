@@ -1,0 +1,124 @@
+.content{
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    width: 90%;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    margin-left: 2.65rem;
+    margin-top: 2.2rem;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+}
+
+.content thead tr{
+    background-color: #1e0272;
+    color: #fff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.content th,
+.content td{
+    padding: 12px 15px;
+
+}
+
+.content .truncate{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+    display: inline-block;
+    cursor: pointer;
+    color: #1e0272;
+    margin-top: 6px;
+}
+
+.content tbody tr{
+    border-bottom: 1px solid #ddd;
+}
+
+.content tbody tr:nth-of-type(even){
+    background-color: #f3f3f3;
+}
+
+.content tbody tr:last-of-type{
+    border-bottom: 2px solid #1e0272;
+}
+.content tbody tr.active-row{
+    font-weight: bold;
+    color: #1e0272;
+}
+
+
+main.table{
+    width: 80%;
+    height: auto;
+    background-color: #fff5;
+    backdrop-filter: blur(7px);
+    box-shadow: 0 .4rem .8rem #0005;
+    border-radius: .8rem;
+    overflow: hidden;
+    margin-left: 15%;
+    margin-top: 2.5rem;
+
+}
+
+.table_header{
+    width: 100%;
+    height: 10%;
+    background-color: #fff4;
+    padding: .8rem 1rem;
+}
+
+div.table1{
+    margin-top: 100px; 
+    width: 80%; 
+    margin-left: 15%; 
+    background-color: #fff5;
+    backdrop-filter: blur(7px);
+    box-shadow: 0 .4rem .8rem #0005;
+    border-radius: .8rem; 
+    height: auto; 
+    margin-bottom: 1.7rem;
+}
+
+.status{
+    padding: .4rem 0;
+    border-radius: 2rem;
+    text-align: center;
+    width: 17.5rem;
+}
+
+.status.done{
+    background-color:#86e49d;
+    color: #006b21;
+}
+
+.status.cancelled{
+    background-color: #d893a3;
+    color:#b30021;
+}
+
+.status.pending{
+    background-color: #ebc474;
+    color:#b30021;
+}
+
+@media (max-width:1000px){
+    td:not(:first-of-type){
+        min-width: 12.1rem
+    }
+}
+
+.stat{
+    text-align: center;
+}
+
+.heady{
+    margin-left: 27.5rem;
+    font-size: 30px;
+    margin-top: 3rem;
+    font-weight: 900;
+}
+
