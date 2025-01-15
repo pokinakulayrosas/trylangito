@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+body{
+  background: #f6f6f9;
+}
+
 .container{
     display: flex;
     justify-content: center;
@@ -12,9 +16,12 @@
 }
 
 #form{
-    width: 30%;
-    height: 30%;
-    background: yellow;
+  width: 50%;
+  height: 50%;
+  border-radius: 50px;
+  background: #e0e0e0;
+  box-shadow: 20px 20px 60px #bebebe,
+                -20px -20px 60px #ffffff;
 }
 
 .buttons{
@@ -23,7 +30,7 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    gap: 70px;
+    gap: 200px;
 }
 
 .student {
